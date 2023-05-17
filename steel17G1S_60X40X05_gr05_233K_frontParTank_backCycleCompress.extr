@@ -1,0 +1,17 @@
+#  Minimal value of temperature for outer boundary cells and inner cells at 0 time step
+min_temperature    = 233.0
+
+#  Maximal value of temperature for outer boundary cells and inner cells at 0 time step
+max_temperature    = 233.0
+
+#  Minimal value of stress for outer boundary cells and inner cells at 0 time step
+min_mech_stress    = -4.0000000000031204E10
+
+#  Maximal value of stress for outer boundary cells and inner cells at 0 time step
+max_mech_stress    = 0.0
+
+#  Minimal value of strain for outer boundary cells and inner cells at 0 time step
+min_strain         = -920.9993271398414
+
+#  Maximal value of strain for outer boundary cells and inner cells at 0 time step
+max_strain         = 0.0

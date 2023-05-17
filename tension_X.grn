@@ -1,0 +1,26 @@
+#   This file contains parameters of each cluster of cellular automata (CA) -
+# index, material, 3 Euler angles, dislocation density, average dislocation density, its maximal deviation and type:
+#  0 - cluster consists of inner CA located in surface or intermediate layers,
+#  1 - cluster consists of inner CA located in substrate,
+#  3 - cluster consists of outer boundary CA adiabatic for mechanical energy and possessing constant temperature,
+#  4 - cluster consists of outer boundary CA adiabatic for mechanical energy and effected by constant thermal energy influx,
+#  5 - cluster consists of outer boundary CA possessing constant strain rate and adiabatic for thermal energy,
+#  6 - cluster consists of outer boundary CA possessing constant strain rate and temperature,
+#  7 - cluster consists of outer boundary CA possessing constant strain rate and effected by constant thermal energy influx,
+#  8 - cluster consists of outer boundary CA possessing constant stress and adiabatic for thermal energy,
+#  9 - cluster consists of outer boundary CA possessing constant stress and temperature,
+#  10 - cluster consists of outer boundary CA possessing constant stress and effected by constant thermal energy influx,
+#  11 - cluster consists of outer boundary CA adiabatic for both mechanical and thermal parts of energy;
+1 steel17G1S_293K 1.42863981827053 1.6612408470036986 2.363332907808486 1.0E12 1.0E12 0.0 1 0 0
+2 steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 5 0 0
+3 steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 11 0 0
+4 steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 11 0 0
+5 steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 11 0 0
+6 steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 11 0 0
+7 steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 5 0 0
+8 steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 11 0 0
+9 steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 11 0 0
+10 steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 11 0 0
+11 steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 11 0 0
+12 steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 11 0 0
+13 steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 11 0 0

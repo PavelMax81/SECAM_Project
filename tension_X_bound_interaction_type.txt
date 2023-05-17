@@ -1,0 +1,8 @@
+# Type of interaction of boundary cells with neighbours:
+# 0 - boundary cell does not change mechanical energy because of interaction with neighbours;
+# 1 - boundary cell changes mechanical energy because of interaction with inner neighbour cells only;
+# 2 - boundary cell changes mechanical energy because of interaction with each neighbour cell.
+bound_interaction_type = 2
+
+# Type of functional dependence of boundary cell parameter on its coordinates
+bound_function_type = 0

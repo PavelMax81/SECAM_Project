@@ -1,0 +1,12 @@
+# Each string corresponds to certain facet: 
+# 1st - left, 2nd - front, 3rd - top, 4th - bottom, 5th - back, 6th - right.
+# Each column contains the following values for corresponding facet:
+# 1. name of boundary material;
+# 2. name of chosen mechanical energy source;
+# 3. name of chosen thermal energy source.
+steel17G1S_293K strain N/A
+steel17G1S_293K N/A N/A
+steel17G1S_293K N/A N/A
+steel17G1S_293K N/A N/A
+steel17G1S_293K N/A N/A
+steel17G1S_293K strain N/A

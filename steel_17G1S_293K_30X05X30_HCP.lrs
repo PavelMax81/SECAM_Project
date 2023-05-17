@@ -1,0 +1,82 @@
+# Surface thickness (in cell radiuses)
+layer1_thickness = 0.0
+
+# Intermediate layer thickness (in cell radiuses)
+layer2_thickness = 0.0
+
+# Upper substrate thickness (in cell radiuses)
+layer3_thickness = 0.0
+
+# Intermediate layer structure element size (in cell radiuses)
+layer2_elem_size = 0.0
+
+# Intermediate layer structure type:
+# 0 - CONTINUOUS_LAYER, 
+# 1 - HORIZONTAL_TRIANGLE_PRISMS, 
+# 2 - HORIZONTAL_RIGHT_PARALLELEPIPEDS, 
+# 3 - VERTICAL_SQUARE_PYRAMIDES, 
+# 4 - VERTICAL_RIGHT_PARALLELEPIPEDS. 
+layer2_type = 0
+
+# The value responsible for choice of the direction of vector normal to layer interfaces:
+# 0 - along axis X, 1 - along axis Y, 2 - along axis Z. 
+layer_direction = 2
+
+# Surface grain sizes (in cell diameters)
+layer1_grain_size = 0.0
+layer1_grain_size_Y = 0.0
+layer1_grain_size_Z = 0.0
+
+# Upper intermediate layer grain sizes (in cell diameters)
+upper_layer2_grain_size = 0.0
+upper_layer2_grain_size_Y = 0.0
+upper_layer2_grain_size_Z = 0.0
+
+# Lower intermediate layer grain sizes (in cell diameters)
+lower_layer2_grain_size = 0.0
+lower_layer2_grain_size_Y = 0.0
+lower_layer2_grain_size_Z = 0.0
+
+# Upper substrate layer grain sizes (in cell diameters)
+layer3_grain_size = 0.0
+layer3_grain_size_Y = 0.0
+layer3_grain_size_Z = 0.0
+
+# Lower substrate layer grain sizes (in cell diameters)
+substrate_grain_size = 30.0
+substrate_grain_size_Y = 5.0
+substrate_grain_size_Z = 30.0
+
+# Surface grain boundary thickness (in cell diameters)
+layer1_grain_bound_region_thickness = 0.0
+
+# Upper intermediate layer grain boundary thickness (in cell diameters)
+upper_layer2_grain_bound_region_thickness = 0.0
+
+# Lower intermediate layer grain boundary thickness (in cell diameters)
+lower_layer2_grain_bound_region_thickness = 0.0
+
+# Upper substrate layer grain boundary thickness (in cell diameters)
+layer3_grain_bound_region_thickness = 0.0
+
+# Lower substrate layer grain boundary thickness (in cell diameters)
+substrate_grain_bound_region_thickness = 0.0
+
+# Type of distribution of grain embryos in surface layer:
+# 0 - stochastic distribution of embryos;
+# 1 - regular distribution of embryos in centres of cubes;
+# 2 - stochastic distribution of embryos in centres of cubes.
+layer1_embryo_distr_type = 0
+
+# Type of distribution of grain embryos in upper intermediate layer
+upper_layer2_embryo_distr_type = 0
+
+# Type of distribution of grain embryos in lower intermediate layer
+lower_layer2_embryo_distr_type = 0
+
+# Type of distribution of grain embryos in upper substrate
+layer3_embryo_distr_type = 0
+
+# Type of distribution of grain embryos in lower substrate
+substrate_embryo_distr_type = 0
+

@@ -1,0 +1,32 @@
+# Each string corresponds to certain facet: 
+# 1st - left, 2nd - front, 3rd - top, 4th - bottom, 5th - back, 6th - right.
+# Each column contains the following values for corresponding facet:
+#  1. name of boundary material;
+#  2. first coordinate of tank along axis OX;
+#  3. second coordinate of tank along axis OX;
+#  4. first coordinate of tank along axis OY;
+#  5. second coordinate of tank along axis OY;
+#  6. first coordinate of tank along axis OZ;
+#  7. second coordinate of tank along axis OZ;
+#  8. name of chosen mechanical energy source;
+#  9. name of chosen thermal energy source;
+# 10. minimal value of chosen mechanical energy source;
+# 11. maximal value of chosen mechanical energy source;
+# 12. minimal value of chosen thermal energy source;
+# 13. maximal value of chosen thermal energy source;
+# 14. time function type (0 - uniform loading, 1 - cycle loading, 2 - loading according to periodic function);
+# 15. loading time portion;
+# 16. relaxation time portion.
+steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 N/A N/A 0.0 0.0 0.0 0.0 0 0.0 0.0 
+steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 N/A N/A 0.0 0.0 0.0 0.0 0 0.0 0.0 
+steel17G1S_293K 29.0 35.0 0.0 24.0 0.0 32.0 N/A N/A 0.0 0.0 0.0 0.0 0 0.0 0.0 
+steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 N/A N/A 0.0 0.0 0.0 0.0 0 0.0 0.0 
+steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 N/A N/A 0.0 0.0 0.0 0.0 0 0.0 0.0 
+steel17G1S_293K 0.0 0.0 0.0 0.0 0.0 0.0 N/A N/A 0.0 0.0 0.0 0.0 0 0.0 0.0 
+
+# Geometrical type of tanks:
+# 0. parallelepiped tanks;
+# 1. vertical ellyptic tanks;
+# 2. horizontal triangle tanks;
+# 3. horizontal circle tanks.
+tank_geom_type = parallelepiped_tanks

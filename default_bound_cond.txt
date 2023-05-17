@@ -1,0 +1,16 @@
+#   Each string corresponds to certain facet: 
+# 1st - left, 2nd - front, 3rd - top, 4th - bottom, 5th - back, 6th - right.
+#   Each column contains the following values for corresponding facet:
+# 0. minimal value of chosen mechanical energy source;
+# 1. maximal value of chosen mechanical energy source;
+# 2. minimal value of chosen thermal energy source;
+# 3. maximal value of chosen thermal energy source;
+# 4. time function type (0 - uniform loading, 1 - cycle loading, 2 - loading according to periodic function);
+# 5. loading time portion;
+# 6. relaxation time portion.
+0.0 0.0 0.0 0.0 0 0.0 0.0 
+0.0 0.0 0.0 0.0 0 0.0 0.0 
+0.0 0.0 0.0 0.0 0 0.0 0.0 
+0.0 0.0 0.0 0.0 0 0.0 0.0 
+0.0 0.0 0.0 0.0 0 0.0 0.0 
+0.0 0.0 0.0 0.0 0 0.0 0.0 

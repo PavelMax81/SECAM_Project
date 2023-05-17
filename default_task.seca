@@ -1,0 +1,181 @@
+# Specimen name
+specimen_name = dkhku
+
+# Files used by project 'FileCreation' for creation of files with initial and boundary conditions
+init_params_file = ./user/spec_db/dkhku/init_cond_db/default_init_cond.txt
+layers_file_name = ./user/spec_db/dkhku/init_cond_db/dkhku.lrs
+tanks_file = ./user/spec_db/dkhku/bound_cond_db/_tanks.txt
+bound_params_file = ./user/spec_db/dkhku/bound_cond_db/default_bound_cond.txt
+bound_grains_file_name = ./user/spec_db/dkhku/bound_cond_db/default_bound_cond_grains.txt
+phases_file_name = ./user/spec_db/dkhku/dkhku.spm
+
+# Files with information about parameters of specimen, initial and boundary conditions
+init_cond_file_geometry = ./user/spec_db/dkhku/init_cond_db/dkhku.str
+init_cond_input_file = ./user/spec_db/dkhku/init_cond_db/init_cond_rec.txt
+specimen_file = ./user/spec_db/dkhku/dkhku.spc
+init_cond_file = ./user/spec_db/dkhku/init_cond_db/default_init_cond.incnd
+bound_cond_file = ./user/spec_db/dkhku/bound_cond_db/default_bound_cond.bon
+bound_cond_file_geometry = ./user/spec_db/dkhku/bound_cond_db/default_bound_cond_bound_geom.txt
+grains_file = ./user/spec_db/dkhku/default_bound_cond.grn
+grains_file_2 = ./user/task_db/default_task/default_task.grn
+grain_colours_file = ./user/spec_db/dkhku/init_cond_db/grain_colours.clrs
+grain_colours_file_2 = ./user/task_db/default_task/default_task.clrs
+
+# Value of time step
+time_step = 0.0
+
+# Total time of numerical experiment
+total_time = 0.0
+
+# Number of output files
+output_file_number = 0
+
+# Variables responsible for simulation of corresponding processes
+simulate_heat_flows = 0
+simulate_mech_flows = 0
+simulate_recryst = 0
+simulate_cracks = 0
+
+# This variable is responsible for state of specimen (equilibrium or nonequilibrium):
+#if state=0 then recrystallization proceeds under initial temperature,
+#if state=1 then recrystallization does not proceed under initial temperature.
+equilibrium_state = 0
+
+# Variable responsible for showing of cells on grain boundaries as atoms 'H' in 'RasMol'
+show_grain_bounds = 1
+
+# Variable responsible for type of packing of cellular automata:
+# 0 - hexagonal close packing (HCP),
+# 1 - simple cubic packing (SCP).
+packing_type = 0
+
+# Variable responsible for simulation of heat expansion:
+# if simulate_heat_expansion = 0 then heat expansion is not simulated,
+# if simulate_heat_expansion = 1 then heat expansion is simulated.
+simulate_heat_expansion = 0
+
+# Variable responsible for account of defects when calculating mobility of material:
+# 0 - defects are not taken into account;
+# 1 - defects are taken into account.
+defects_influence = 0
+
+# Variable responsible for calculation of force moments at each time step:
+# if calc_force_moments = 0 then force moments are not calculated,
+# if calc_force_moments = 1 then force moments are calculated.
+calc_force_moments = 0
+#-------------------------------------------------------------------------------------------------------
+# Size of specimen along axis X (in cell radiuses). In meters: 1.0
+specimen_size_X = 20.0
+
+# Size of specimen along axis Y (in cell radiuses). In meters: 1.0
+specimen_size_Y = 20.0
+
+# Size of specimen along axis Z (in cell radiuses). In meters: 1.0
+specimen_size_Z = 20.0
+
+# Thickness of surface layer perpendicular to axis Z (in cell diameters)
+surf_thickness = 0.0
+
+# Size of cell
+cell_size = 0.1
+
+# Name of bulk material of specimen
+bulk_material = aluminium
+
+# Number of finite elements in direction of X-axis
+element_number_x = 1
+
+# Number of finite elements in direction of Y-axis
+element_number_y = 1
+
+# Number of finite elements in direction of Z-axis
+element_number_z = 1
+
+# Volume fraction of particles
+particle_volume_fraction = 0.0
+
+# Radius of particle
+particle_radius = 0.0
+
+# Minimal number of neighbour cells in adjacent grain necessary
+min_neighbours_number = 4
+
+# Type of interaction of boundary cells with neighbours:
+# 0 - boundary cell does not change mechanical energy because of interaction with neighbours;
+# 1 - boundary cell changes mechanical energy because of interaction with inner neighbour cells only;
+# 2 - boundary cell changes mechanical energy because of interaction with each neighbour cell.
+bound_interaction_type = 2
+
+# Variable for choice of type of loading of boundary facets:
+# 0 - homogeneous mechanical loading and homogeneous heating,
+# 1 - mechanical loading by indentor and homogeneous heating,
+# 2 - homogeneous mechanical loading of facets and heating of circle area,
+# 3 - mechanical bending and homogeneous heating,
+# 4 - mechanical shear and homogeneous heating.
+bound_type = 0
+
+# Type of functional dependence of boundary cell parameter on its coordinates
+bound_function_type = 0
+
+# Effective rate of response on external action. 
+response_rate = 10.0
+
+# Coefficient for calculation of torsion energy
+torsion_energy_coeff = 1.0E4
+
+# Field responsible for stochastic distribution of embryos
+STOCHASTIC_EMBRYOS       =       0
+
+# Field responsible for regular distribution of embryos in centres of cubes
+REGULAR_EMBRYOS          =       1
+
+# Field responsible for stochastic distribution of embryos in centres of cubes
+STOCH_EMBRYOS_IN_CUBES   =       2
+
+# Method of distribution of embryos
+DISTRIBUTION_METHOD      =       2
+
+# Variable responsible for account of anisotropy of simulated medium
+anisotropy = 0
+
+# Coefficient of anisotropy of simulated medium
+COEFF_INNER_ANISOTROPY = 1.0
+
+# Vector of anisotropy of simulated medium
+INNER_ANISOTROPY_COORD_X = 1.0
+INNER_ANISOTROPY_COORD_Y = 0.0
+INNER_ANISOTROPY_COORD_Z = 0.0
+
+# Coefficient of outer anisotropy
+COEFF_OUTER_ANISOTROPY = 1.0
+
+# Vector of outer anisotropy
+OUTER_ANISOTROPY_COORD_X = 1.0
+OUTER_ANISOTROPY_COORD_Y = 0.0
+OUTER_ANISOTROPY_COORD_Z = 0.0
+
+#-------------------------------------------------------------------------------------
+# The probability of generation of dendrite
+GENERATION_PROBABILITY   =       0.00026666666667
+
+# The probability of growth of dendrite
+GROWTH_PROBABILITY       =       0.99
+
+# The probability of turn of dendrite
+TURN_PROBABILITY         =       0.0
+
+# The probability of straight growth of dendrite
+STRAIGHT_PROBABILITY     =       0.0
+
+# The probability of appearance of 2nd dendrite branch
+BRANCHING2_PROBABILITY   =       0.0
+
+# The probability of appearance of 3rd dendrite branch
+BRANCHING3_PROBABILITY   =       0.0
+
+# The probability of thickening of dendrite
+THICKENING_PROBABILITY   =       0.99
+
+# Number of time steps
+STEP_NUMBER              =    1000
+

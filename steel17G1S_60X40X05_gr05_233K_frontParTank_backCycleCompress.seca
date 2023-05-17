@@ -1,0 +1,29 @@
+# Name of file with parameters of grain structure
+grains_file_2       = ./user/task_db/steel17G1S_60X40X05_gr05_233K_frontParTank_backCycleCompress/steel17G1S_60X40X05_gr05_233K_frontParTank_backCycleCompress.grn
+
+# Name of file with minimal and maximal values of temperature and stress
+# for initial specimen including outer boundary cells
+extreme_values_file = ./user/task_db/steel17G1S_60X40X05_gr05_233K_frontParTank_backCycleCompress/steel17G1S_60X40X05_gr05_233K_frontParTank_backCycleCompress.extr
+
+# Name of file with parameters of specimen layers
+layers_file_name    = ./user/spec_db/steel17G1S_60X40X05_gr05_233K_frontTrTank/init_cond_db/steel17G1S_60X40X05_gr05_233K_frontTrTank.lrs
+
+# Variable responsible for type of packing of cellular automata:
+# 0 - hexagonal close packing (HCP),
+# 1 - simple cubic packing (SCP).
+packing_type = 0
+
+# Number of cells in finite element in direction of X-axis
+cell_number_X       = 71
+
+# Number of cells in finite element in direction of Y-axis
+cell_number_Y       = 42
+
+# Number of cells in finite element in direction of Z-axis
+cell_number_Z       = 8
+
+#  Variable responsible for showing of grain boundaries
+show_grain_bounds   = 1
+
+#  Cell size
+cell_size           = 2.6E-6

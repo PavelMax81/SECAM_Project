@@ -1,0 +1,49 @@
+mod_elast               =    1.72E11
+mod_shear               =    0.0
+density                 =    5.68E3
+heatExpansionCoeff      =    8.4E-6
+specific_heat_capacity  =   70.04
+thermal_conductivity    =    1.8
+molar_mass              =    1.23218E-1
+
+angleLimitHAGB          =   90.0
+energyHAGB              =    1.0E-7
+
+maxMobility             =    1.0E-6
+dislMaxMobility         =    0.1
+mechMaxMobility         =    1.0
+
+yieldStrain             =    3.0E-4
+ultimateStrain          =    0.001
+energy_coeff            =    0.3
+
+thermal_conduct_bound   =    0.9
+phonon_portion          =    0.06666666666666667
+lowTemperThrValue       =  100.0
+highTemperThrValue      =  325.0
+actEnergy               =  600.0
+
+lattice_parameter       =    4.05E-10
+disl_distr_coeff        =    0.1
+yield_state_coeff       =    1.0
+ultimate_state_coeff    =    1.0
+
+part_vol_fraction       =    0.01
+part_radius             =    1.0E-7
+
+threshold_stress        = 1.0E300
+
+torsion_energy_coeff      = 1.0E5
+torsion_energy_coeff_gb_1 = 4.0E5
+torsion_energy_coeff_gb_2 = 2.0E5
+
+lattice_vector_A_length = 1.0
+lattice_vector_B_length = 0.1
+lattice_vector_C_length = 0.1
+
+lattice_angle_vecA_vecB = 120.0
+lattice_angle_vecB_vecC = 120.0
+lattice_angle_vecC_vecA = 90.0
+
+lattice_anis_coeff      = 1.0E12
+

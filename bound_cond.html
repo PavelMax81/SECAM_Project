@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="help.css">
+</head>
+<body>
+	<h1>Boundary Conditions</h1>
+	<p>В данном окне задаются граничные условия задачи.</p>
+	<p>В каждой вкладке можно задать граничные условия для соответствующей грани.</p>
+	<ul>
+		<li>Если моделируется механическая нагрузка (<strong>"mechanical loading"</strong>), то необходимо задать:
+			<ul>
+				<li> <em><strong>max val</strong></em>     - максимальное значение нагрузки, </li>
+				<li> <em><strong>min val</strong></em>     - минимальное значение нагрузки, </li>
+				<li> <em><strong>strain</strong></em>      - деформация,</li>
+				<li> <em><strong>stress</strong></em>      - напряжение.</li>
+			</ul>
+		</li>
+		<li>Если моделируется тепловая нагрузка (<strong>"thermal influx"</strong>), то необходимо задать:
+			<ul>
+				<li> <em><strong>max val</strong></em>     - максимальное значение, </li>
+				<li> <em><strong>min val</strong></em>     - минимальное значение,  </li>
+				<li> <em><strong>temperature</strong></em> - постоянная температура, </li>
+				<li> <em><strong>energy</strong></em>      - постоянный приток энергии.</li>
+			</ul>
+		</li>
+		<li> <em>Note:</em>При задании граничных условий нужно выбрать материал граничных элементов. </li>
+                            <li> <em><strong>Type of time function </strong> </em>: если <strong>0</strong>, то нагрузка постоянная; если <strong>1</strong>, то нагрузка циклическая. </li>
+		<li> <em><strong> Loading time portion </strong></em>    - доля периода максимальной нагрузки в общем периоде.  </li>
+		<li> <em><strong> Relaxation time portion </strong></em> - доля периода минимальной нагрузки в общем периоде. </li>
+	</ul>
+</body>
+

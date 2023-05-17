@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="help.css">
+</head>
+<body>
+	<h1>Specimen</h1>
+	<h2>Создание образца</h2>
+	<p>Необходимо задать следующие параметры образца:</p>
+	<ul>
+		<li><strong><em>cell diameter</em></strong> - диаметр элемента;</li>
+		<li><strong><em>specimen x, y, z</em></strong> - размеры образца вдоль осей x, y, z; </li>
+		<li><strong><em>FE number along x, y, z</em></strong> - количество конечных элементов вдоль осей x, y, z (данная величина фиксирована и равняется 1);</li>
+		<li><strong><em>coordinate X, Y, Z</em></strong> - координаты вектора анизотропии зёрен;</li>
+		<li><strong><em>anistropy coefficient</em></strong> - коэффициент анизотропии зёрен;</li>
+		<li><strong><em>number of phases</em></strong> - количество фаз (слоёв);</li>
+		<li><strong><em>surf. thickness</em></strong> - толщина поверхностного слоя;</li>
+		<li><strong><em>stochastic, regular, mixed</em></strong> - метод распределения зародышей в образце (хаотичный, детерминированный, смешанный);</li>
+		<li><strong><em>particle volume fraction</em></strong> - доля частиц включения; </li>
+		<li><strong><em>particle radius</em></strong> - средний радиус частиц включения;</li>
+		<li><strong><em>min. number of neighbors</em></strong> - минимальное количество соседей внутри зерна для элемента на границе зерна (показатель гладкости поверхности зерна);</li>
+		<li><strong><em>show grain structure</em></strong> - отображение зеренной структуры в окне результатов. </li>
+		<li>
+			<strong><em>packing type</em></strong> - тип упаковки элементов: 
+													<em>
+													<ul>
+														<li><strong> HCP</strong> - гексагональная плотная упаковка;</li>
+														<li><strong> SCP</strong> - простая кубическая упаковка.</li>
+													</ul>
+													</em>
+		</li>
+		<li><strong><em>anis_vector x, y, z</em></strong> - координаты вектора анизотропии механических свойств моделируемого материала.</li>
+		<li><strong><em>spec. anis. coef</em></strong> - коэффициент вектора анизотропии механических свойств моделируемого материала.</li>		
+	</ul>
+	
+	<p>Таблица материалов</p>
+	<ul>
+		<li><strong><em>materials</em></strong> - вид материала для выбранного слоя.</li>
+		<li><strong><em>volume fraction</em></strong> - значение объёмной доли выбранного слоя.</li>
+		<li><strong><em>angle range</em></strong> - максимально возможный угол разориентации зёрен в слое. </li>
+		<li><strong><em>dislocation density</em></strong> - средняя плотность дислокаций в зёрнах выбранного слоя.</li>
+		<li><strong><em>maximal deviation</em></strong> - максимальное относительное отклонение плотности дислокаций от среднего значения.</li>
+	</ul>
+	
+	<hr>
+	
+	<p>После нажатия кнопки <strong>"Generate"</strong> откроется окно.<em>"Specimen generation".</em></p>
+	<p>В этом окне необходимо нажать кнопку <strong>"Special"</strong>.</p>
+	
+	<p>В появившемся окне задаются размеры каждого слоя и геометрические параметры зёренной структуры (средние размеры вдоль осей, тип распределения зародышей) для каждого слоя.
+		<ol>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ol>
+	</p>
+	<p>После того, как все значения введены, необходимо нажать кнопку <strong>"Start"</strong>.</p>
+	<p>В результате произойдёт генерация файлов с информацией о структуре образца, а также создадутся файлы с граничными и начальными условиями по умолчанию.</p>
+	
+</body>

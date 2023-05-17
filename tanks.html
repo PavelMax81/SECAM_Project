@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="help.css">
+</head>
+<body>
+	<h1>Tanks</h1>
+	<p>В данном окне задаются параметры ванн для задачи.</p>
+	<p>В каждой вкладке задаются параметры ванн, расположенных на всех гранях.</p>
+	<p>Задаются геометрия ванн и граничные условия для ванн.</p>
+	<ul>
+		<li>Если выбран пункт <strong>"mechanical loading"</strong> (механическая нагрузка), то задаются следующие параметры:
+			<ul>
+				<li> <em><strong>max val</strong></em> - максимальное значение параметра;</li>
+				<li> <em><strong>min val</strong></em> - минимальное значение параметра;</li>
+				<li> <em><strong>strain</strong></em> -  параметром является постоянная скорость деформации; </li>
+				<li> <em><strong>stress</strong></em> -  параметром является задана постоянная скорость роста напряжения.</li>
+			</ul>
+		</li>
+		<li>Если выбран пункт <strong>"thermal influx"</strong> (тепловая нагрузка), то задаются следующие параметры:
+			<ul>
+				<li> <em><strong>max val</strong></em> - максимальное значение параметра; </li>
+				<li> <em><strong>min val</strong></em> - минимальное значение параметра; </li>
+				<li> <em><strong>temperature</strong></em> -  параметром является постоянная температура; </li>
+				<li> <em><strong>energy</strong></em> - параметром является постоянная скорость притока тепловой энергии.</li>
+			</ul>
+		</li>
+		<li>В окнах <strong>X max, X min, Y max, Y min, Z max, Z min</strong> задаётся геометрия ванны. </li>
+		<li> <em>Note:</em>При выборе "mechanical loading" или "thermal influx" нужно задать тип материала на границе. </li>
+		<li> <em><strong>Type of time function</em></strong> - если значение равно <strong>0</strong> то задаётся постоянная нагрузка, если равно <strong>1</strong>, то циклическая нагрузка. </li>
+		<li> <em><strong>Loading time portion</em></strong> - доля периода максимальной нагрузки в общем периоде. </li>
+		<li> <em><strong>Relaxation time portion</em></strong> - доля периода минимальной нагрузки в общем периоде. </li>
+		<li>
+			<ul> Необходимо выбрать вид ванн:
+				<li><em><strong>parallelipiped tanks</em></strong> - параллелепипеды; </li>
+				<li><em><strong>vertical ellyptic tanks</em></strong> - цилиндрические ванны с эллиптическим основанием, образующие которых перпендикулярны грани; </li>
+				<li><em><strong>horizontal triangle tanks</em></strong> - призматические ванны с треугольным основанием, образующие которых параллельны грани; </li>
+				<li><em><strong>horizontal circle tanks</em></strong> - цилиндрические ванны с круговым основанием, образующие которых параллельны грани. </li>
+			</ul>
+		</li>
+	</ul>
+</body>

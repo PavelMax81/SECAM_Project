@@ -1,0 +1,214 @@
+__kernel void kernel_8( 
+         __global const char  *en_types,      __global const int   *grain_indices, __global const float *mod_shear, 
+         __global const float *mom_X,         __global const float *mom_Y,         __global const float *mom_Z, 
+         __global const int   *neighbours1S_0,
+         __global const int   *neighbours1S_1,
+         __global const int   *neighbours1S_2,
+         __global const int   *neighbours1S_3,
+         __global const int   *neighbours1S_4,
+         __global const int   *neighbours1S_5,
+         __global const int   *neighbours1S_6,
+         __global const int   *neighbours1S_7,
+         __global const int   *neighbours1S_8,
+         __global const int   *neighbours1S_9,
+         __global const int   *neighbours1S_10,
+         __global const int   *neighbours1S_11,
+         __global const float *init_mech_en,  __global       float *mech_energies, __global       float *diss_en_change, 
+         __global const char  *loc_types,     __global       float *abs_mom,       __global       float *crack_value)
+{
+    // Index of current central cell
+    int cell_index  = get_global_id(0);
+    
+    abs_mom[cell_index] = (float)(mom_X[cell_index]*mom_X[cell_index] + mom_Y[cell_index]*mom_Y[cell_index] + mom_Z[cell_index]*mom_Z[cell_index]);
+    
+    diss_en_change[cell_index] = (float)((float)1.0 - signbit((float)0.5 - fabs((en_types[cell_index] - (float)0)*(en_types[cell_index] - (float)1))))*
+                                  abs_mom[cell_index]*abs_mom[cell_index]*(float)0.0/mod_shear[grain_indices[cell_index] - 1];
+    
+    mech_energies[cell_index] = (float)((float)1.0 - (float)2.0*signbit(init_mech_en[cell_index]))*
+                                ((float)1.0 - signbit(fabs(init_mech_en[cell_index]) - diss_en_change[cell_index]))*
+                                          fabs(fabs(init_mech_en[cell_index]) - diss_en_change[cell_index]);
+    
+    float real_diss_en_change = (float)signbit(fabs(init_mech_en[cell_index]) - diss_en_change[cell_index])*fabs(init_mech_en[cell_index]) + 
+                                signbit(-fabs(init_mech_en[cell_index]) + diss_en_change[cell_index])*diss_en_change[cell_index];    
+    diss_en_change[cell_index] = real_diss_en_change;
+    
+    char neighb_loc_type; 
+    
+    int neighb1S_0 = neighbours1S_0[cell_index];    
+    float abs_diff_mom_sqr_0 = 
+       //   signbit(fabs(((float)1.0*en_types[cell_index] - (float)1)*((float)1.0*en_types[cell_index] - (float)0)) - (float)0.5)*
+       //   signbit(fabs(((float)1.0*en_types[neighb1S_0] - (float)1)*((float)1.0*en_types[neighb1S_0] - (float)0)) - (float)0.5)*
+             (mom_X[neighb1S_0] - mom_X[cell_index])*(mom_X[neighb1S_0] - mom_X[cell_index]) + 
+             (mom_Y[neighb1S_0] - mom_Y[cell_index])*(mom_Y[neighb1S_0] - mom_Y[cell_index]) + 
+             (mom_Z[neighb1S_0] - mom_Z[cell_index])*(mom_Z[neighb1S_0] - mom_Z[cell_index]);  
+    
+    
+    
+    int neighb1S_1 = neighbours1S_1[cell_index];    
+    float abs_diff_mom_sqr_1 = 
+       //   signbit(fabs(((float)1.0*en_types[cell_index] - (float)1)*((float)1.0*en_types[cell_index] - (float)0)) - (float)0.5)*
+       //   signbit(fabs(((float)1.0*en_types[neighb1S_1] - (float)1)*((float)1.0*en_types[neighb1S_1] - (float)0)) - (float)0.5)*
+             (mom_X[neighb1S_1] - mom_X[cell_index])*(mom_X[neighb1S_1] - mom_X[cell_index]) + 
+             (mom_Y[neighb1S_1] - mom_Y[cell_index])*(mom_Y[neighb1S_1] - mom_Y[cell_index]) + 
+             (mom_Z[neighb1S_1] - mom_Z[cell_index])*(mom_Z[neighb1S_1] - mom_Z[cell_index]);  
+    
+    
+    
+    int neighb1S_2 = neighbours1S_2[cell_index];    
+    float abs_diff_mom_sqr_2 = 
+       //   signbit(fabs(((float)1.0*en_types[cell_index] - (float)1)*((float)1.0*en_types[cell_index] - (float)0)) - (float)0.5)*
+       //   signbit(fabs(((float)1.0*en_types[neighb1S_2] - (float)1)*((float)1.0*en_types[neighb1S_2] - (float)0)) - (float)0.5)*
+             (mom_X[neighb1S_2] - mom_X[cell_index])*(mom_X[neighb1S_2] - mom_X[cell_index]) + 
+             (mom_Y[neighb1S_2] - mom_Y[cell_index])*(mom_Y[neighb1S_2] - mom_Y[cell_index]) + 
+             (mom_Z[neighb1S_2] - mom_Z[cell_index])*(mom_Z[neighb1S_2] - mom_Z[cell_index]);  
+    
+    
+    
+    int neighb1S_3 = neighbours1S_3[cell_index];    
+    float abs_diff_mom_sqr_3 = 
+       //   signbit(fabs(((float)1.0*en_types[cell_index] - (float)1)*((float)1.0*en_types[cell_index] - (float)0)) - (float)0.5)*
+       //   signbit(fabs(((float)1.0*en_types[neighb1S_3] - (float)1)*((float)1.0*en_types[neighb1S_3] - (float)0)) - (float)0.5)*
+             (mom_X[neighb1S_3] - mom_X[cell_index])*(mom_X[neighb1S_3] - mom_X[cell_index]) + 
+             (mom_Y[neighb1S_3] - mom_Y[cell_index])*(mom_Y[neighb1S_3] - mom_Y[cell_index]) + 
+             (mom_Z[neighb1S_3] - mom_Z[cell_index])*(mom_Z[neighb1S_3] - mom_Z[cell_index]);  
+    
+    
+    
+    int neighb1S_4 = neighbours1S_4[cell_index];    
+    float abs_diff_mom_sqr_4 = 
+       //   signbit(fabs(((float)1.0*en_types[cell_index] - (float)1)*((float)1.0*en_types[cell_index] - (float)0)) - (float)0.5)*
+       //   signbit(fabs(((float)1.0*en_types[neighb1S_4] - (float)1)*((float)1.0*en_types[neighb1S_4] - (float)0)) - (float)0.5)*
+             (mom_X[neighb1S_4] - mom_X[cell_index])*(mom_X[neighb1S_4] - mom_X[cell_index]) + 
+             (mom_Y[neighb1S_4] - mom_Y[cell_index])*(mom_Y[neighb1S_4] - mom_Y[cell_index]) + 
+             (mom_Z[neighb1S_4] - mom_Z[cell_index])*(mom_Z[neighb1S_4] - mom_Z[cell_index]);  
+    
+    
+    
+    int neighb1S_5 = neighbours1S_5[cell_index];    
+    float abs_diff_mom_sqr_5 = 
+       //   signbit(fabs(((float)1.0*en_types[cell_index] - (float)1)*((float)1.0*en_types[cell_index] - (float)0)) - (float)0.5)*
+       //   signbit(fabs(((float)1.0*en_types[neighb1S_5] - (float)1)*((float)1.0*en_types[neighb1S_5] - (float)0)) - (float)0.5)*
+             (mom_X[neighb1S_5] - mom_X[cell_index])*(mom_X[neighb1S_5] - mom_X[cell_index]) + 
+             (mom_Y[neighb1S_5] - mom_Y[cell_index])*(mom_Y[neighb1S_5] - mom_Y[cell_index]) + 
+             (mom_Z[neighb1S_5] - mom_Z[cell_index])*(mom_Z[neighb1S_5] - mom_Z[cell_index]);  
+    
+    
+    
+    int neighb1S_6 = neighbours1S_6[cell_index];    
+    float abs_diff_mom_sqr_6 = 
+       //   signbit(fabs(((float)1.0*en_types[cell_index] - (float)1)*((float)1.0*en_types[cell_index] - (float)0)) - (float)0.5)*
+       //   signbit(fabs(((float)1.0*en_types[neighb1S_6] - (float)1)*((float)1.0*en_types[neighb1S_6] - (float)0)) - (float)0.5)*
+             (mom_X[neighb1S_6] - mom_X[cell_index])*(mom_X[neighb1S_6] - mom_X[cell_index]) + 
+             (mom_Y[neighb1S_6] - mom_Y[cell_index])*(mom_Y[neighb1S_6] - mom_Y[cell_index]) + 
+             (mom_Z[neighb1S_6] - mom_Z[cell_index])*(mom_Z[neighb1S_6] - mom_Z[cell_index]);  
+    
+    
+    
+    int neighb1S_7 = neighbours1S_7[cell_index];    
+    float abs_diff_mom_sqr_7 = 
+       //   signbit(fabs(((float)1.0*en_types[cell_index] - (float)1)*((float)1.0*en_types[cell_index] - (float)0)) - (float)0.5)*
+       //   signbit(fabs(((float)1.0*en_types[neighb1S_7] - (float)1)*((float)1.0*en_types[neighb1S_7] - (float)0)) - (float)0.5)*
+             (mom_X[neighb1S_7] - mom_X[cell_index])*(mom_X[neighb1S_7] - mom_X[cell_index]) + 
+             (mom_Y[neighb1S_7] - mom_Y[cell_index])*(mom_Y[neighb1S_7] - mom_Y[cell_index]) + 
+             (mom_Z[neighb1S_7] - mom_Z[cell_index])*(mom_Z[neighb1S_7] - mom_Z[cell_index]);  
+    
+    
+    
+    int neighb1S_8 = neighbours1S_8[cell_index];    
+    float abs_diff_mom_sqr_8 = 
+       //   signbit(fabs(((float)1.0*en_types[cell_index] - (float)1)*((float)1.0*en_types[cell_index] - (float)0)) - (float)0.5)*
+       //   signbit(fabs(((float)1.0*en_types[neighb1S_8] - (float)1)*((float)1.0*en_types[neighb1S_8] - (float)0)) - (float)0.5)*
+             (mom_X[neighb1S_8] - mom_X[cell_index])*(mom_X[neighb1S_8] - mom_X[cell_index]) + 
+             (mom_Y[neighb1S_8] - mom_Y[cell_index])*(mom_Y[neighb1S_8] - mom_Y[cell_index]) + 
+             (mom_Z[neighb1S_8] - mom_Z[cell_index])*(mom_Z[neighb1S_8] - mom_Z[cell_index]);  
+    
+    
+    
+    int neighb1S_9 = neighbours1S_9[cell_index];    
+    float abs_diff_mom_sqr_9 = 
+       //   signbit(fabs(((float)1.0*en_types[cell_index] - (float)1)*((float)1.0*en_types[cell_index] - (float)0)) - (float)0.5)*
+       //   signbit(fabs(((float)1.0*en_types[neighb1S_9] - (float)1)*((float)1.0*en_types[neighb1S_9] - (float)0)) - (float)0.5)*
+             (mom_X[neighb1S_9] - mom_X[cell_index])*(mom_X[neighb1S_9] - mom_X[cell_index]) + 
+             (mom_Y[neighb1S_9] - mom_Y[cell_index])*(mom_Y[neighb1S_9] - mom_Y[cell_index]) + 
+             (mom_Z[neighb1S_9] - mom_Z[cell_index])*(mom_Z[neighb1S_9] - mom_Z[cell_index]);  
+    
+    
+    
+    int neighb1S_10 = neighbours1S_10[cell_index];    
+    float abs_diff_mom_sqr_10 = 
+       //   signbit(fabs(((float)1.0*en_types[cell_index] - (float)1)*((float)1.0*en_types[cell_index] - (float)0)) - (float)0.5)*
+       //   signbit(fabs(((float)1.0*en_types[neighb1S_10] - (float)1)*((float)1.0*en_types[neighb1S_10] - (float)0)) - (float)0.5)*
+             (mom_X[neighb1S_10] - mom_X[cell_index])*(mom_X[neighb1S_10] - mom_X[cell_index]) + 
+             (mom_Y[neighb1S_10] - mom_Y[cell_index])*(mom_Y[neighb1S_10] - mom_Y[cell_index]) + 
+             (mom_Z[neighb1S_10] - mom_Z[cell_index])*(mom_Z[neighb1S_10] - mom_Z[cell_index]);  
+    
+    
+    
+    int neighb1S_11 = neighbours1S_11[cell_index];    
+    float abs_diff_mom_sqr_11 = 
+       //   signbit(fabs(((float)1.0*en_types[cell_index] - (float)1)*((float)1.0*en_types[cell_index] - (float)0)) - (float)0.5)*
+       //   signbit(fabs(((float)1.0*en_types[neighb1S_11] - (float)1)*((float)1.0*en_types[neighb1S_11] - (float)0)) - (float)0.5)*
+             (mom_X[neighb1S_11] - mom_X[cell_index])*(mom_X[neighb1S_11] - mom_X[cell_index]) + 
+             (mom_Y[neighb1S_11] - mom_Y[cell_index])*(mom_Y[neighb1S_11] - mom_Y[cell_index]) + 
+             (mom_Z[neighb1S_11] - mom_Z[cell_index])*(mom_Z[neighb1S_11] - mom_Z[cell_index]);  
+    
+    
+    
+    
+    crack_value[cell_index] = 
+          (float)1.0*signbit(fabs((float)1.0*loc_types[cell_index] - (float)8) - (float)0.5)*
+          (float)1.0*signbit((float)1.0E-4 - diss_en_change[cell_index])*((float)1.0/(float)12)*
+       signbit(fabs(((float)1.0*en_types[cell_index] - (float)1)*((float)1.0*en_types[cell_index] - (float)0)) - (float)0.5)*
+       (  // (float)sqr
+                     ((float)-1.0 + (float)2.0*abs_diff_mom_sqr_0/ 
+            (abs_mom[cell_index] + (mom_X[neighb1S_0]*mom_X[neighb1S_0] +
+                                    mom_Y[neighb1S_0]*mom_Y[neighb1S_0] +
+                                    mom_Z[neighb1S_0]*mom_Z[neighb1S_0]) + (float)1.0)) + 
+                     ((float)-1.0 + (float)2.0*abs_diff_mom_sqr_1/ 
+            (abs_mom[cell_index] + (mom_X[neighb1S_1]*mom_X[neighb1S_1] +
+                                    mom_Y[neighb1S_1]*mom_Y[neighb1S_1] +
+                                    mom_Z[neighb1S_1]*mom_Z[neighb1S_1]) + (float)1.0)) + 
+                     ((float)-1.0 + (float)2.0*abs_diff_mom_sqr_2/ 
+            (abs_mom[cell_index] + (mom_X[neighb1S_2]*mom_X[neighb1S_2] +
+                                    mom_Y[neighb1S_2]*mom_Y[neighb1S_2] +
+                                    mom_Z[neighb1S_2]*mom_Z[neighb1S_2]) + (float)1.0)) + 
+                     ((float)-1.0 + (float)2.0*abs_diff_mom_sqr_3/ 
+            (abs_mom[cell_index] + (mom_X[neighb1S_3]*mom_X[neighb1S_3] +
+                                    mom_Y[neighb1S_3]*mom_Y[neighb1S_3] +
+                                    mom_Z[neighb1S_3]*mom_Z[neighb1S_3]) + (float)1.0)) + 
+                     ((float)-1.0 + (float)2.0*abs_diff_mom_sqr_4/ 
+            (abs_mom[cell_index] + (mom_X[neighb1S_4]*mom_X[neighb1S_4] +
+                                    mom_Y[neighb1S_4]*mom_Y[neighb1S_4] +
+                                    mom_Z[neighb1S_4]*mom_Z[neighb1S_4]) + (float)1.0)) + 
+                     ((float)-1.0 + (float)2.0*abs_diff_mom_sqr_5/ 
+            (abs_mom[cell_index] + (mom_X[neighb1S_5]*mom_X[neighb1S_5] +
+                                    mom_Y[neighb1S_5]*mom_Y[neighb1S_5] +
+                                    mom_Z[neighb1S_5]*mom_Z[neighb1S_5]) + (float)1.0)) + 
+                     ((float)-1.0 + (float)2.0*abs_diff_mom_sqr_6/ 
+            (abs_mom[cell_index] + (mom_X[neighb1S_6]*mom_X[neighb1S_6] +
+                                    mom_Y[neighb1S_6]*mom_Y[neighb1S_6] +
+                                    mom_Z[neighb1S_6]*mom_Z[neighb1S_6]) + (float)1.0)) + 
+                     ((float)-1.0 + (float)2.0*abs_diff_mom_sqr_7/ 
+            (abs_mom[cell_index] + (mom_X[neighb1S_7]*mom_X[neighb1S_7] +
+                                    mom_Y[neighb1S_7]*mom_Y[neighb1S_7] +
+                                    mom_Z[neighb1S_7]*mom_Z[neighb1S_7]) + (float)1.0)) + 
+                     ((float)-1.0 + (float)2.0*abs_diff_mom_sqr_8/ 
+            (abs_mom[cell_index] + (mom_X[neighb1S_8]*mom_X[neighb1S_8] +
+                                    mom_Y[neighb1S_8]*mom_Y[neighb1S_8] +
+                                    mom_Z[neighb1S_8]*mom_Z[neighb1S_8]) + (float)1.0)) + 
+                     ((float)-1.0 + (float)2.0*abs_diff_mom_sqr_9/ 
+            (abs_mom[cell_index] + (mom_X[neighb1S_9]*mom_X[neighb1S_9] +
+                                    mom_Y[neighb1S_9]*mom_Y[neighb1S_9] +
+                                    mom_Z[neighb1S_9]*mom_Z[neighb1S_9]) + (float)1.0)) + 
+                     ((float)-1.0 + (float)2.0*abs_diff_mom_sqr_10/ 
+            (abs_mom[cell_index] + (mom_X[neighb1S_10]*mom_X[neighb1S_10] +
+                                    mom_Y[neighb1S_10]*mom_Y[neighb1S_10] +
+                                    mom_Z[neighb1S_10]*mom_Z[neighb1S_10]) + (float)1.0)) + 
+                     ((float)-1.0 + (float)2.0*abs_diff_mom_sqr_11/ 
+            (abs_mom[cell_index] + (mom_X[neighb1S_11]*mom_X[neighb1S_11] +
+                                    mom_Y[neighb1S_11]*mom_Y[neighb1S_11] +
+                                    mom_Z[neighb1S_11]*mom_Z[neighb1S_11]) + (float)1.0)) + 
+                           (float)0.0); // *(float)log((float)1.0 + fabs(mech_energies[cell_index])); // /((float)1.0 + fabs(mech_energies[cell_index])); // *diss_en_change[cell_index]/((float)1.0 + fabs(init_mech_en[cell_index])); //  
+    
+    __syncthreads();
+}

@@ -1,0 +1,50 @@
+__kernel void kernel_8_2( 
+         __global const float *init_mech_energy, __global const char  *loc_types, __global const char  *en_types, 
+         __global const int   *neighbours1S_0,
+         __global const int   *neighbours1S_1,
+         __global const int   *neighbours1S_2,
+         __global const int   *neighbours1S_3,
+         __global const int   *neighbours1S_4,
+         __global const int   *neighbours1S_5,
+         __global const int   *neighbours1S_6,
+         __global const int   *neighbours1S_7,
+         __global const int   *neighbours1S_8,
+         __global const int   *neighbours1S_9,
+         __global const int   *neighbours1S_10,
+         __global const int   *neighbours1S_11,
+         __global       float *mech_energy)
+{
+    int cell_index = get_global_id(0);
+    
+    int neighb1S_0 = neighbours1S_0[cell_index];
+    int neighb1S_1 = neighbours1S_1[cell_index];
+    int neighb1S_2 = neighbours1S_2[cell_index];
+    int neighb1S_3 = neighbours1S_3[cell_index];
+    int neighb1S_4 = neighbours1S_4[cell_index];
+    int neighb1S_5 = neighbours1S_5[cell_index];
+    int neighb1S_6 = neighbours1S_6[cell_index];
+    int neighb1S_7 = neighbours1S_7[cell_index];
+    int neighb1S_8 = neighbours1S_8[cell_index];
+    int neighb1S_9 = neighbours1S_9[cell_index];
+    int neighb1S_10 = neighbours1S_10[cell_index];
+    int neighb1S_11 = neighbours1S_11[cell_index];
+    
+    mech_energy[cell_index] = (float)signbit((float)0.5 - fabs((float)1.0*loc_types[cell_index] - (float)7))* 
+        (init_mech_energy[cell_index] + 
+        ((float)signbit(fabs((float)1.0*en_types[cell_index] - (float)1) - (float)0.5) + (float)signbit(fabs((float)1.0*en_types[cell_index] - (float)0) - (float)0.5))*(
+         (float)signbit(fabs((float)1.0*loc_types[neighb1S_0] - (float)7) - (float)0.5)*init_mech_energy[neighb1S_0] + 
+         (float)signbit(fabs((float)1.0*loc_types[neighb1S_1] - (float)7) - (float)0.5)*init_mech_energy[neighb1S_1] + 
+         (float)signbit(fabs((float)1.0*loc_types[neighb1S_2] - (float)7) - (float)0.5)*init_mech_energy[neighb1S_2] + 
+         (float)signbit(fabs((float)1.0*loc_types[neighb1S_3] - (float)7) - (float)0.5)*init_mech_energy[neighb1S_3] + 
+         (float)signbit(fabs((float)1.0*loc_types[neighb1S_4] - (float)7) - (float)0.5)*init_mech_energy[neighb1S_4] + 
+         (float)signbit(fabs((float)1.0*loc_types[neighb1S_5] - (float)7) - (float)0.5)*init_mech_energy[neighb1S_5] + 
+         (float)signbit(fabs((float)1.0*loc_types[neighb1S_6] - (float)7) - (float)0.5)*init_mech_energy[neighb1S_6] + 
+         (float)signbit(fabs((float)1.0*loc_types[neighb1S_7] - (float)7) - (float)0.5)*init_mech_energy[neighb1S_7] + 
+         (float)signbit(fabs((float)1.0*loc_types[neighb1S_8] - (float)7) - (float)0.5)*init_mech_energy[neighb1S_8] + 
+         (float)signbit(fabs((float)1.0*loc_types[neighb1S_9] - (float)7) - (float)0.5)*init_mech_energy[neighb1S_9] + 
+         (float)signbit(fabs((float)1.0*loc_types[neighb1S_10] - (float)7) - (float)0.5)*init_mech_energy[neighb1S_10] + 
+         (float)signbit(fabs((float)1.0*loc_types[neighb1S_11] - (float)7) - (float)0.5)*init_mech_energy[neighb1S_11] + 
+               (float)0.0)/(float)12);
+    
+    __syncthreads();
+}

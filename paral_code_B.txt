@@ -1,0 +1,159 @@
+__kernel void kernel_B(__global const int   *init_grain_indices, __global const char  *energy_types,
+                       __global const char  *new_grain_embryos,  __global const char  *twin_grain_embryos,
+                       __global const char  *init_gr_rec_types,
+                       __global const int   *neighbours1S_0,     __global const int   *neighbours1S_1,
+                       __global const int   *neighbours1S_2,     __global const int   *neighbours1S_3,
+                       __global const int   *neighbours1S_4,     __global const int   *neighbours1S_5,
+                       __global const int   *neighbours1S_6,     __global const int   *neighbours1S_7,
+                       __global const int   *neighbours1S_8,     __global const int   *neighbours1S_9,
+                       __global const int   *neighbours1S_10,    __global const int   *neighbours1S_11,
+                       __global       int   *grain_indices,      __global       char  *grain_rec_types,
+                       __global       int   *root_grain_indices, __global       float *grain_angles,
+                       __global       float *max_grain_angles,   __global       float *heat_max_mob,
+                       __global       float *max_bound_energy,   __global       float *disl_max_mobility,
+                       __global       float *mech_max_mobility,  __global       float *disl_energies,
+                       __global       float *min_disl_energies,  __global const float *random,
+                       __global       float *lat_vec_A_length,   __global float *lat_vec_B_length, __global float *lat_vec_C_length,
+                       __global       float *lat_vec_A_x,        __global float *lat_vec_A_y,      __global float *lat_vec_A_z,
+                       __global       float *lat_vec_B_x,        __global float *lat_vec_B_y,      __global float *lat_vec_B_z,
+                       __global       float *lat_vec_C_x,        __global float *lat_vec_C_y,      __global float *lat_vec_C_z,
+                       __global       float *lattice_anis_coeff)
+{   
+    int cell_index          = get_global_id(0);
+    int init_grain_index    = init_grain_indices[cell_index] - (int)1;
+    
+    char init_gr_rec_type   = init_gr_rec_types[init_grain_index];
+    char energy_type        = energy_types[cell_index];
+    
+    //   The variable equals 1 if the cell is in the interior of specimen and it is an embryo of new grain or 
+    // it is contained in initial grain and there is the only embryo of new grain at 1st sphere, otherwise the variable equals 0.
+    char new_gr_embryo =  (char)signbit(fabs(energy_type - (float)1) - (float)0.5)* // signbit((float)0.5 - fabs(init_gr_rec_type - (float)1))* 
+                         ((char)signbit((float)0.5 - new_grain_embryos[cell_index]) + 
+                          (char)signbit(new_grain_embryos[cell_index] - (float)0.5)* 
+                          (char)signbit((float)0.5 - ((char)signbit((float)0.5 - new_grain_embryos[neighbours1S_0 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_1 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_2 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_3 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_4 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_5 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_6 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_7 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_8 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_9 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_10[cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_11[cell_index]])))*
+                          (char)signbit((float)-1.5 +((char)signbit((float)0.5 - new_grain_embryos[neighbours1S_0 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_1 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_2 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_3 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_4 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_5 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_6 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_7 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_8 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_9 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_10[cell_index]]) + 
+                                                      (char)signbit((float)0.5 - new_grain_embryos[neighbours1S_11[cell_index]]))));
+    
+    //   The variable equals 1 if the cell is in the interior of specimen and it is an embryo of twin grain or 
+    // it is contained in initial grain and there is the only embryo of twin grain at 1st sphere, otherwise the variable equals 0.
+    char twin_gr_embryo = (char)signbit(fabs((float)1.0*energy_type - (float)1) - (float)0.5)*(char)signbit(fabs((float)1.0*init_gr_rec_type - (float)0) - (float)0.5)*(char)signbit((float)-0.5 + new_gr_embryo)*
+                         ((char)signbit((float)0.5 - twin_grain_embryos[cell_index]) + 
+                          (char)signbit(twin_grain_embryos[cell_index] - (float)0.5)*
+                          (char)signbit((float)0.5 - ((char)signbit((float)0.5 - (float)1.0*twin_grain_embryos[neighbours1S_0 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_1 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_2 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_3 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_4 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_5 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_6 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_7 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_8 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_9 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_10[cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_11[cell_index]])))*
+                          (char)signbit((float)-1.5 +((char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_0 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_1 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_2 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_3 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_4 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_5 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_6 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_7 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_8 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_9 [cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_10[cell_index]]) + 
+                                                      (char)signbit((float)0.5 - twin_grain_embryos[neighbours1S_11[cell_index]]))));
+    
+    __syncthreads();
+    
+    // New grain index for current cell that can join to new or twin grain 
+    grain_indices[cell_index] = (int)signbit((float) 0.5 - (float)signbit((float)0.5 - new_grain_embryos[cell_index]) - (float)signbit((float)0.5 - twin_grain_embryos[cell_index]))*init_grain_indices[cell_index] + 
+                                (int)signbit((float)-0.5 + (float)signbit((float)0.5 - new_grain_embryos[cell_index]) + (float)signbit((float)0.5 - twin_grain_embryos[cell_index]))*
+                                  ((int)signbit((float)1.0*new_gr_embryo - (float)0.5)*(int)signbit((float)1.0*twin_gr_embryo - (float)0.5)*init_grain_indices[cell_index] + 
+                                   (int)signbit((float)0.5 - (float)1.0*new_gr_embryo)* // (int)signbit((float)1.0*twin_gr_embryo - (float)0.5)*
+                                  ((int)signbit((float)0.5 - new_grain_embryos[neighbours1S_0 [cell_index]])*init_grain_indices[neighbours1S_0 [cell_index]] + 
+                                   (int)signbit((float)0.5 - new_grain_embryos[neighbours1S_1 [cell_index]])*init_grain_indices[neighbours1S_1 [cell_index]] + 
+                                   (int)signbit((float)0.5 - new_grain_embryos[neighbours1S_2 [cell_index]])*init_grain_indices[neighbours1S_2 [cell_index]] + 
+                                   (int)signbit((float)0.5 - new_grain_embryos[neighbours1S_3 [cell_index]])*init_grain_indices[neighbours1S_3 [cell_index]] + 
+                                   (int)signbit((float)0.5 - new_grain_embryos[neighbours1S_4 [cell_index]])*init_grain_indices[neighbours1S_4 [cell_index]] + 
+                                   (int)signbit((float)0.5 - new_grain_embryos[neighbours1S_5 [cell_index]])*init_grain_indices[neighbours1S_5 [cell_index]] + 
+                                   (int)signbit((float)0.5 - new_grain_embryos[neighbours1S_6 [cell_index]])*init_grain_indices[neighbours1S_6 [cell_index]] + 
+                                   (int)signbit((float)0.5 - new_grain_embryos[neighbours1S_7 [cell_index]])*init_grain_indices[neighbours1S_7 [cell_index]] + 
+                                   (int)signbit((float)0.5 - new_grain_embryos[neighbours1S_8 [cell_index]])*init_grain_indices[neighbours1S_8 [cell_index]] + 
+                                   (int)signbit((float)0.5 - new_grain_embryos[neighbours1S_9 [cell_index]])*init_grain_indices[neighbours1S_9 [cell_index]] + 
+                                   (int)signbit((float)0.5 - new_grain_embryos[neighbours1S_10[cell_index]])*init_grain_indices[neighbours1S_10[cell_index]] + 
+                                   (int)signbit((float)0.5 - new_grain_embryos[neighbours1S_11[cell_index]])*init_grain_indices[neighbours1S_11[cell_index]])+ 
+    
+                                   (int)signbit((float)0.5 - (float)1.0*twin_gr_embryo)*(int)signbit((float)1.0*new_gr_embryo - (float)0.5)*
+                                  ((int)signbit((float)0.5 - twin_grain_embryos[neighbours1S_0 [cell_index]])*init_grain_indices[neighbours1S_0 [cell_index]] + 
+                                   (int)signbit((float)0.5 - twin_grain_embryos[neighbours1S_1 [cell_index]])*init_grain_indices[neighbours1S_1 [cell_index]] + 
+                                   (int)signbit((float)0.5 - twin_grain_embryos[neighbours1S_2 [cell_index]])*init_grain_indices[neighbours1S_2 [cell_index]] + 
+                                   (int)signbit((float)0.5 - twin_grain_embryos[neighbours1S_3 [cell_index]])*init_grain_indices[neighbours1S_3 [cell_index]] + 
+                                   (int)signbit((float)0.5 - twin_grain_embryos[neighbours1S_4 [cell_index]])*init_grain_indices[neighbours1S_4 [cell_index]] + 
+                                   (int)signbit((float)0.5 - twin_grain_embryos[neighbours1S_5 [cell_index]])*init_grain_indices[neighbours1S_5 [cell_index]] + 
+                                   (int)signbit((float)0.5 - twin_grain_embryos[neighbours1S_6 [cell_index]])*init_grain_indices[neighbours1S_6 [cell_index]] + 
+                                   (int)signbit((float)0.5 - twin_grain_embryos[neighbours1S_7 [cell_index]])*init_grain_indices[neighbours1S_7 [cell_index]] + 
+                                   (int)signbit((float)0.5 - twin_grain_embryos[neighbours1S_8 [cell_index]])*init_grain_indices[neighbours1S_8 [cell_index]] + 
+                                   (int)signbit((float)0.5 - twin_grain_embryos[neighbours1S_9 [cell_index]])*init_grain_indices[neighbours1S_9 [cell_index]] + 
+                                   (int)signbit((float)0.5 - twin_grain_embryos[neighbours1S_10[cell_index]])*init_grain_indices[neighbours1S_10[cell_index]] + 
+                                   (int)signbit((float)0.5 - twin_grain_embryos[neighbours1S_11[cell_index]])*init_grain_indices[neighbours1S_11[cell_index]])); 
+    
+    // New type of grain according to its role in recrystallization process 
+    grain_rec_types[grain_indices[cell_index] - 1]    = (char)signbit((float)1.0*grain_indices[cell_index] - (float)13 - (float)0.5)*(char)0 + 
+                                                        (char)signbit((float)0.5 - (float)1.0*grain_indices[cell_index] + (float)13)*
+                  ((char)signbit((float)1.0*new_gr_embryo - (float)0.5)*(char)signbit((float)1.0*twin_gr_embryo - (float)0.5)*init_gr_rec_type + 
+                   (char)signbit((float)0.5 - (float)1.0*new_gr_embryo)*(char)1 + 
+                   (char)signbit((float)0.5 - (float)1.0*twin_gr_embryo)*(char)signbit((float)1.0*new_gr_embryo - (float)0.5)*(char)2);
+    
+    __syncthreads();
+    
+    float init_grain_angle       = grain_angles[init_grain_index];
+    float init_max_grain_angle   = max_grain_angles[init_grain_index];
+    float init_heat_max_mob      = heat_max_mob[init_grain_index];
+    float init_max_bound_energy  = max_bound_energy[init_grain_index];
+    float init_disl_max_mobility = disl_max_mobility[init_grain_index];
+    float init_mech_max_mobility = mech_max_mobility[init_grain_index];
+    float init_min_disl_energy   = min_disl_energies[init_grain_index];
+    float init_disl_energy       = disl_energies[init_grain_index];
+    
+    max_grain_angles  [grain_indices[cell_index] - 1] = init_max_grain_angle;
+    heat_max_mob      [grain_indices[cell_index] - 1] = init_heat_max_mob;
+    max_bound_energy  [grain_indices[cell_index] - 1] = init_max_bound_energy;
+    disl_max_mobility [grain_indices[cell_index] - 1] = init_disl_max_mobility;
+    mech_max_mobility [grain_indices[cell_index] - 1] = init_mech_max_mobility;
+    min_disl_energies [grain_indices[cell_index] - 1] = init_min_disl_energy;
+    
+    __syncthreads();
+    
+    disl_energies     [grain_indices[cell_index] - 1] = 
+       ((char)signbit((float) 1.0*fabs(grain_rec_types[grain_indices[cell_index] - 1] - (float)0) - (float)0.5))*init_disl_energy + 
+       ((char)signbit((float)-1.0*fabs(grain_rec_types[grain_indices[cell_index] - 1] - (float)0) + (float)0.5))*init_min_disl_energy; 
+    
+    __syncthreads();
+    
+    // Index of grain, from which current twin grain grows: if the grain is not twin then the index equals 0. 
+    int  root_gr_index      = root_grain_indices[grain_indices[cell_index] - 1] - (int)signbit((float)0.5 - root_grain_indices[grain_indices[cell_index] - 1]);
+    
+    __syncthreads();
+}

@@ -1,0 +1,307 @@
+__kernel void kernel_5_1
+(            __global const float *init_mech_energies, __global const float *mod_elast, 
+             __global const int   *neighbours1S_0,
+             __global const int   *neighbours1S_1,
+             __global const int   *neighbours1S_2,
+             __global const int   *neighbours1S_3,
+             __global const int   *neighbours1S_4,
+             __global const int   *neighbours1S_5,
+             __global const int   *neighbours1S_6,
+             __global const int   *neighbours1S_7,
+             __global const int   *neighbours1S_8,
+             __global const int   *neighbours1S_9,
+             __global const int   *neighbours1S_10,
+             __global const int   *neighbours1S_11,
+             __global const float *spec_bound_energy_0,
+             __global const float *spec_bound_energy_1,
+             __global const float *spec_bound_energy_2,
+             __global const float *spec_bound_energy_3,
+             __global const float *spec_bound_energy_4,
+             __global const float *spec_bound_energy_5,
+             __global const float *spec_bound_energy_6,
+             __global const float *spec_bound_energy_7,
+             __global const float *spec_bound_energy_8,
+             __global const float *spec_bound_energy_9,
+             __global const float *spec_bound_energy_10,
+             __global const float *spec_bound_energy_11,
+             __global const char  *en_types,      __global const float *init_temprs,   __global const int   *grain_indices,
+             __global       float *mech_influxes, __global       float *mech_energies,
+             __global       float *stress_0,
+             __global       float *stress_1,
+             __global       float *stress_2,
+             __global       float *stress_3,
+             __global       float *stress_4,
+             __global       float *stress_5,
+             __global       float *stress_6,
+             __global       float *stress_7,
+             __global       float *stress_8,
+             __global       float *stress_9,
+             __global       float *stress_10,
+             __global       float *stress_11,
+             __global       long  *step_counter,  __global const long  *next_step_counter)
+{   
+    int cell_index  = get_global_id(0);
+    int grain_index = grain_indices[cell_index] - 1;
+    
+    step_counter[0] = next_step_counter[0];
+    
+    // Soft boundary conditions are realized.
+    
+    mech_influxes[cell_index] = 
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_0[cell_index]] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_0[cell_index]] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_0[cell_index]] - (float)4) -     (float)0.5))*
+                 (init_mech_energies[neighbours1S_0[cell_index]] - init_mech_energies[cell_index])*
+                 ((float)10.0/(float)sqrt(mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_0[cell_index]] - 1]))*
+                  (float)exp((float)-pow(mod_elast[grain_index] - mod_elast[grain_indices[neighbours1S_0[cell_index]] - 1], (float)2.0)/ 
+                           (mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_0[cell_index]] - 1]))*
+                  (float)exp(-spec_bound_energy_0[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(init_temprs[cell_index] + (float)1.0E-10)))*
+                       mod_elast[grain_index]*(float)1.0E-8/(float)1.0E-6 + 
+      
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_1[cell_index]] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_1[cell_index]] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_1[cell_index]] - (float)4) -     (float)0.5))*
+                 (init_mech_energies[neighbours1S_1[cell_index]] - init_mech_energies[cell_index])*
+                 ((float)10.0/(float)sqrt(mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_1[cell_index]] - 1]))*
+                  (float)exp((float)-pow(mod_elast[grain_index] - mod_elast[grain_indices[neighbours1S_1[cell_index]] - 1], (float)2.0)/ 
+                           (mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_1[cell_index]] - 1]))*
+                  (float)exp(-spec_bound_energy_1[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(init_temprs[cell_index] + (float)1.0E-10)))*
+                       mod_elast[grain_index]*(float)1.0E-8/(float)1.0E-6 + 
+      
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_2[cell_index]] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_2[cell_index]] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_2[cell_index]] - (float)4) -     (float)0.5))*
+                 (init_mech_energies[neighbours1S_2[cell_index]] - init_mech_energies[cell_index])*
+                 ((float)10.0/(float)sqrt(mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_2[cell_index]] - 1]))*
+                  (float)exp((float)-pow(mod_elast[grain_index] - mod_elast[grain_indices[neighbours1S_2[cell_index]] - 1], (float)2.0)/ 
+                           (mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_2[cell_index]] - 1]))*
+                  (float)exp(-spec_bound_energy_2[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(init_temprs[cell_index] + (float)1.0E-10)))*
+                       mod_elast[grain_index]*(float)1.0E-8/(float)1.0E-6 + 
+      
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_3[cell_index]] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_3[cell_index]] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_3[cell_index]] - (float)4) -     (float)0.5))*
+                 (init_mech_energies[neighbours1S_3[cell_index]] - init_mech_energies[cell_index])*
+                 ((float)10.0/(float)sqrt(mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_3[cell_index]] - 1]))*
+                  (float)exp((float)-pow(mod_elast[grain_index] - mod_elast[grain_indices[neighbours1S_3[cell_index]] - 1], (float)2.0)/ 
+                           (mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_3[cell_index]] - 1]))*
+                  (float)exp(-spec_bound_energy_3[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(init_temprs[cell_index] + (float)1.0E-10)))*
+                       mod_elast[grain_index]*(float)1.0E-8/(float)1.0E-6 + 
+      
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_4[cell_index]] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_4[cell_index]] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_4[cell_index]] - (float)4) -     (float)0.5))*
+                 (init_mech_energies[neighbours1S_4[cell_index]] - init_mech_energies[cell_index])*
+                 ((float)10.0/(float)sqrt(mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_4[cell_index]] - 1]))*
+                  (float)exp((float)-pow(mod_elast[grain_index] - mod_elast[grain_indices[neighbours1S_4[cell_index]] - 1], (float)2.0)/ 
+                           (mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_4[cell_index]] - 1]))*
+                  (float)exp(-spec_bound_energy_4[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(init_temprs[cell_index] + (float)1.0E-10)))*
+                       mod_elast[grain_index]*(float)1.0E-8/(float)1.0E-6 + 
+      
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_5[cell_index]] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_5[cell_index]] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_5[cell_index]] - (float)4) -     (float)0.5))*
+                 (init_mech_energies[neighbours1S_5[cell_index]] - init_mech_energies[cell_index])*
+                 ((float)10.0/(float)sqrt(mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_5[cell_index]] - 1]))*
+                  (float)exp((float)-pow(mod_elast[grain_index] - mod_elast[grain_indices[neighbours1S_5[cell_index]] - 1], (float)2.0)/ 
+                           (mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_5[cell_index]] - 1]))*
+                  (float)exp(-spec_bound_energy_5[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(init_temprs[cell_index] + (float)1.0E-10)))*
+                       mod_elast[grain_index]*(float)1.0E-8/(float)1.0E-6 + 
+      
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_6[cell_index]] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_6[cell_index]] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_6[cell_index]] - (float)4) -     (float)0.5))*
+                 (init_mech_energies[neighbours1S_6[cell_index]] - init_mech_energies[cell_index])*
+                 ((float)10.0/(float)sqrt(mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_6[cell_index]] - 1]))*
+                  (float)exp((float)-pow(mod_elast[grain_index] - mod_elast[grain_indices[neighbours1S_6[cell_index]] - 1], (float)2.0)/ 
+                           (mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_6[cell_index]] - 1]))*
+                  (float)exp(-spec_bound_energy_6[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(init_temprs[cell_index] + (float)1.0E-10)))*
+                       mod_elast[grain_index]*(float)1.0E-8/(float)1.0E-6 + 
+      
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_7[cell_index]] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_7[cell_index]] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_7[cell_index]] - (float)4) -     (float)0.5))*
+                 (init_mech_energies[neighbours1S_7[cell_index]] - init_mech_energies[cell_index])*
+                 ((float)10.0/(float)sqrt(mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_7[cell_index]] - 1]))*
+                  (float)exp((float)-pow(mod_elast[grain_index] - mod_elast[grain_indices[neighbours1S_7[cell_index]] - 1], (float)2.0)/ 
+                           (mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_7[cell_index]] - 1]))*
+                  (float)exp(-spec_bound_energy_7[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(init_temprs[cell_index] + (float)1.0E-10)))*
+                       mod_elast[grain_index]*(float)1.0E-8/(float)1.0E-6 + 
+      
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_8[cell_index]] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_8[cell_index]] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_8[cell_index]] - (float)4) -     (float)0.5))*
+                 (init_mech_energies[neighbours1S_8[cell_index]] - init_mech_energies[cell_index])*
+                 ((float)10.0/(float)sqrt(mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_8[cell_index]] - 1]))*
+                  (float)exp((float)-pow(mod_elast[grain_index] - mod_elast[grain_indices[neighbours1S_8[cell_index]] - 1], (float)2.0)/ 
+                           (mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_8[cell_index]] - 1]))*
+                  (float)exp(-spec_bound_energy_8[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(init_temprs[cell_index] + (float)1.0E-10)))*
+                       mod_elast[grain_index]*(float)1.0E-8/(float)1.0E-6 + 
+      
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_9[cell_index]] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_9[cell_index]] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_9[cell_index]] - (float)4) -     (float)0.5))*
+                 (init_mech_energies[neighbours1S_9[cell_index]] - init_mech_energies[cell_index])*
+                 ((float)10.0/(float)sqrt(mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_9[cell_index]] - 1]))*
+                  (float)exp((float)-pow(mod_elast[grain_index] - mod_elast[grain_indices[neighbours1S_9[cell_index]] - 1], (float)2.0)/ 
+                           (mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_9[cell_index]] - 1]))*
+                  (float)exp(-spec_bound_energy_9[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(init_temprs[cell_index] + (float)1.0E-10)))*
+                       mod_elast[grain_index]*(float)1.0E-8/(float)1.0E-6 + 
+      
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_10[cell_index]] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_10[cell_index]] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_10[cell_index]] - (float)4) -     (float)0.5))*
+                 (init_mech_energies[neighbours1S_10[cell_index]] - init_mech_energies[cell_index])*
+                 ((float)10.0/(float)sqrt(mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_10[cell_index]] - 1]))*
+                  (float)exp((float)-pow(mod_elast[grain_index] - mod_elast[grain_indices[neighbours1S_10[cell_index]] - 1], (float)2.0)/ 
+                           (mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_10[cell_index]] - 1]))*
+                  (float)exp(-spec_bound_energy_10[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(init_temprs[cell_index] + (float)1.0E-10)))*
+                       mod_elast[grain_index]*(float)1.0E-8/(float)1.0E-6 + 
+      
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_11[cell_index]] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_11[cell_index]] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] -                                    (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[neighbours1S_11[cell_index]] - (float)4) -     (float)0.5))*
+                 (init_mech_energies[neighbours1S_11[cell_index]] - init_mech_energies[cell_index])*
+                 ((float)10.0/(float)sqrt(mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_11[cell_index]] - 1]))*
+                  (float)exp((float)-pow(mod_elast[grain_index] - mod_elast[grain_indices[neighbours1S_11[cell_index]] - 1], (float)2.0)/ 
+                           (mod_elast[grain_index] * mod_elast[grain_indices[neighbours1S_11[cell_index]] - 1]))*
+                  (float)exp(-spec_bound_energy_11[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(init_temprs[cell_index] + (float)1.0E-10)))*
+                       mod_elast[grain_index]*(float)1.0E-8/(float)1.0E-6;
+      
+    
+    stress_0[cell_index] = 
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) -      (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) -      (float)0.5))*
+             (init_mech_energies[neighbours1S_0[cell_index]] - init_mech_energies[cell_index]);
+    
+    stress_1[cell_index] = 
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) -      (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) -      (float)0.5))*
+             (init_mech_energies[neighbours1S_1[cell_index]] - init_mech_energies[cell_index]);
+    
+    stress_2[cell_index] = 
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) -      (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) -      (float)0.5))*
+             (init_mech_energies[neighbours1S_2[cell_index]] - init_mech_energies[cell_index]);
+    
+    stress_3[cell_index] = 
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) -      (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) -      (float)0.5))*
+             (init_mech_energies[neighbours1S_3[cell_index]] - init_mech_energies[cell_index]);
+    
+    stress_4[cell_index] = 
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) -      (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) -      (float)0.5))*
+             (init_mech_energies[neighbours1S_4[cell_index]] - init_mech_energies[cell_index]);
+    
+    stress_5[cell_index] = 
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) -      (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) -      (float)0.5))*
+             (init_mech_energies[neighbours1S_5[cell_index]] - init_mech_energies[cell_index]);
+    
+    stress_6[cell_index] = 
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) -      (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) -      (float)0.5))*
+             (init_mech_energies[neighbours1S_6[cell_index]] - init_mech_energies[cell_index]);
+    
+    stress_7[cell_index] = 
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) -      (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) -      (float)0.5))*
+             (init_mech_energies[neighbours1S_7[cell_index]] - init_mech_energies[cell_index]);
+    
+    stress_8[cell_index] = 
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) -      (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) -      (float)0.5))*
+             (init_mech_energies[neighbours1S_8[cell_index]] - init_mech_energies[cell_index]);
+    
+    stress_9[cell_index] = 
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) -      (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) -      (float)0.5))*
+             (init_mech_energies[neighbours1S_9[cell_index]] - init_mech_energies[cell_index]);
+    
+    stress_10[cell_index] = 
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) -      (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) -      (float)0.5))*
+             (init_mech_energies[neighbours1S_10[cell_index]] - init_mech_energies[cell_index]);
+    
+    stress_11[cell_index] = 
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) -   (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)4) -     (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) -      (float)0.5))*
+                 ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) -      (float)0.5))*
+             (init_mech_energies[neighbours1S_11[cell_index]] - init_mech_energies[cell_index]);
+    __syncthreads();
+    
+    mech_energies[cell_index] = init_mech_energies[cell_index] + mech_influxes[cell_index];
+    __syncthreads();
+}

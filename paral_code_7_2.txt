@@ -1,0 +1,218 @@
+__kernel void kernel_7_2(__global const float *init_mech_energies, __global const char  *en_types,
+         __global const float *coordinates_X,     __global const float *coordinates_Y,      __global const float *coordinates_Z, 
+         __global const int *neighb1S_index_0, __global const int *neighb1S_index_1, __global const int *neighb1S_index_2, __global const int *neighb1S_index_3, 
+         __global const int *neighb1S_index_4, __global const int *neighb1S_index_5, __global const int *neighb1S_index_6, __global const int *neighb1S_index_7, 
+         __global const int *neighb1S_index_8, __global const int *neighb1S_index_9, __global const int *neighb1S_index_10, __global const int *neighb1S_index_11, 
+         __global const int *neighb1S_index_12, __global const int *neighb1S_index_13, __global const int *neighb1S_index_14, __global const int *neighb1S_index_15, 
+         __global const int *neighb1S_index_16, __global const int *neighb1S_index_17, __global const int *neighb1S_index_18, __global const int *neighb1S_index_19, 
+         __global const int *neighb1S_index_20, __global const int *neighb1S_index_21, __global const int *neighb1S_index_22, __global const int *neighb1S_index_23, 
+         __global const int *neighb1S_index_24, __global const int *neighb1S_index_25, __global const int *neighb1S_index_26, __global const int *neighb1S_index_27, 
+         __global const int *neighb1S_index_28, __global const int *neighb1S_index_29, __global const int *neighb1S_index_30, __global const int *neighb1S_index_31, 
+         __global const int *neighb1S_index_32, __global const int *neighb1S_index_33, __global const int *neighb1S_index_34, __global const int *neighb1S_index_35, 
+         __global const int *neighb1S_index_36, __global const int *neighb1S_index_37, __global const int *neighb1S_index_38, __global const int *neighb1S_index_39, 
+         __global const int *neighb1S_index_40, __global const int *neighb1S_index_41, __global const int *neighb1S_index_42, __global const int *neighb1S_index_43, 
+         __global const int *neighb1S_index_44, __global const int *neighb1S_index_45, __global const int *neighb1S_index_46, __global const int *neighb1S_index_47, 
+         __global float *sum_force_moment_Z)
+{    
+    // Index of current central cell
+    int cell_index  = get_global_id(0);
+    
+    // Calculation of component Z of summary force moment for current central cell
+    sum_force_moment_Z[cell_index] = (float)0.5*((float)1.0 - signbit(fabs((en_types[cell_index] - (float)11)*(en_types[cell_index] - (float)3)) - (float)0.5))*
+    (
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_0[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_1[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_0[cell_index]] - init_mech_energies[neighb1S_index_1[cell_index]])*
+      ((coordinates_X[neighb1S_index_0[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_1[cell_index]] - coordinates_Y[neighb1S_index_0[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_0[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_1[cell_index]] - coordinates_X[neighb1S_index_0[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_2[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_3[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_2[cell_index]] - init_mech_energies[neighb1S_index_3[cell_index]])*
+      ((coordinates_X[neighb1S_index_2[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_3[cell_index]] - coordinates_Y[neighb1S_index_2[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_2[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_3[cell_index]] - coordinates_X[neighb1S_index_2[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_4[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_5[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_4[cell_index]] - init_mech_energies[neighb1S_index_5[cell_index]])*
+      ((coordinates_X[neighb1S_index_4[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_5[cell_index]] - coordinates_Y[neighb1S_index_4[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_4[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_5[cell_index]] - coordinates_X[neighb1S_index_4[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_6[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_7[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_6[cell_index]] - init_mech_energies[neighb1S_index_7[cell_index]])*
+      ((coordinates_X[neighb1S_index_6[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_7[cell_index]] - coordinates_Y[neighb1S_index_6[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_6[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_7[cell_index]] - coordinates_X[neighb1S_index_6[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_8[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_9[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_8[cell_index]] - init_mech_energies[neighb1S_index_9[cell_index]])*
+      ((coordinates_X[neighb1S_index_8[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_9[cell_index]] - coordinates_Y[neighb1S_index_8[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_8[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_9[cell_index]] - coordinates_X[neighb1S_index_8[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_10[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_11[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_10[cell_index]] - init_mech_energies[neighb1S_index_11[cell_index]])*
+      ((coordinates_X[neighb1S_index_10[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_11[cell_index]] - coordinates_Y[neighb1S_index_10[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_10[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_11[cell_index]] - coordinates_X[neighb1S_index_10[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_12[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_13[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_12[cell_index]] - init_mech_energies[neighb1S_index_13[cell_index]])*
+      ((coordinates_X[neighb1S_index_12[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_13[cell_index]] - coordinates_Y[neighb1S_index_12[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_12[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_13[cell_index]] - coordinates_X[neighb1S_index_12[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_14[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_15[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_14[cell_index]] - init_mech_energies[neighb1S_index_15[cell_index]])*
+      ((coordinates_X[neighb1S_index_14[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_15[cell_index]] - coordinates_Y[neighb1S_index_14[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_14[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_15[cell_index]] - coordinates_X[neighb1S_index_14[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_16[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_17[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_16[cell_index]] - init_mech_energies[neighb1S_index_17[cell_index]])*
+      ((coordinates_X[neighb1S_index_16[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_17[cell_index]] - coordinates_Y[neighb1S_index_16[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_16[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_17[cell_index]] - coordinates_X[neighb1S_index_16[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_18[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_19[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_18[cell_index]] - init_mech_energies[neighb1S_index_19[cell_index]])*
+      ((coordinates_X[neighb1S_index_18[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_19[cell_index]] - coordinates_Y[neighb1S_index_18[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_18[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_19[cell_index]] - coordinates_X[neighb1S_index_18[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_20[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_21[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_20[cell_index]] - init_mech_energies[neighb1S_index_21[cell_index]])*
+      ((coordinates_X[neighb1S_index_20[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_21[cell_index]] - coordinates_Y[neighb1S_index_20[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_20[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_21[cell_index]] - coordinates_X[neighb1S_index_20[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_22[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_23[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_22[cell_index]] - init_mech_energies[neighb1S_index_23[cell_index]])*
+      ((coordinates_X[neighb1S_index_22[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_23[cell_index]] - coordinates_Y[neighb1S_index_22[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_22[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_23[cell_index]] - coordinates_X[neighb1S_index_22[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_24[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_25[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_24[cell_index]] - init_mech_energies[neighb1S_index_25[cell_index]])*
+      ((coordinates_X[neighb1S_index_24[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_25[cell_index]] - coordinates_Y[neighb1S_index_24[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_24[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_25[cell_index]] - coordinates_X[neighb1S_index_24[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_26[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_27[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_26[cell_index]] - init_mech_energies[neighb1S_index_27[cell_index]])*
+      ((coordinates_X[neighb1S_index_26[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_27[cell_index]] - coordinates_Y[neighb1S_index_26[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_26[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_27[cell_index]] - coordinates_X[neighb1S_index_26[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_28[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_29[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_28[cell_index]] - init_mech_energies[neighb1S_index_29[cell_index]])*
+      ((coordinates_X[neighb1S_index_28[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_29[cell_index]] - coordinates_Y[neighb1S_index_28[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_28[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_29[cell_index]] - coordinates_X[neighb1S_index_28[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_30[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_31[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_30[cell_index]] - init_mech_energies[neighb1S_index_31[cell_index]])*
+      ((coordinates_X[neighb1S_index_30[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_31[cell_index]] - coordinates_Y[neighb1S_index_30[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_30[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_31[cell_index]] - coordinates_X[neighb1S_index_30[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_32[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_33[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_32[cell_index]] - init_mech_energies[neighb1S_index_33[cell_index]])*
+      ((coordinates_X[neighb1S_index_32[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_33[cell_index]] - coordinates_Y[neighb1S_index_32[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_32[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_33[cell_index]] - coordinates_X[neighb1S_index_32[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_34[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_35[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_34[cell_index]] - init_mech_energies[neighb1S_index_35[cell_index]])*
+      ((coordinates_X[neighb1S_index_34[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_35[cell_index]] - coordinates_Y[neighb1S_index_34[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_34[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_35[cell_index]] - coordinates_X[neighb1S_index_34[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_36[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_37[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_36[cell_index]] - init_mech_energies[neighb1S_index_37[cell_index]])*
+      ((coordinates_X[neighb1S_index_36[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_37[cell_index]] - coordinates_Y[neighb1S_index_36[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_36[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_37[cell_index]] - coordinates_X[neighb1S_index_36[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_38[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_39[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_38[cell_index]] - init_mech_energies[neighb1S_index_39[cell_index]])*
+      ((coordinates_X[neighb1S_index_38[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_39[cell_index]] - coordinates_Y[neighb1S_index_38[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_38[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_39[cell_index]] - coordinates_X[neighb1S_index_38[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_40[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_41[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_40[cell_index]] - init_mech_energies[neighb1S_index_41[cell_index]])*
+      ((coordinates_X[neighb1S_index_40[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_41[cell_index]] - coordinates_Y[neighb1S_index_40[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_40[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_41[cell_index]] - coordinates_X[neighb1S_index_40[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_42[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_43[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_42[cell_index]] - init_mech_energies[neighb1S_index_43[cell_index]])*
+      ((coordinates_X[neighb1S_index_42[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_43[cell_index]] - coordinates_Y[neighb1S_index_42[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_42[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_43[cell_index]] - coordinates_X[neighb1S_index_42[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_44[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_45[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_44[cell_index]] - init_mech_energies[neighb1S_index_45[cell_index]])*
+      ((coordinates_X[neighb1S_index_44[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_45[cell_index]] - coordinates_Y[neighb1S_index_44[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_44[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_45[cell_index]] - coordinates_X[neighb1S_index_44[cell_index]])) + 
+
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_46[cell_index]] - (float)11) - (float)0.5))*
+      ((float)1.0 - signbit(fabs(en_types[neighb1S_index_47[cell_index]] - (float)11) - (float)0.5))*
+      (init_mech_energies[neighb1S_index_46[cell_index]] - init_mech_energies[neighb1S_index_47[cell_index]])*
+      ((coordinates_X[neighb1S_index_46[cell_index]] - coordinates_X[cell_index])*
+       (coordinates_Y[neighb1S_index_47[cell_index]] - coordinates_Y[neighb1S_index_46[cell_index]]) - 
+       (coordinates_Y[neighb1S_index_46[cell_index]] - coordinates_Y[cell_index])*
+       (coordinates_X[neighb1S_index_47[cell_index]] - coordinates_X[neighb1S_index_46[cell_index]])) + 
+
+    (float)0.0);
+    
+    __syncthreads();
+}

@@ -1,0 +1,17 @@
+__kernel void kernel_9(__global const float *final_elast_energy, __global float *init_elast_energy, 
+                       __global const float *final_diss_energy,  __global float *init_diss_energy,  
+                       __global const char  *new_en_types,       __global char  *en_types,
+                       __global const char  *new_loc_types,      __global char  *loc_types)
+{
+    int cell_index = get_global_id(0);
+    
+    init_elast_energy[cell_index] = final_elast_energy[cell_index];
+    
+    init_diss_energy[cell_index]  = final_diss_energy[cell_index];
+    
+    en_types[cell_index]          = new_en_types[cell_index];
+    
+    loc_types[cell_index]         = new_loc_types[cell_index];
+    
+    __syncthreads();
+}

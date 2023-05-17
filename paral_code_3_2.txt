@@ -1,0 +1,347 @@
+__kernel void kernel_3_2(__global const int *init_grain_indices, __global int *curr_gr_neighb_num,
+                         __global const int *neighbours1S_0,
+                         __global const int *neighbours1S_1,
+                         __global const int *neighbours1S_2,
+                         __global const int *neighbours1S_3,
+                         __global const int *neighbours1S_4,
+                         __global const int *neighbours1S_5,
+                         __global const int *neighbours1S_6,
+                         __global const int *neighbours1S_7,
+                         __global const int *neighbours1S_8,
+                         __global const int *neighbours1S_9,
+                         __global const int *neighbours1S_10,
+                         __global const int *neighbours1S_11,
+                           __global const float *prob_0,
+                           __global const float *prob_1,
+                           __global const float *prob_2,
+                           __global const float *prob_3,
+                           __global const float *prob_4,
+                           __global const float *prob_5,
+                           __global const float *prob_6,
+                           __global const float *prob_7,
+                           __global const float *prob_8,
+                           __global const float *prob_9,
+                           __global const float *prob_10,
+                           __global const float *prob_11,
+                             __global float *prob_sum_0,
+                             __global float *prob_sum_1,
+                             __global float *prob_sum_2,
+                             __global float *prob_sum_3,
+                             __global float *prob_sum_4,
+                             __global float *prob_sum_5,
+                             __global float *prob_sum_6,
+                             __global float *prob_sum_7,
+                             __global float *prob_sum_8,
+                             __global float *prob_sum_9,
+                             __global float *prob_sum_10,
+                             __global float *prob_sum_11,
+                             __global float *prob_sum_12,
+                             __global float *prob_sum_13,
+                           __global char *poss_switch_0,
+                           __global char *poss_switch_1,
+                           __global char *poss_switch_2,
+                           __global char *poss_switch_3,
+                           __global char *poss_switch_4,
+                           __global char *poss_switch_5,
+                           __global char *poss_switch_6,
+                           __global char *poss_switch_7,
+                           __global char *poss_switch_8,
+                           __global char *poss_switch_9,
+                           __global char *poss_switch_10,
+                           __global char *poss_switch_11)
+{
+    int cell_index          = get_global_id(0);
+
+    int neighb_index_0 = neighbours1S_0[cell_index];
+    int neighb_index_1 = neighbours1S_1[cell_index];
+    int neighb_index_2 = neighbours1S_2[cell_index];
+    int neighb_index_3 = neighbours1S_3[cell_index];
+    int neighb_index_4 = neighbours1S_4[cell_index];
+    int neighb_index_5 = neighbours1S_5[cell_index];
+    int neighb_index_6 = neighbours1S_6[cell_index];
+    int neighb_index_7 = neighbours1S_7[cell_index];
+    int neighb_index_8 = neighbours1S_8[cell_index];
+    int neighb_index_9 = neighbours1S_9[cell_index];
+    int neighb_index_10 = neighbours1S_10[cell_index];
+    int neighb_index_11 = neighbours1S_11[cell_index];
+    
+    // Calculation of number of neighbours in each adjacent grain.
+    // If this number is less then the minimal one then cell cannot join to corresponding grain.
+    poss_switch_0[cell_index] = (char)signbit(4 - (float)0.5 - (
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_0] - (float)1.0*init_grain_indices[neighb_index_0]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_0] - (float)1.0*init_grain_indices[neighb_index_1]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_0] - (float)1.0*init_grain_indices[neighb_index_2]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_0] - (float)1.0*init_grain_indices[neighb_index_3]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_0] - (float)1.0*init_grain_indices[neighb_index_4]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_0] - (float)1.0*init_grain_indices[neighb_index_5]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_0] - (float)1.0*init_grain_indices[neighb_index_6]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_0] - (float)1.0*init_grain_indices[neighb_index_7]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_0] - (float)1.0*init_grain_indices[neighb_index_8]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_0] - (float)1.0*init_grain_indices[neighb_index_9]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_0] - (float)1.0*init_grain_indices[neighb_index_10]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_0] - (float)1.0*init_grain_indices[neighb_index_11]) - (float)0.5)));
+
+    poss_switch_1[cell_index] = (char)signbit(4 - (float)0.5 - (
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_1] - (float)1.0*init_grain_indices[neighb_index_0]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_1] - (float)1.0*init_grain_indices[neighb_index_1]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_1] - (float)1.0*init_grain_indices[neighb_index_2]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_1] - (float)1.0*init_grain_indices[neighb_index_3]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_1] - (float)1.0*init_grain_indices[neighb_index_4]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_1] - (float)1.0*init_grain_indices[neighb_index_5]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_1] - (float)1.0*init_grain_indices[neighb_index_6]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_1] - (float)1.0*init_grain_indices[neighb_index_7]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_1] - (float)1.0*init_grain_indices[neighb_index_8]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_1] - (float)1.0*init_grain_indices[neighb_index_9]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_1] - (float)1.0*init_grain_indices[neighb_index_10]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_1] - (float)1.0*init_grain_indices[neighb_index_11]) - (float)0.5)));
+
+    poss_switch_2[cell_index] = (char)signbit(4 - (float)0.5 - (
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_2] - (float)1.0*init_grain_indices[neighb_index_0]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_2] - (float)1.0*init_grain_indices[neighb_index_1]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_2] - (float)1.0*init_grain_indices[neighb_index_2]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_2] - (float)1.0*init_grain_indices[neighb_index_3]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_2] - (float)1.0*init_grain_indices[neighb_index_4]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_2] - (float)1.0*init_grain_indices[neighb_index_5]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_2] - (float)1.0*init_grain_indices[neighb_index_6]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_2] - (float)1.0*init_grain_indices[neighb_index_7]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_2] - (float)1.0*init_grain_indices[neighb_index_8]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_2] - (float)1.0*init_grain_indices[neighb_index_9]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_2] - (float)1.0*init_grain_indices[neighb_index_10]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_2] - (float)1.0*init_grain_indices[neighb_index_11]) - (float)0.5)));
+
+    poss_switch_3[cell_index] = (char)signbit(4 - (float)0.5 - (
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_3] - (float)1.0*init_grain_indices[neighb_index_0]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_3] - (float)1.0*init_grain_indices[neighb_index_1]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_3] - (float)1.0*init_grain_indices[neighb_index_2]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_3] - (float)1.0*init_grain_indices[neighb_index_3]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_3] - (float)1.0*init_grain_indices[neighb_index_4]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_3] - (float)1.0*init_grain_indices[neighb_index_5]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_3] - (float)1.0*init_grain_indices[neighb_index_6]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_3] - (float)1.0*init_grain_indices[neighb_index_7]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_3] - (float)1.0*init_grain_indices[neighb_index_8]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_3] - (float)1.0*init_grain_indices[neighb_index_9]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_3] - (float)1.0*init_grain_indices[neighb_index_10]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_3] - (float)1.0*init_grain_indices[neighb_index_11]) - (float)0.5)));
+
+    poss_switch_4[cell_index] = (char)signbit(4 - (float)0.5 - (
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_4] - (float)1.0*init_grain_indices[neighb_index_0]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_4] - (float)1.0*init_grain_indices[neighb_index_1]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_4] - (float)1.0*init_grain_indices[neighb_index_2]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_4] - (float)1.0*init_grain_indices[neighb_index_3]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_4] - (float)1.0*init_grain_indices[neighb_index_4]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_4] - (float)1.0*init_grain_indices[neighb_index_5]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_4] - (float)1.0*init_grain_indices[neighb_index_6]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_4] - (float)1.0*init_grain_indices[neighb_index_7]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_4] - (float)1.0*init_grain_indices[neighb_index_8]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_4] - (float)1.0*init_grain_indices[neighb_index_9]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_4] - (float)1.0*init_grain_indices[neighb_index_10]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_4] - (float)1.0*init_grain_indices[neighb_index_11]) - (float)0.5)));
+
+    poss_switch_5[cell_index] = (char)signbit(4 - (float)0.5 - (
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_5] - (float)1.0*init_grain_indices[neighb_index_0]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_5] - (float)1.0*init_grain_indices[neighb_index_1]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_5] - (float)1.0*init_grain_indices[neighb_index_2]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_5] - (float)1.0*init_grain_indices[neighb_index_3]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_5] - (float)1.0*init_grain_indices[neighb_index_4]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_5] - (float)1.0*init_grain_indices[neighb_index_5]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_5] - (float)1.0*init_grain_indices[neighb_index_6]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_5] - (float)1.0*init_grain_indices[neighb_index_7]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_5] - (float)1.0*init_grain_indices[neighb_index_8]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_5] - (float)1.0*init_grain_indices[neighb_index_9]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_5] - (float)1.0*init_grain_indices[neighb_index_10]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_5] - (float)1.0*init_grain_indices[neighb_index_11]) - (float)0.5)));
+
+    poss_switch_6[cell_index] = (char)signbit(4 - (float)0.5 - (
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_6] - (float)1.0*init_grain_indices[neighb_index_0]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_6] - (float)1.0*init_grain_indices[neighb_index_1]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_6] - (float)1.0*init_grain_indices[neighb_index_2]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_6] - (float)1.0*init_grain_indices[neighb_index_3]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_6] - (float)1.0*init_grain_indices[neighb_index_4]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_6] - (float)1.0*init_grain_indices[neighb_index_5]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_6] - (float)1.0*init_grain_indices[neighb_index_6]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_6] - (float)1.0*init_grain_indices[neighb_index_7]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_6] - (float)1.0*init_grain_indices[neighb_index_8]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_6] - (float)1.0*init_grain_indices[neighb_index_9]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_6] - (float)1.0*init_grain_indices[neighb_index_10]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_6] - (float)1.0*init_grain_indices[neighb_index_11]) - (float)0.5)));
+
+    poss_switch_7[cell_index] = (char)signbit(4 - (float)0.5 - (
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_7] - (float)1.0*init_grain_indices[neighb_index_0]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_7] - (float)1.0*init_grain_indices[neighb_index_1]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_7] - (float)1.0*init_grain_indices[neighb_index_2]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_7] - (float)1.0*init_grain_indices[neighb_index_3]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_7] - (float)1.0*init_grain_indices[neighb_index_4]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_7] - (float)1.0*init_grain_indices[neighb_index_5]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_7] - (float)1.0*init_grain_indices[neighb_index_6]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_7] - (float)1.0*init_grain_indices[neighb_index_7]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_7] - (float)1.0*init_grain_indices[neighb_index_8]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_7] - (float)1.0*init_grain_indices[neighb_index_9]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_7] - (float)1.0*init_grain_indices[neighb_index_10]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_7] - (float)1.0*init_grain_indices[neighb_index_11]) - (float)0.5)));
+
+    poss_switch_8[cell_index] = (char)signbit(4 - (float)0.5 - (
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_8] - (float)1.0*init_grain_indices[neighb_index_0]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_8] - (float)1.0*init_grain_indices[neighb_index_1]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_8] - (float)1.0*init_grain_indices[neighb_index_2]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_8] - (float)1.0*init_grain_indices[neighb_index_3]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_8] - (float)1.0*init_grain_indices[neighb_index_4]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_8] - (float)1.0*init_grain_indices[neighb_index_5]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_8] - (float)1.0*init_grain_indices[neighb_index_6]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_8] - (float)1.0*init_grain_indices[neighb_index_7]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_8] - (float)1.0*init_grain_indices[neighb_index_8]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_8] - (float)1.0*init_grain_indices[neighb_index_9]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_8] - (float)1.0*init_grain_indices[neighb_index_10]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_8] - (float)1.0*init_grain_indices[neighb_index_11]) - (float)0.5)));
+
+    poss_switch_9[cell_index] = (char)signbit(4 - (float)0.5 - (
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_9] - (float)1.0*init_grain_indices[neighb_index_0]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_9] - (float)1.0*init_grain_indices[neighb_index_1]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_9] - (float)1.0*init_grain_indices[neighb_index_2]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_9] - (float)1.0*init_grain_indices[neighb_index_3]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_9] - (float)1.0*init_grain_indices[neighb_index_4]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_9] - (float)1.0*init_grain_indices[neighb_index_5]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_9] - (float)1.0*init_grain_indices[neighb_index_6]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_9] - (float)1.0*init_grain_indices[neighb_index_7]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_9] - (float)1.0*init_grain_indices[neighb_index_8]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_9] - (float)1.0*init_grain_indices[neighb_index_9]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_9] - (float)1.0*init_grain_indices[neighb_index_10]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_9] - (float)1.0*init_grain_indices[neighb_index_11]) - (float)0.5)));
+
+    poss_switch_10[cell_index] = (char)signbit(4 - (float)0.5 - (
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_10] - (float)1.0*init_grain_indices[neighb_index_0]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_10] - (float)1.0*init_grain_indices[neighb_index_1]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_10] - (float)1.0*init_grain_indices[neighb_index_2]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_10] - (float)1.0*init_grain_indices[neighb_index_3]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_10] - (float)1.0*init_grain_indices[neighb_index_4]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_10] - (float)1.0*init_grain_indices[neighb_index_5]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_10] - (float)1.0*init_grain_indices[neighb_index_6]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_10] - (float)1.0*init_grain_indices[neighb_index_7]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_10] - (float)1.0*init_grain_indices[neighb_index_8]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_10] - (float)1.0*init_grain_indices[neighb_index_9]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_10] - (float)1.0*init_grain_indices[neighb_index_10]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_10] - (float)1.0*init_grain_indices[neighb_index_11]) - (float)0.5)));
+
+    poss_switch_11[cell_index] = (char)signbit(4 - (float)0.5 - (
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_11] - (float)1.0*init_grain_indices[neighb_index_0]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_11] - (float)1.0*init_grain_indices[neighb_index_1]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_11] - (float)1.0*init_grain_indices[neighb_index_2]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_11] - (float)1.0*init_grain_indices[neighb_index_3]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_11] - (float)1.0*init_grain_indices[neighb_index_4]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_11] - (float)1.0*init_grain_indices[neighb_index_5]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_11] - (float)1.0*init_grain_indices[neighb_index_6]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_11] - (float)1.0*init_grain_indices[neighb_index_7]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_11] - (float)1.0*init_grain_indices[neighb_index_8]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_11] - (float)1.0*init_grain_indices[neighb_index_9]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_11] - (float)1.0*init_grain_indices[neighb_index_10]) - (float)0.5) + 
+              (char)signbit(fabs((float)1.0*init_grain_indices[neighb_index_11] - (float)1.0*init_grain_indices[neighb_index_11]) - (float)0.5)));
+
+    float pr_0  = poss_switch_0[cell_index]*prob_0[cell_index];
+    float pr_1  = poss_switch_1[cell_index]*prob_1[cell_index];
+    float pr_2  = poss_switch_2[cell_index]*prob_2[cell_index];
+    float pr_3  = poss_switch_3[cell_index]*prob_3[cell_index];
+    float pr_4  = poss_switch_4[cell_index]*prob_4[cell_index];
+    float pr_5  = poss_switch_5[cell_index]*prob_5[cell_index];
+    float pr_6  = poss_switch_6[cell_index]*prob_6[cell_index];
+    float pr_7  = poss_switch_7[cell_index]*prob_7[cell_index];
+    float pr_8  = poss_switch_8[cell_index]*prob_8[cell_index];
+    float pr_9  = poss_switch_9[cell_index]*prob_9[cell_index];
+    float pr_10 = poss_switch_10[cell_index]*prob_10[cell_index];
+    float pr_11 = poss_switch_11[cell_index]*prob_11[cell_index];
+
+    // Calculation of sums of probabilities of joining to each adjacent grain.
+    float pr_sum_0 = (float)0.0;
+
+    float pr_sum_1 = pr_0;
+
+    float pr_sum_2 = pr_0 + pr_1;
+
+    float pr_sum_3 = pr_0 + pr_1 + pr_2;
+
+    float pr_sum_4 = pr_0 + pr_1 + pr_2 + pr_3;
+
+    float pr_sum_5 = pr_0 + pr_1 + pr_2 + pr_3 + pr_4;
+
+    float pr_sum_6 = pr_0 + pr_1 + pr_2 + pr_3 + pr_4 + pr_5;
+
+    float pr_sum_7 = pr_0 + pr_1 + pr_2 + pr_3 + pr_4 + pr_5 + pr_6;
+
+    float pr_sum_8 = pr_0 + pr_1 + pr_2 + pr_3 + pr_4 + pr_5 + pr_6 + pr_7;
+
+    float pr_sum_9 = pr_0 + pr_1 + pr_2 + pr_3 + pr_4 + pr_5 + pr_6 + pr_7 + pr_8;
+
+    float pr_sum_10 = pr_0 + pr_1 + pr_2 + pr_3 + pr_4 + pr_5 + pr_6 + pr_7 + pr_8 + pr_9;
+
+    float pr_sum_11 = pr_0 + pr_1 + pr_2 + pr_3 + pr_4 + pr_5 + pr_6 + pr_7 + pr_8 + pr_9 + pr_10;
+
+    float pr_sum_12 = pr_0 + pr_1 + pr_2 + pr_3 + pr_4 + pr_5 + pr_6 + pr_7 + pr_8 + pr_9 + pr_10 + pr_11;
+
+    
+    // Calculation of neighbours in grain containing current cell at current time step
+    curr_gr_neighb_num[cell_index] = 
+              signbit(fabs((float)1.0*init_grain_indices[cell_index] - (float)1.0*init_grain_indices[neighb_index_0]) - (float)0.5) + 
+              signbit(fabs((float)1.0*init_grain_indices[cell_index] - (float)1.0*init_grain_indices[neighb_index_1]) - (float)0.5) + 
+              signbit(fabs((float)1.0*init_grain_indices[cell_index] - (float)1.0*init_grain_indices[neighb_index_2]) - (float)0.5) + 
+              signbit(fabs((float)1.0*init_grain_indices[cell_index] - (float)1.0*init_grain_indices[neighb_index_3]) - (float)0.5) + 
+              signbit(fabs((float)1.0*init_grain_indices[cell_index] - (float)1.0*init_grain_indices[neighb_index_4]) - (float)0.5) + 
+              signbit(fabs((float)1.0*init_grain_indices[cell_index] - (float)1.0*init_grain_indices[neighb_index_5]) - (float)0.5) + 
+              signbit(fabs((float)1.0*init_grain_indices[cell_index] - (float)1.0*init_grain_indices[neighb_index_6]) - (float)0.5) + 
+              signbit(fabs((float)1.0*init_grain_indices[cell_index] - (float)1.0*init_grain_indices[neighb_index_7]) - (float)0.5) + 
+              signbit(fabs((float)1.0*init_grain_indices[cell_index] - (float)1.0*init_grain_indices[neighb_index_8]) - (float)0.5) + 
+              signbit(fabs((float)1.0*init_grain_indices[cell_index] - (float)1.0*init_grain_indices[neighb_index_9]) - (float)0.5) + 
+              signbit(fabs((float)1.0*init_grain_indices[cell_index] - (float)1.0*init_grain_indices[neighb_index_10]) - (float)0.5) + 
+              signbit(fabs((float)1.0*init_grain_indices[cell_index] - (float)1.0*init_grain_indices[neighb_index_11]) - (float)0.5);
+
+    prob_sum_1[cell_index] = pr_sum_1*signbit((float)1.0 - (float)exp(pr_sum_12))/
+                     ((float)1.0 + signbit((float)curr_gr_neighb_num[cell_index] - (float)4)*
+                            signbit((float)1.0 - (float)exp(pr_sum_12 - (float)1.0E-4))*((float)-1.0 + (float)1.001*pr_sum_12));
+    
+    prob_sum_2[cell_index] = pr_sum_2*signbit((float)1.0 - (float)exp(pr_sum_12))/
+                     ((float)1.0 + signbit((float)curr_gr_neighb_num[cell_index] - (float)4)*
+                            signbit((float)1.0 - (float)exp(pr_sum_12 - (float)1.0E-4))*((float)-1.0 + (float)1.001*pr_sum_12));
+    
+    prob_sum_3[cell_index] = pr_sum_3*signbit((float)1.0 - (float)exp(pr_sum_12))/
+                     ((float)1.0 + signbit((float)curr_gr_neighb_num[cell_index] - (float)4)*
+                            signbit((float)1.0 - (float)exp(pr_sum_12 - (float)1.0E-4))*((float)-1.0 + (float)1.001*pr_sum_12));
+    
+    prob_sum_4[cell_index] = pr_sum_4*signbit((float)1.0 - (float)exp(pr_sum_12))/
+                     ((float)1.0 + signbit((float)curr_gr_neighb_num[cell_index] - (float)4)*
+                            signbit((float)1.0 - (float)exp(pr_sum_12 - (float)1.0E-4))*((float)-1.0 + (float)1.001*pr_sum_12));
+    
+    prob_sum_5[cell_index] = pr_sum_5*signbit((float)1.0 - (float)exp(pr_sum_12))/
+                     ((float)1.0 + signbit((float)curr_gr_neighb_num[cell_index] - (float)4)*
+                            signbit((float)1.0 - (float)exp(pr_sum_12 - (float)1.0E-4))*((float)-1.0 + (float)1.001*pr_sum_12));
+    
+    prob_sum_6[cell_index] = pr_sum_6*signbit((float)1.0 - (float)exp(pr_sum_12))/
+                     ((float)1.0 + signbit((float)curr_gr_neighb_num[cell_index] - (float)4)*
+                            signbit((float)1.0 - (float)exp(pr_sum_12 - (float)1.0E-4))*((float)-1.0 + (float)1.001*pr_sum_12));
+    
+    prob_sum_7[cell_index] = pr_sum_7*signbit((float)1.0 - (float)exp(pr_sum_12))/
+                     ((float)1.0 + signbit((float)curr_gr_neighb_num[cell_index] - (float)4)*
+                            signbit((float)1.0 - (float)exp(pr_sum_12 - (float)1.0E-4))*((float)-1.0 + (float)1.001*pr_sum_12));
+    
+    prob_sum_8[cell_index] = pr_sum_8*signbit((float)1.0 - (float)exp(pr_sum_12))/
+                     ((float)1.0 + signbit((float)curr_gr_neighb_num[cell_index] - (float)4)*
+                            signbit((float)1.0 - (float)exp(pr_sum_12 - (float)1.0E-4))*((float)-1.0 + (float)1.001*pr_sum_12));
+    
+    prob_sum_9[cell_index] = pr_sum_9*signbit((float)1.0 - (float)exp(pr_sum_12))/
+                     ((float)1.0 + signbit((float)curr_gr_neighb_num[cell_index] - (float)4)*
+                            signbit((float)1.0 - (float)exp(pr_sum_12 - (float)1.0E-4))*((float)-1.0 + (float)1.001*pr_sum_12));
+    
+    prob_sum_10[cell_index] = pr_sum_10*signbit((float)1.0 - (float)exp(pr_sum_12))/
+                     ((float)1.0 + signbit((float)curr_gr_neighb_num[cell_index] - (float)4)*
+                            signbit((float)1.0 - (float)exp(pr_sum_12 - (float)1.0E-4))*((float)-1.0 + (float)1.001*pr_sum_12));
+    
+    prob_sum_11[cell_index] = pr_sum_11*signbit((float)1.0 - (float)exp(pr_sum_12))/
+                     ((float)1.0 + signbit((float)curr_gr_neighb_num[cell_index] - (float)4)*
+                            signbit((float)1.0 - (float)exp(pr_sum_12 - (float)1.0E-4))*((float)-1.0 + (float)1.001*pr_sum_12));
+    
+    prob_sum_12[cell_index] = pr_sum_12*signbit((float)1.0 - (float)exp(pr_sum_12))/
+                     ((float)1.0 + signbit((float)curr_gr_neighb_num[cell_index] - (float)4)*
+                            signbit((float)1.0 - (float)exp(pr_sum_12 - (float)1.0E-4))*((float)-1.0 + (float)1.001*pr_sum_12));
+    
+    prob_sum_13[cell_index] = (float)1.0;
+
+    
+    __syncthreads();
+    
+}

@@ -1,0 +1,63 @@
+__kernel void kernel_3_3(__global const int *init_grain_indices, __global int *grain_indices,
+                         __global const int *neighbours1S_0,
+                         __global const int *neighbours1S_1,
+                         __global const int *neighbours1S_2,
+                         __global const int *neighbours1S_3,
+                         __global const int *neighbours1S_4,
+                         __global const int *neighbours1S_5,
+                         __global const int *neighbours1S_6,
+                         __global const int *neighbours1S_7,
+                         __global const int *neighbours1S_8,
+                         __global const int *neighbours1S_9,
+                         __global const int *neighbours1S_10,
+                         __global const int *neighbours1S_11,
+                           __global const float *prob_sum_0,
+                           __global const float *prob_sum_1,
+                           __global const float *prob_sum_2,
+                           __global const float *prob_sum_3,
+                           __global const float *prob_sum_4,
+                           __global const float *prob_sum_5,
+                           __global const float *prob_sum_6,
+                           __global const float *prob_sum_7,
+                           __global const float *prob_sum_8,
+                           __global const float *prob_sum_9,
+                           __global const float *prob_sum_10,
+                           __global const float *prob_sum_11,
+                           __global const float *prob_sum_12,
+                           __global const float *prob_sum_13,
+                         __global const float *random_number)
+{
+    int cell_index = get_global_id(0);
+
+    int neighb_index_0 = neighbours1S_0[cell_index];
+    int neighb_index_1 = neighbours1S_1[cell_index];
+    int neighb_index_2 = neighbours1S_2[cell_index];
+    int neighb_index_3 = neighbours1S_3[cell_index];
+    int neighb_index_4 = neighbours1S_4[cell_index];
+    int neighb_index_5 = neighbours1S_5[cell_index];
+    int neighb_index_6 = neighbours1S_6[cell_index];
+    int neighb_index_7 = neighbours1S_7[cell_index];
+    int neighb_index_8 = neighbours1S_8[cell_index];
+    int neighb_index_9 = neighbours1S_9[cell_index];
+    int neighb_index_10 = neighbours1S_10[cell_index];
+    int neighb_index_11 = neighbours1S_11[cell_index];
+    
+    // Determination of index of grain, which will contain current cell at next time step
+    float rand = random_number[cell_index];
+
+    grain_indices[cell_index] = 1 + (int)signbit(rand - prob_sum_1[cell_index])*(init_grain_indices[neighb_index_0] - (int)1) + 
+                               ((int)1 - (int)signbit(rand - prob_sum_1[cell_index]))*(int)signbit(rand - prob_sum_2[cell_index])*(init_grain_indices[neighb_index_1] - (int)1) + 
+                               ((int)1 - (int)signbit(rand - prob_sum_2[cell_index]))*(int)signbit(rand - prob_sum_3[cell_index])*(init_grain_indices[neighb_index_2] - (int)1) + 
+                               ((int)1 - (int)signbit(rand - prob_sum_3[cell_index]))*(int)signbit(rand - prob_sum_4[cell_index])*(init_grain_indices[neighb_index_3] - (int)1) + 
+                               ((int)1 - (int)signbit(rand - prob_sum_4[cell_index]))*(int)signbit(rand - prob_sum_5[cell_index])*(init_grain_indices[neighb_index_4] - (int)1) + 
+                               ((int)1 - (int)signbit(rand - prob_sum_5[cell_index]))*(int)signbit(rand - prob_sum_6[cell_index])*(init_grain_indices[neighb_index_5] - (int)1) + 
+                               ((int)1 - (int)signbit(rand - prob_sum_6[cell_index]))*(int)signbit(rand - prob_sum_7[cell_index])*(init_grain_indices[neighb_index_6] - (int)1) + 
+                               ((int)1 - (int)signbit(rand - prob_sum_7[cell_index]))*(int)signbit(rand - prob_sum_8[cell_index])*(init_grain_indices[neighb_index_7] - (int)1) + 
+                               ((int)1 - (int)signbit(rand - prob_sum_8[cell_index]))*(int)signbit(rand - prob_sum_9[cell_index])*(init_grain_indices[neighb_index_8] - (int)1) + 
+                               ((int)1 - (int)signbit(rand - prob_sum_9[cell_index]))*(int)signbit(rand - prob_sum_10[cell_index])*(init_grain_indices[neighb_index_9] - (int)1) + 
+                               ((int)1 - (int)signbit(rand - prob_sum_10[cell_index]))*(int)signbit(rand - prob_sum_11[cell_index])*(init_grain_indices[neighb_index_10] - (int)1) + 
+                               ((int)1 - (int)signbit(rand - prob_sum_11[cell_index]))*(int)signbit(rand - prob_sum_12[cell_index])*(init_grain_indices[neighb_index_11] - (int)1) + 
+                                ((int)1 - (int)signbit(rand - prob_sum_12[cell_index]))*(init_grain_indices[cell_index] - (int)1);
+    
+    __syncthreads();
+}

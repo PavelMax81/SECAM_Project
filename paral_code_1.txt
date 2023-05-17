@@ -1,0 +1,144 @@
+__kernel void kernel_1
+(            __global const float *init_temprs,      __global const float *heat_cap,     
+             __global const float *heat_cond,        __global const float *densities,    
+             __global const int   *neighbours1S_0,
+             __global const int   *neighbours1S_1,
+             __global const int   *neighbours1S_2,
+             __global const int   *neighbours1S_3,
+             __global const int   *neighbours1S_4,
+             __global const int   *neighbours1S_5,
+             __global const int   *neighbours1S_6,
+             __global const int   *neighbours1S_7,
+             __global const int   *neighbours1S_8,
+             __global const int   *neighbours1S_9,
+             __global const int   *neighbours1S_10,
+             __global const int   *neighbours1S_11,
+             __global const char  *en_types,         __global       float *temperatures, 
+             __global float       *heat_influxes,    __global const int   *neighb_id,    
+             __global const float *factor,           __global       long  *step_counter, 
+             __global const float *heat_exp_coeff,   __global const int   *grain_indices,
+             __global const float *init_heat_strain, __global       float *heat_strain,  
+             __global const float *phonon_portion,   __global const float *grain_angles) 
+{   
+    int cell_index  = get_global_id(0);
+    int grain_index = grain_indices[cell_index] - 1;
+    int neighb_id_0 = neighbours1S_0[cell_index];
+    int neighb_id_1 = neighbours1S_1[cell_index];
+    int neighb_id_2 = neighbours1S_2[cell_index];
+    int neighb_id_3 = neighbours1S_3[cell_index];
+    int neighb_id_4 = neighbours1S_4[cell_index];
+    int neighb_id_5 = neighbours1S_5[cell_index];
+    int neighb_id_6 = neighbours1S_6[cell_index];
+    int neighb_id_7 = neighbours1S_7[cell_index];
+    int neighb_id_8 = neighbours1S_8[cell_index];
+    int neighb_id_9 = neighbours1S_9[cell_index];
+    int neighb_id_10 = neighbours1S_10[cell_index];
+    int neighb_id_11 = neighbours1S_11[cell_index];
+    
+    heat_influxes[cell_index] = 
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_0] - (float)11) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_0] - (float)8) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_0] - (float)5) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 (init_temprs[neighb_id_0] - init_temprs[cell_index])*(float)sqrt(heat_cond[cell_index]*heat_cond[neighb_id_0])*
+           (float)exp((float)-0.5*(phonon_portion[grain_index] + phonon_portion[grain_indices[neighb_id_0] - 1])*((float)1.0 - signbit(fabs(en_types[neighb_id_0] - (float)3) - (float)0.5))*
+                     fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighb_id_0] - 1]))+
+      
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_1] - (float)11) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_1] - (float)8) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_1] - (float)5) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 (init_temprs[neighb_id_1] - init_temprs[cell_index])*(float)sqrt(heat_cond[cell_index]*heat_cond[neighb_id_1])*
+           (float)exp((float)-0.5*(phonon_portion[grain_index] + phonon_portion[grain_indices[neighb_id_1] - 1])*((float)1.0 - signbit(fabs(en_types[neighb_id_1] - (float)3) - (float)0.5))*
+                     fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighb_id_1] - 1]))+
+      
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_2] - (float)11) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_2] - (float)8) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_2] - (float)5) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 (init_temprs[neighb_id_2] - init_temprs[cell_index])*(float)sqrt(heat_cond[cell_index]*heat_cond[neighb_id_2])*
+           (float)exp((float)-0.5*(phonon_portion[grain_index] + phonon_portion[grain_indices[neighb_id_2] - 1])*((float)1.0 - signbit(fabs(en_types[neighb_id_2] - (float)3) - (float)0.5))*
+                     fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighb_id_2] - 1]))+
+      
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_3] - (float)11) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_3] - (float)8) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_3] - (float)5) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 (init_temprs[neighb_id_3] - init_temprs[cell_index])*(float)sqrt(heat_cond[cell_index]*heat_cond[neighb_id_3])*
+           (float)exp((float)-0.5*(phonon_portion[grain_index] + phonon_portion[grain_indices[neighb_id_3] - 1])*((float)1.0 - signbit(fabs(en_types[neighb_id_3] - (float)3) - (float)0.5))*
+                     fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighb_id_3] - 1]))+
+      
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_4] - (float)11) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_4] - (float)8) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_4] - (float)5) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 (init_temprs[neighb_id_4] - init_temprs[cell_index])*(float)sqrt(heat_cond[cell_index]*heat_cond[neighb_id_4])*
+           (float)exp((float)-0.5*(phonon_portion[grain_index] + phonon_portion[grain_indices[neighb_id_4] - 1])*((float)1.0 - signbit(fabs(en_types[neighb_id_4] - (float)3) - (float)0.5))*
+                     fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighb_id_4] - 1]))+
+      
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_5] - (float)11) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_5] - (float)8) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_5] - (float)5) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 (init_temprs[neighb_id_5] - init_temprs[cell_index])*(float)sqrt(heat_cond[cell_index]*heat_cond[neighb_id_5])*
+           (float)exp((float)-0.5*(phonon_portion[grain_index] + phonon_portion[grain_indices[neighb_id_5] - 1])*((float)1.0 - signbit(fabs(en_types[neighb_id_5] - (float)3) - (float)0.5))*
+                     fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighb_id_5] - 1]))+
+      
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_6] - (float)11) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_6] - (float)8) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_6] - (float)5) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 (init_temprs[neighb_id_6] - init_temprs[cell_index])*(float)sqrt(heat_cond[cell_index]*heat_cond[neighb_id_6])*
+           (float)exp((float)-0.5*(phonon_portion[grain_index] + phonon_portion[grain_indices[neighb_id_6] - 1])*((float)1.0 - signbit(fabs(en_types[neighb_id_6] - (float)3) - (float)0.5))*
+                     fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighb_id_6] - 1]))+
+      
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_7] - (float)11) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_7] - (float)8) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_7] - (float)5) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 (init_temprs[neighb_id_7] - init_temprs[cell_index])*(float)sqrt(heat_cond[cell_index]*heat_cond[neighb_id_7])*
+           (float)exp((float)-0.5*(phonon_portion[grain_index] + phonon_portion[grain_indices[neighb_id_7] - 1])*((float)1.0 - signbit(fabs(en_types[neighb_id_7] - (float)3) - (float)0.5))*
+                     fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighb_id_7] - 1]))+
+      
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_8] - (float)11) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_8] - (float)8) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_8] - (float)5) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 (init_temprs[neighb_id_8] - init_temprs[cell_index])*(float)sqrt(heat_cond[cell_index]*heat_cond[neighb_id_8])*
+           (float)exp((float)-0.5*(phonon_portion[grain_index] + phonon_portion[grain_indices[neighb_id_8] - 1])*((float)1.0 - signbit(fabs(en_types[neighb_id_8] - (float)3) - (float)0.5))*
+                     fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighb_id_8] - 1]))+
+      
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_9] - (float)11) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_9] - (float)8) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_9] - (float)5) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 (init_temprs[neighb_id_9] - init_temprs[cell_index])*(float)sqrt(heat_cond[cell_index]*heat_cond[neighb_id_9])*
+           (float)exp((float)-0.5*(phonon_portion[grain_index] + phonon_portion[grain_indices[neighb_id_9] - 1])*((float)1.0 - signbit(fabs(en_types[neighb_id_9] - (float)3) - (float)0.5))*
+                     fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighb_id_9] - 1]))+
+      
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_10] - (float)11) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_10] - (float)8) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_10] - (float)5) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 (init_temprs[neighb_id_10] - init_temprs[cell_index])*(float)sqrt(heat_cond[cell_index]*heat_cond[neighb_id_10])*
+           (float)exp((float)-0.5*(phonon_portion[grain_index] + phonon_portion[grain_indices[neighb_id_10] - 1])*((float)1.0 - signbit(fabs(en_types[neighb_id_10] - (float)3) - (float)0.5))*
+                     fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighb_id_10] - 1]))+
+      
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_11] - (float)11) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)8) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_11] - (float)8) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*(float)((float)1.0 - signbit(fabs(en_types[neighb_id_11] - (float)5) - (float)0.5))*
+                 (float)((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*
+                 (init_temprs[neighb_id_11] - init_temprs[cell_index])*(float)sqrt(heat_cond[cell_index]*heat_cond[neighb_id_11])*
+           (float)exp((float)-0.5*(phonon_portion[grain_index] + phonon_portion[grain_indices[neighb_id_11] - 1])*((float)1.0 - signbit(fabs(en_types[neighb_id_11] - (float)3) - (float)0.5))*
+                     fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighb_id_11] - 1]));
+      
+    __syncthreads();
+    
+    temperatures[cell_index] = init_temprs[cell_index] + heat_influxes[cell_index] *factor[0]/(heat_cap[cell_index] * densities[cell_index]);
+    __syncthreads();
+    
+    heat_strain[cell_index] = init_heat_strain[cell_index] + heat_exp_coeff[grain_index]*(temperatures[cell_index] - init_temprs[cell_index]);
+    
+    step_counter[0] = get_global_size(0);
+    __syncthreads();
+}

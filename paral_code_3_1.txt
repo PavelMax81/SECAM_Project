@@ -1,0 +1,832 @@
+__kernel void kernel_3_1(__global const int *init_grain_indices, __global const float *grain_angles,
+                           __global const int *neighbours1S_0,
+                           __global const int *neighbours1S_1,
+                           __global const int *neighbours1S_2,
+                           __global const int *neighbours1S_3,
+                           __global const int *neighbours1S_4,
+                           __global const int *neighbours1S_5,
+                           __global const int *neighbours1S_6,
+                           __global const int *neighbours1S_7,
+                           __global const int *neighbours1S_8,
+                           __global const int *neighbours1S_9,
+                           __global const int *neighbours1S_10,
+                           __global const int *neighbours1S_11,
+                             __global float *spec_angle_diff_0,
+                             __global float *spec_angle_diff_1,
+                             __global float *spec_angle_diff_2,
+                             __global float *spec_angle_diff_3,
+                             __global float *spec_angle_diff_4,
+                             __global float *spec_angle_diff_5,
+                             __global float *spec_angle_diff_6,
+                             __global float *spec_angle_diff_7,
+                             __global float *spec_angle_diff_8,
+                             __global float *spec_angle_diff_9,
+                             __global float *spec_angle_diff_10,
+                             __global float *spec_angle_diff_11,
+                               __global float *neighb_heat_max_mob_0,
+                               __global float *neighb_heat_max_mob_1,
+                               __global float *neighb_heat_max_mob_2,
+                               __global float *neighb_heat_max_mob_3,
+                               __global float *neighb_heat_max_mob_4,
+                               __global float *neighb_heat_max_mob_5,
+                               __global float *neighb_heat_max_mob_6,
+                               __global float *neighb_heat_max_mob_7,
+                               __global float *neighb_heat_max_mob_8,
+                               __global float *neighb_heat_max_mob_9,
+                               __global float *neighb_heat_max_mob_10,
+                               __global float *neighb_heat_max_mob_11,
+                                 __global float *spec_bound_energies_0,
+                                 __global float *spec_bound_energies_1,
+                                 __global float *spec_bound_energies_2,
+                                 __global float *spec_bound_energies_3,
+                                 __global float *spec_bound_energies_4,
+                                 __global float *spec_bound_energies_5,
+                                 __global float *spec_bound_energies_6,
+                                 __global float *spec_bound_energies_7,
+                                 __global float *spec_bound_energies_8,
+                                 __global float *spec_bound_energies_9,
+                                 __global float *spec_bound_energies_10,
+                                 __global float *spec_bound_energies_11,
+                               __global float *bound_energies_0,
+                               __global float *bound_energies_1,
+                               __global float *bound_energies_2,
+                               __global float *bound_energies_3,
+                               __global float *bound_energies_4,
+                               __global float *bound_energies_5,
+                               __global float *bound_energies_6,
+                               __global float *bound_energies_7,
+                               __global float *bound_energies_8,
+                               __global float *bound_energies_9,
+                               __global float *bound_energies_10,
+                               __global float *bound_energies_11,
+                             __global float *bound_velocities_0,
+                             __global float *bound_velocities_1,
+                             __global float *bound_velocities_2,
+                             __global float *bound_velocities_3,
+                             __global float *bound_velocities_4,
+                             __global float *bound_velocities_5,
+                             __global float *bound_velocities_6,
+                             __global float *bound_velocities_7,
+                             __global float *bound_velocities_8,
+                             __global float *bound_velocities_9,
+                             __global float *bound_velocities_10,
+                             __global float *bound_velocities_11,
+                           __global float *prob_0,
+                           __global float *prob_1,
+                           __global float *prob_2,
+                           __global float *prob_3,
+                           __global float *prob_4,
+                           __global float *prob_5,
+                           __global float *prob_6,
+                           __global float *prob_7,
+                           __global float *prob_8,
+                           __global float *prob_9,
+                           __global float *prob_10,
+                           __global float *prob_11,
+                         __global const float *heat_max_mob, __global const float *max_bound_energy, 
+                         __global const float *init_temprs,  __global const char  *en_types,
+                         __global const float *disl_max_mob, __global const float *mech_max_mob,
+                         __global const float *disl_energy,  __global const float *mech_energy, 
+                       __global float *lat_vec_A_length, __global float *lat_vec_B_length, __global float *lat_vec_C_length,
+                       __global float *lat_vec_A_x,      __global float *lat_vec_A_y,      __global float *lat_vec_A_z,
+                       __global float *lat_vec_B_x,      __global float *lat_vec_B_y,      __global float *lat_vec_B_z,
+                       __global float *lat_vec_C_x,      __global float *lat_vec_C_y,      __global float *lat_vec_C_z,
+                       __global float *lat_anis_coeff,   __global float *gr_vect_coord)
+{
+    int cell_index    = get_global_id(0);
+    int init_gr_index = init_grain_indices[cell_index] - 1;
+
+    //--------- neighbour cell # 0 -----------------------------
+    int neighb_index_0 = neighbours1S_0[cell_index];
+    int neighb_gr_indices_0 = init_grain_indices[neighb_index_0] - 1;
+    spec_angle_diff_0[cell_index] = 0.016666666666666666*fabs(grain_angles[init_gr_index] - grain_angles[neighb_gr_indices_0])/90.0;
+
+    spec_bound_energies_0[cell_index] = (float)sqrt(max_bound_energy[init_gr_index] * max_bound_energy[neighb_gr_indices_0])*
+                                    signbit(spec_angle_diff_0[cell_index] - (float)1.0)*
+                                    spec_angle_diff_0[cell_index]*((float)1.0 - (float)log((float)1.0E-10 + spec_angle_diff_0[cell_index]));
+
+    neighb_heat_max_mob_0[cell_index] = (float)sqrt(heat_max_mob[init_gr_index] * heat_max_mob[neighb_gr_indices_0]);
+
+    bound_energies_0[cell_index] = spec_bound_energies_0[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(float)sqrt(((float)1.0E-10 + init_temprs[cell_index])*((float)1.0E-10 + init_temprs[neighb_index_0])));
+
+    bound_velocities_0[cell_index] = 
+                       ((float)1.0 - signbit(init_temprs[cell_index]*init_temprs[neighb_index_0] - (float)1.0E-10))*
+                       ((float)1.0 - signbit((float)1.0 - spec_angle_diff_0[cell_index]))*
+                       ((float)1.0 - signbit(fabs((float)1.0*neighb_gr_indices_0 - init_gr_index) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_0] - (float)11) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_0] - (float)3) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_0] - (float)5) - (float)0.5))*
+                 signbit(spec_angle_diff_0[cell_index] - (float)1.0)*(float)exp(-bound_energies_0[cell_index])*
+          (neighb_heat_max_mob_0[cell_index]*(init_temprs[cell_index] - init_temprs[neighb_index_0])*(float)70.04*(float)5680.0 + 
+           (float)sqrt(disl_max_mob[init_gr_index]*disl_max_mob[neighb_gr_indices_0])*(disl_energy[init_gr_index] - disl_energy[neighb_gr_indices_0]));// + 
+     //    (float)sqrt(mech_max_mob[init_gr_index]*mech_max_mob[neighb_gr_indices_0])*(fabs(mech_energy[cell_index]) - fabs(mech_energy[neighb_index_0])));
+
+    
+    float cosinus_A_0 = fabs(gr_vect_coord[0]*lat_vec_A_x[neighb_gr_indices_0] + 
+                                              gr_vect_coord[1]*lat_vec_A_y[neighb_gr_indices_0] + 
+                                              gr_vect_coord[2]*lat_vec_A_z[neighb_gr_indices_0]); 
+    
+    float cosinus_B_0 = fabs(gr_vect_coord[0]*lat_vec_B_x[neighb_gr_indices_0] + 
+                                              gr_vect_coord[1]*lat_vec_B_y[neighb_gr_indices_0] + 
+                                              gr_vect_coord[2]*lat_vec_B_z[neighb_gr_indices_0]); 
+    
+    float cosinus_C_0 = fabs(gr_vect_coord[0]*lat_vec_C_x[neighb_gr_indices_0] + 
+                                              gr_vect_coord[1]*lat_vec_C_y[neighb_gr_indices_0] + 
+                                              gr_vect_coord[2]*lat_vec_C_z[neighb_gr_indices_0]); 
+    
+    float max_cosinus_0 = (signbit(cosinus_B_0 - cosinus_A_0 - (float)1.0E-6)* 
+                                            signbit(cosinus_C_0 - cosinus_A_0 - (float)1.0E-6)*cosinus_A_0 + 
+                                            signbit(cosinus_C_0 - cosinus_B_0 - (float)1.0E-6)* 
+                                            signbit(cosinus_A_0 - cosinus_B_0 - (float)1.0E-6)*cosinus_B_0 + 
+                                            signbit(cosinus_A_0 - cosinus_C_0 - (float)1.0E-6)* 
+                                            signbit(cosinus_B_0 - cosinus_C_0 - (float)1.0E-6)*cosinus_C_0)/ 
+                                       (signbit(cosinus_B_0 - cosinus_A_0 - (float)1.0E-6)* 
+                                        signbit(cosinus_C_0 - cosinus_A_0 - (float)1.0E-6) +
+                                        signbit(cosinus_C_0 - cosinus_B_0 - (float)1.0E-6)* 
+                                        signbit(cosinus_A_0 - cosinus_B_0 - (float)1.0E-6) +
+                                        signbit(cosinus_A_0 - cosinus_C_0 - (float)1.0E-6)* 
+                                        signbit(cosinus_B_0 - cosinus_C_0 - (float)1.0E-6));
+    
+    float gr_vec_length_0 = 
+     (float)pow(((float)1.0 + signbit(fabs(max_cosinus_0 - cosinus_A_0) - (float)1.0E-6)*(lat_vec_A_length[neighb_gr_indices_0] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_0 - cosinus_B_0) - (float)1.0E-6)*(lat_vec_B_length[neighb_gr_indices_0] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_0 - cosinus_C_0) - (float)1.0E-6)*(lat_vec_C_length[neighb_gr_indices_0] - (float)1.0)), 
+                 (float)1.0/(signbit(fabs(max_cosinus_0 - cosinus_A_0) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_0 - cosinus_B_0) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_0 - cosinus_C_0) - (float)1.0E-6)));
+    
+    float anis_factor_0 = gr_vec_length_0*(float)exp(lat_anis_coeff[neighb_gr_indices_0]*(max_cosinus_0 - (float)1.0));
+    
+    prob_0[cell_index] = -signbit(bound_velocities_0[cell_index])*anis_factor_0*bound_velocities_0[cell_index]*(float)1.0E-8/(float)1.0E-6;
+
+    //--------- neighbour cell # 1 -----------------------------
+    int neighb_index_1 = neighbours1S_1[cell_index];
+    int neighb_gr_indices_1 = init_grain_indices[neighb_index_1] - 1;
+    spec_angle_diff_1[cell_index] = 0.016666666666666666*fabs(grain_angles[init_gr_index] - grain_angles[neighb_gr_indices_1])/90.0;
+
+    spec_bound_energies_1[cell_index] = (float)sqrt(max_bound_energy[init_gr_index] * max_bound_energy[neighb_gr_indices_1])*
+                                    signbit(spec_angle_diff_1[cell_index] - (float)1.0)*
+                                    spec_angle_diff_1[cell_index]*((float)1.0 - (float)log((float)1.0E-10 + spec_angle_diff_1[cell_index]));
+
+    neighb_heat_max_mob_1[cell_index] = (float)sqrt(heat_max_mob[init_gr_index] * heat_max_mob[neighb_gr_indices_1]);
+
+    bound_energies_1[cell_index] = spec_bound_energies_1[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(float)sqrt(((float)1.0E-10 + init_temprs[cell_index])*((float)1.0E-10 + init_temprs[neighb_index_1])));
+
+    bound_velocities_1[cell_index] = 
+                       ((float)1.0 - signbit(init_temprs[cell_index]*init_temprs[neighb_index_1] - (float)1.0E-10))*
+                       ((float)1.0 - signbit((float)1.0 - spec_angle_diff_1[cell_index]))*
+                       ((float)1.0 - signbit(fabs((float)1.0*neighb_gr_indices_1 - init_gr_index) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_1] - (float)11) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_1] - (float)3) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_1] - (float)5) - (float)0.5))*
+                 signbit(spec_angle_diff_1[cell_index] - (float)1.0)*(float)exp(-bound_energies_1[cell_index])*
+          (neighb_heat_max_mob_1[cell_index]*(init_temprs[cell_index] - init_temprs[neighb_index_1])*(float)70.04*(float)5680.0 + 
+           (float)sqrt(disl_max_mob[init_gr_index]*disl_max_mob[neighb_gr_indices_1])*(disl_energy[init_gr_index] - disl_energy[neighb_gr_indices_1]));// + 
+     //    (float)sqrt(mech_max_mob[init_gr_index]*mech_max_mob[neighb_gr_indices_1])*(fabs(mech_energy[cell_index]) - fabs(mech_energy[neighb_index_1])));
+
+    
+    float cosinus_A_1 = fabs(gr_vect_coord[3]*lat_vec_A_x[neighb_gr_indices_1] + 
+                                              gr_vect_coord[4]*lat_vec_A_y[neighb_gr_indices_1] + 
+                                              gr_vect_coord[5]*lat_vec_A_z[neighb_gr_indices_1]); 
+    
+    float cosinus_B_1 = fabs(gr_vect_coord[3]*lat_vec_B_x[neighb_gr_indices_1] + 
+                                              gr_vect_coord[4]*lat_vec_B_y[neighb_gr_indices_1] + 
+                                              gr_vect_coord[5]*lat_vec_B_z[neighb_gr_indices_1]); 
+    
+    float cosinus_C_1 = fabs(gr_vect_coord[3]*lat_vec_C_x[neighb_gr_indices_1] + 
+                                              gr_vect_coord[4]*lat_vec_C_y[neighb_gr_indices_1] + 
+                                              gr_vect_coord[5]*lat_vec_C_z[neighb_gr_indices_1]); 
+    
+    float max_cosinus_1 = (signbit(cosinus_B_1 - cosinus_A_1 - (float)1.0E-6)* 
+                                            signbit(cosinus_C_1 - cosinus_A_1 - (float)1.0E-6)*cosinus_A_1 + 
+                                            signbit(cosinus_C_1 - cosinus_B_1 - (float)1.0E-6)* 
+                                            signbit(cosinus_A_1 - cosinus_B_1 - (float)1.0E-6)*cosinus_B_1 + 
+                                            signbit(cosinus_A_1 - cosinus_C_1 - (float)1.0E-6)* 
+                                            signbit(cosinus_B_1 - cosinus_C_1 - (float)1.0E-6)*cosinus_C_1)/ 
+                                       (signbit(cosinus_B_1 - cosinus_A_1 - (float)1.0E-6)* 
+                                        signbit(cosinus_C_1 - cosinus_A_1 - (float)1.0E-6) +
+                                        signbit(cosinus_C_1 - cosinus_B_1 - (float)1.0E-6)* 
+                                        signbit(cosinus_A_1 - cosinus_B_1 - (float)1.0E-6) +
+                                        signbit(cosinus_A_1 - cosinus_C_1 - (float)1.0E-6)* 
+                                        signbit(cosinus_B_1 - cosinus_C_1 - (float)1.0E-6));
+    
+    float gr_vec_length_1 = 
+     (float)pow(((float)1.0 + signbit(fabs(max_cosinus_1 - cosinus_A_1) - (float)1.0E-6)*(lat_vec_A_length[neighb_gr_indices_1] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_1 - cosinus_B_1) - (float)1.0E-6)*(lat_vec_B_length[neighb_gr_indices_1] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_1 - cosinus_C_1) - (float)1.0E-6)*(lat_vec_C_length[neighb_gr_indices_1] - (float)1.0)), 
+                 (float)1.0/(signbit(fabs(max_cosinus_1 - cosinus_A_1) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_1 - cosinus_B_1) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_1 - cosinus_C_1) - (float)1.0E-6)));
+    
+    float anis_factor_1 = gr_vec_length_1*(float)exp(lat_anis_coeff[neighb_gr_indices_1]*(max_cosinus_1 - (float)1.0));
+    
+    prob_1[cell_index] = -signbit(bound_velocities_1[cell_index])*anis_factor_1*bound_velocities_1[cell_index]*(float)1.0E-8/(float)1.0E-6;
+
+    //--------- neighbour cell # 2 -----------------------------
+    int neighb_index_2 = neighbours1S_2[cell_index];
+    int neighb_gr_indices_2 = init_grain_indices[neighb_index_2] - 1;
+    spec_angle_diff_2[cell_index] = 0.016666666666666666*fabs(grain_angles[init_gr_index] - grain_angles[neighb_gr_indices_2])/90.0;
+
+    spec_bound_energies_2[cell_index] = (float)sqrt(max_bound_energy[init_gr_index] * max_bound_energy[neighb_gr_indices_2])*
+                                    signbit(spec_angle_diff_2[cell_index] - (float)1.0)*
+                                    spec_angle_diff_2[cell_index]*((float)1.0 - (float)log((float)1.0E-10 + spec_angle_diff_2[cell_index]));
+
+    neighb_heat_max_mob_2[cell_index] = (float)sqrt(heat_max_mob[init_gr_index] * heat_max_mob[neighb_gr_indices_2]);
+
+    bound_energies_2[cell_index] = spec_bound_energies_2[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(float)sqrt(((float)1.0E-10 + init_temprs[cell_index])*((float)1.0E-10 + init_temprs[neighb_index_2])));
+
+    bound_velocities_2[cell_index] = 
+                       ((float)1.0 - signbit(init_temprs[cell_index]*init_temprs[neighb_index_2] - (float)1.0E-10))*
+                       ((float)1.0 - signbit((float)1.0 - spec_angle_diff_2[cell_index]))*
+                       ((float)1.0 - signbit(fabs((float)1.0*neighb_gr_indices_2 - init_gr_index) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_2] - (float)11) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_2] - (float)3) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_2] - (float)5) - (float)0.5))*
+                 signbit(spec_angle_diff_2[cell_index] - (float)1.0)*(float)exp(-bound_energies_2[cell_index])*
+          (neighb_heat_max_mob_2[cell_index]*(init_temprs[cell_index] - init_temprs[neighb_index_2])*(float)70.04*(float)5680.0 + 
+           (float)sqrt(disl_max_mob[init_gr_index]*disl_max_mob[neighb_gr_indices_2])*(disl_energy[init_gr_index] - disl_energy[neighb_gr_indices_2]));// + 
+     //    (float)sqrt(mech_max_mob[init_gr_index]*mech_max_mob[neighb_gr_indices_2])*(fabs(mech_energy[cell_index]) - fabs(mech_energy[neighb_index_2])));
+
+    
+    float cosinus_A_2 = fabs(gr_vect_coord[6]*lat_vec_A_x[neighb_gr_indices_2] + 
+                                              gr_vect_coord[7]*lat_vec_A_y[neighb_gr_indices_2] + 
+                                              gr_vect_coord[8]*lat_vec_A_z[neighb_gr_indices_2]); 
+    
+    float cosinus_B_2 = fabs(gr_vect_coord[6]*lat_vec_B_x[neighb_gr_indices_2] + 
+                                              gr_vect_coord[7]*lat_vec_B_y[neighb_gr_indices_2] + 
+                                              gr_vect_coord[8]*lat_vec_B_z[neighb_gr_indices_2]); 
+    
+    float cosinus_C_2 = fabs(gr_vect_coord[6]*lat_vec_C_x[neighb_gr_indices_2] + 
+                                              gr_vect_coord[7]*lat_vec_C_y[neighb_gr_indices_2] + 
+                                              gr_vect_coord[8]*lat_vec_C_z[neighb_gr_indices_2]); 
+    
+    float max_cosinus_2 = (signbit(cosinus_B_2 - cosinus_A_2 - (float)1.0E-6)* 
+                                            signbit(cosinus_C_2 - cosinus_A_2 - (float)1.0E-6)*cosinus_A_2 + 
+                                            signbit(cosinus_C_2 - cosinus_B_2 - (float)1.0E-6)* 
+                                            signbit(cosinus_A_2 - cosinus_B_2 - (float)1.0E-6)*cosinus_B_2 + 
+                                            signbit(cosinus_A_2 - cosinus_C_2 - (float)1.0E-6)* 
+                                            signbit(cosinus_B_2 - cosinus_C_2 - (float)1.0E-6)*cosinus_C_2)/ 
+                                       (signbit(cosinus_B_2 - cosinus_A_2 - (float)1.0E-6)* 
+                                        signbit(cosinus_C_2 - cosinus_A_2 - (float)1.0E-6) +
+                                        signbit(cosinus_C_2 - cosinus_B_2 - (float)1.0E-6)* 
+                                        signbit(cosinus_A_2 - cosinus_B_2 - (float)1.0E-6) +
+                                        signbit(cosinus_A_2 - cosinus_C_2 - (float)1.0E-6)* 
+                                        signbit(cosinus_B_2 - cosinus_C_2 - (float)1.0E-6));
+    
+    float gr_vec_length_2 = 
+     (float)pow(((float)1.0 + signbit(fabs(max_cosinus_2 - cosinus_A_2) - (float)1.0E-6)*(lat_vec_A_length[neighb_gr_indices_2] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_2 - cosinus_B_2) - (float)1.0E-6)*(lat_vec_B_length[neighb_gr_indices_2] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_2 - cosinus_C_2) - (float)1.0E-6)*(lat_vec_C_length[neighb_gr_indices_2] - (float)1.0)), 
+                 (float)1.0/(signbit(fabs(max_cosinus_2 - cosinus_A_2) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_2 - cosinus_B_2) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_2 - cosinus_C_2) - (float)1.0E-6)));
+    
+    float anis_factor_2 = gr_vec_length_2*(float)exp(lat_anis_coeff[neighb_gr_indices_2]*(max_cosinus_2 - (float)1.0));
+    
+    prob_2[cell_index] = -signbit(bound_velocities_2[cell_index])*anis_factor_2*bound_velocities_2[cell_index]*(float)1.0E-8/(float)1.0E-6;
+
+    //--------- neighbour cell # 3 -----------------------------
+    int neighb_index_3 = neighbours1S_3[cell_index];
+    int neighb_gr_indices_3 = init_grain_indices[neighb_index_3] - 1;
+    spec_angle_diff_3[cell_index] = 0.016666666666666666*fabs(grain_angles[init_gr_index] - grain_angles[neighb_gr_indices_3])/90.0;
+
+    spec_bound_energies_3[cell_index] = (float)sqrt(max_bound_energy[init_gr_index] * max_bound_energy[neighb_gr_indices_3])*
+                                    signbit(spec_angle_diff_3[cell_index] - (float)1.0)*
+                                    spec_angle_diff_3[cell_index]*((float)1.0 - (float)log((float)1.0E-10 + spec_angle_diff_3[cell_index]));
+
+    neighb_heat_max_mob_3[cell_index] = (float)sqrt(heat_max_mob[init_gr_index] * heat_max_mob[neighb_gr_indices_3]);
+
+    bound_energies_3[cell_index] = spec_bound_energies_3[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(float)sqrt(((float)1.0E-10 + init_temprs[cell_index])*((float)1.0E-10 + init_temprs[neighb_index_3])));
+
+    bound_velocities_3[cell_index] = 
+                       ((float)1.0 - signbit(init_temprs[cell_index]*init_temprs[neighb_index_3] - (float)1.0E-10))*
+                       ((float)1.0 - signbit((float)1.0 - spec_angle_diff_3[cell_index]))*
+                       ((float)1.0 - signbit(fabs((float)1.0*neighb_gr_indices_3 - init_gr_index) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_3] - (float)11) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_3] - (float)3) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_3] - (float)5) - (float)0.5))*
+                 signbit(spec_angle_diff_3[cell_index] - (float)1.0)*(float)exp(-bound_energies_3[cell_index])*
+          (neighb_heat_max_mob_3[cell_index]*(init_temprs[cell_index] - init_temprs[neighb_index_3])*(float)70.04*(float)5680.0 + 
+           (float)sqrt(disl_max_mob[init_gr_index]*disl_max_mob[neighb_gr_indices_3])*(disl_energy[init_gr_index] - disl_energy[neighb_gr_indices_3]));// + 
+     //    (float)sqrt(mech_max_mob[init_gr_index]*mech_max_mob[neighb_gr_indices_3])*(fabs(mech_energy[cell_index]) - fabs(mech_energy[neighb_index_3])));
+
+    
+    float cosinus_A_3 = fabs(gr_vect_coord[9]*lat_vec_A_x[neighb_gr_indices_3] + 
+                                              gr_vect_coord[10]*lat_vec_A_y[neighb_gr_indices_3] + 
+                                              gr_vect_coord[11]*lat_vec_A_z[neighb_gr_indices_3]); 
+    
+    float cosinus_B_3 = fabs(gr_vect_coord[9]*lat_vec_B_x[neighb_gr_indices_3] + 
+                                              gr_vect_coord[10]*lat_vec_B_y[neighb_gr_indices_3] + 
+                                              gr_vect_coord[11]*lat_vec_B_z[neighb_gr_indices_3]); 
+    
+    float cosinus_C_3 = fabs(gr_vect_coord[9]*lat_vec_C_x[neighb_gr_indices_3] + 
+                                              gr_vect_coord[10]*lat_vec_C_y[neighb_gr_indices_3] + 
+                                              gr_vect_coord[11]*lat_vec_C_z[neighb_gr_indices_3]); 
+    
+    float max_cosinus_3 = (signbit(cosinus_B_3 - cosinus_A_3 - (float)1.0E-6)* 
+                                            signbit(cosinus_C_3 - cosinus_A_3 - (float)1.0E-6)*cosinus_A_3 + 
+                                            signbit(cosinus_C_3 - cosinus_B_3 - (float)1.0E-6)* 
+                                            signbit(cosinus_A_3 - cosinus_B_3 - (float)1.0E-6)*cosinus_B_3 + 
+                                            signbit(cosinus_A_3 - cosinus_C_3 - (float)1.0E-6)* 
+                                            signbit(cosinus_B_3 - cosinus_C_3 - (float)1.0E-6)*cosinus_C_3)/ 
+                                       (signbit(cosinus_B_3 - cosinus_A_3 - (float)1.0E-6)* 
+                                        signbit(cosinus_C_3 - cosinus_A_3 - (float)1.0E-6) +
+                                        signbit(cosinus_C_3 - cosinus_B_3 - (float)1.0E-6)* 
+                                        signbit(cosinus_A_3 - cosinus_B_3 - (float)1.0E-6) +
+                                        signbit(cosinus_A_3 - cosinus_C_3 - (float)1.0E-6)* 
+                                        signbit(cosinus_B_3 - cosinus_C_3 - (float)1.0E-6));
+    
+    float gr_vec_length_3 = 
+     (float)pow(((float)1.0 + signbit(fabs(max_cosinus_3 - cosinus_A_3) - (float)1.0E-6)*(lat_vec_A_length[neighb_gr_indices_3] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_3 - cosinus_B_3) - (float)1.0E-6)*(lat_vec_B_length[neighb_gr_indices_3] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_3 - cosinus_C_3) - (float)1.0E-6)*(lat_vec_C_length[neighb_gr_indices_3] - (float)1.0)), 
+                 (float)1.0/(signbit(fabs(max_cosinus_3 - cosinus_A_3) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_3 - cosinus_B_3) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_3 - cosinus_C_3) - (float)1.0E-6)));
+    
+    float anis_factor_3 = gr_vec_length_3*(float)exp(lat_anis_coeff[neighb_gr_indices_3]*(max_cosinus_3 - (float)1.0));
+    
+    prob_3[cell_index] = -signbit(bound_velocities_3[cell_index])*anis_factor_3*bound_velocities_3[cell_index]*(float)1.0E-8/(float)1.0E-6;
+
+    //--------- neighbour cell # 4 -----------------------------
+    int neighb_index_4 = neighbours1S_4[cell_index];
+    int neighb_gr_indices_4 = init_grain_indices[neighb_index_4] - 1;
+    spec_angle_diff_4[cell_index] = 0.016666666666666666*fabs(grain_angles[init_gr_index] - grain_angles[neighb_gr_indices_4])/90.0;
+
+    spec_bound_energies_4[cell_index] = (float)sqrt(max_bound_energy[init_gr_index] * max_bound_energy[neighb_gr_indices_4])*
+                                    signbit(spec_angle_diff_4[cell_index] - (float)1.0)*
+                                    spec_angle_diff_4[cell_index]*((float)1.0 - (float)log((float)1.0E-10 + spec_angle_diff_4[cell_index]));
+
+    neighb_heat_max_mob_4[cell_index] = (float)sqrt(heat_max_mob[init_gr_index] * heat_max_mob[neighb_gr_indices_4]);
+
+    bound_energies_4[cell_index] = spec_bound_energies_4[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(float)sqrt(((float)1.0E-10 + init_temprs[cell_index])*((float)1.0E-10 + init_temprs[neighb_index_4])));
+
+    bound_velocities_4[cell_index] = 
+                       ((float)1.0 - signbit(init_temprs[cell_index]*init_temprs[neighb_index_4] - (float)1.0E-10))*
+                       ((float)1.0 - signbit((float)1.0 - spec_angle_diff_4[cell_index]))*
+                       ((float)1.0 - signbit(fabs((float)1.0*neighb_gr_indices_4 - init_gr_index) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_4] - (float)11) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_4] - (float)3) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_4] - (float)5) - (float)0.5))*
+                 signbit(spec_angle_diff_4[cell_index] - (float)1.0)*(float)exp(-bound_energies_4[cell_index])*
+          (neighb_heat_max_mob_4[cell_index]*(init_temprs[cell_index] - init_temprs[neighb_index_4])*(float)70.04*(float)5680.0 + 
+           (float)sqrt(disl_max_mob[init_gr_index]*disl_max_mob[neighb_gr_indices_4])*(disl_energy[init_gr_index] - disl_energy[neighb_gr_indices_4]));// + 
+     //    (float)sqrt(mech_max_mob[init_gr_index]*mech_max_mob[neighb_gr_indices_4])*(fabs(mech_energy[cell_index]) - fabs(mech_energy[neighb_index_4])));
+
+    
+    float cosinus_A_4 = fabs(gr_vect_coord[12]*lat_vec_A_x[neighb_gr_indices_4] + 
+                                              gr_vect_coord[13]*lat_vec_A_y[neighb_gr_indices_4] + 
+                                              gr_vect_coord[14]*lat_vec_A_z[neighb_gr_indices_4]); 
+    
+    float cosinus_B_4 = fabs(gr_vect_coord[12]*lat_vec_B_x[neighb_gr_indices_4] + 
+                                              gr_vect_coord[13]*lat_vec_B_y[neighb_gr_indices_4] + 
+                                              gr_vect_coord[14]*lat_vec_B_z[neighb_gr_indices_4]); 
+    
+    float cosinus_C_4 = fabs(gr_vect_coord[12]*lat_vec_C_x[neighb_gr_indices_4] + 
+                                              gr_vect_coord[13]*lat_vec_C_y[neighb_gr_indices_4] + 
+                                              gr_vect_coord[14]*lat_vec_C_z[neighb_gr_indices_4]); 
+    
+    float max_cosinus_4 = (signbit(cosinus_B_4 - cosinus_A_4 - (float)1.0E-6)* 
+                                            signbit(cosinus_C_4 - cosinus_A_4 - (float)1.0E-6)*cosinus_A_4 + 
+                                            signbit(cosinus_C_4 - cosinus_B_4 - (float)1.0E-6)* 
+                                            signbit(cosinus_A_4 - cosinus_B_4 - (float)1.0E-6)*cosinus_B_4 + 
+                                            signbit(cosinus_A_4 - cosinus_C_4 - (float)1.0E-6)* 
+                                            signbit(cosinus_B_4 - cosinus_C_4 - (float)1.0E-6)*cosinus_C_4)/ 
+                                       (signbit(cosinus_B_4 - cosinus_A_4 - (float)1.0E-6)* 
+                                        signbit(cosinus_C_4 - cosinus_A_4 - (float)1.0E-6) +
+                                        signbit(cosinus_C_4 - cosinus_B_4 - (float)1.0E-6)* 
+                                        signbit(cosinus_A_4 - cosinus_B_4 - (float)1.0E-6) +
+                                        signbit(cosinus_A_4 - cosinus_C_4 - (float)1.0E-6)* 
+                                        signbit(cosinus_B_4 - cosinus_C_4 - (float)1.0E-6));
+    
+    float gr_vec_length_4 = 
+     (float)pow(((float)1.0 + signbit(fabs(max_cosinus_4 - cosinus_A_4) - (float)1.0E-6)*(lat_vec_A_length[neighb_gr_indices_4] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_4 - cosinus_B_4) - (float)1.0E-6)*(lat_vec_B_length[neighb_gr_indices_4] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_4 - cosinus_C_4) - (float)1.0E-6)*(lat_vec_C_length[neighb_gr_indices_4] - (float)1.0)), 
+                 (float)1.0/(signbit(fabs(max_cosinus_4 - cosinus_A_4) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_4 - cosinus_B_4) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_4 - cosinus_C_4) - (float)1.0E-6)));
+    
+    float anis_factor_4 = gr_vec_length_4*(float)exp(lat_anis_coeff[neighb_gr_indices_4]*(max_cosinus_4 - (float)1.0));
+    
+    prob_4[cell_index] = -signbit(bound_velocities_4[cell_index])*anis_factor_4*bound_velocities_4[cell_index]*(float)1.0E-8/(float)1.0E-6;
+
+    //--------- neighbour cell # 5 -----------------------------
+    int neighb_index_5 = neighbours1S_5[cell_index];
+    int neighb_gr_indices_5 = init_grain_indices[neighb_index_5] - 1;
+    spec_angle_diff_5[cell_index] = 0.016666666666666666*fabs(grain_angles[init_gr_index] - grain_angles[neighb_gr_indices_5])/90.0;
+
+    spec_bound_energies_5[cell_index] = (float)sqrt(max_bound_energy[init_gr_index] * max_bound_energy[neighb_gr_indices_5])*
+                                    signbit(spec_angle_diff_5[cell_index] - (float)1.0)*
+                                    spec_angle_diff_5[cell_index]*((float)1.0 - (float)log((float)1.0E-10 + spec_angle_diff_5[cell_index]));
+
+    neighb_heat_max_mob_5[cell_index] = (float)sqrt(heat_max_mob[init_gr_index] * heat_max_mob[neighb_gr_indices_5]);
+
+    bound_energies_5[cell_index] = spec_bound_energies_5[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(float)sqrt(((float)1.0E-10 + init_temprs[cell_index])*((float)1.0E-10 + init_temprs[neighb_index_5])));
+
+    bound_velocities_5[cell_index] = 
+                       ((float)1.0 - signbit(init_temprs[cell_index]*init_temprs[neighb_index_5] - (float)1.0E-10))*
+                       ((float)1.0 - signbit((float)1.0 - spec_angle_diff_5[cell_index]))*
+                       ((float)1.0 - signbit(fabs((float)1.0*neighb_gr_indices_5 - init_gr_index) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_5] - (float)11) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_5] - (float)3) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_5] - (float)5) - (float)0.5))*
+                 signbit(spec_angle_diff_5[cell_index] - (float)1.0)*(float)exp(-bound_energies_5[cell_index])*
+          (neighb_heat_max_mob_5[cell_index]*(init_temprs[cell_index] - init_temprs[neighb_index_5])*(float)70.04*(float)5680.0 + 
+           (float)sqrt(disl_max_mob[init_gr_index]*disl_max_mob[neighb_gr_indices_5])*(disl_energy[init_gr_index] - disl_energy[neighb_gr_indices_5]));// + 
+     //    (float)sqrt(mech_max_mob[init_gr_index]*mech_max_mob[neighb_gr_indices_5])*(fabs(mech_energy[cell_index]) - fabs(mech_energy[neighb_index_5])));
+
+    
+    float cosinus_A_5 = fabs(gr_vect_coord[15]*lat_vec_A_x[neighb_gr_indices_5] + 
+                                              gr_vect_coord[16]*lat_vec_A_y[neighb_gr_indices_5] + 
+                                              gr_vect_coord[17]*lat_vec_A_z[neighb_gr_indices_5]); 
+    
+    float cosinus_B_5 = fabs(gr_vect_coord[15]*lat_vec_B_x[neighb_gr_indices_5] + 
+                                              gr_vect_coord[16]*lat_vec_B_y[neighb_gr_indices_5] + 
+                                              gr_vect_coord[17]*lat_vec_B_z[neighb_gr_indices_5]); 
+    
+    float cosinus_C_5 = fabs(gr_vect_coord[15]*lat_vec_C_x[neighb_gr_indices_5] + 
+                                              gr_vect_coord[16]*lat_vec_C_y[neighb_gr_indices_5] + 
+                                              gr_vect_coord[17]*lat_vec_C_z[neighb_gr_indices_5]); 
+    
+    float max_cosinus_5 = (signbit(cosinus_B_5 - cosinus_A_5 - (float)1.0E-6)* 
+                                            signbit(cosinus_C_5 - cosinus_A_5 - (float)1.0E-6)*cosinus_A_5 + 
+                                            signbit(cosinus_C_5 - cosinus_B_5 - (float)1.0E-6)* 
+                                            signbit(cosinus_A_5 - cosinus_B_5 - (float)1.0E-6)*cosinus_B_5 + 
+                                            signbit(cosinus_A_5 - cosinus_C_5 - (float)1.0E-6)* 
+                                            signbit(cosinus_B_5 - cosinus_C_5 - (float)1.0E-6)*cosinus_C_5)/ 
+                                       (signbit(cosinus_B_5 - cosinus_A_5 - (float)1.0E-6)* 
+                                        signbit(cosinus_C_5 - cosinus_A_5 - (float)1.0E-6) +
+                                        signbit(cosinus_C_5 - cosinus_B_5 - (float)1.0E-6)* 
+                                        signbit(cosinus_A_5 - cosinus_B_5 - (float)1.0E-6) +
+                                        signbit(cosinus_A_5 - cosinus_C_5 - (float)1.0E-6)* 
+                                        signbit(cosinus_B_5 - cosinus_C_5 - (float)1.0E-6));
+    
+    float gr_vec_length_5 = 
+     (float)pow(((float)1.0 + signbit(fabs(max_cosinus_5 - cosinus_A_5) - (float)1.0E-6)*(lat_vec_A_length[neighb_gr_indices_5] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_5 - cosinus_B_5) - (float)1.0E-6)*(lat_vec_B_length[neighb_gr_indices_5] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_5 - cosinus_C_5) - (float)1.0E-6)*(lat_vec_C_length[neighb_gr_indices_5] - (float)1.0)), 
+                 (float)1.0/(signbit(fabs(max_cosinus_5 - cosinus_A_5) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_5 - cosinus_B_5) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_5 - cosinus_C_5) - (float)1.0E-6)));
+    
+    float anis_factor_5 = gr_vec_length_5*(float)exp(lat_anis_coeff[neighb_gr_indices_5]*(max_cosinus_5 - (float)1.0));
+    
+    prob_5[cell_index] = -signbit(bound_velocities_5[cell_index])*anis_factor_5*bound_velocities_5[cell_index]*(float)1.0E-8/(float)1.0E-6;
+
+    //--------- neighbour cell # 6 -----------------------------
+    int neighb_index_6 = neighbours1S_6[cell_index];
+    int neighb_gr_indices_6 = init_grain_indices[neighb_index_6] - 1;
+    spec_angle_diff_6[cell_index] = 0.016666666666666666*fabs(grain_angles[init_gr_index] - grain_angles[neighb_gr_indices_6])/90.0;
+
+    spec_bound_energies_6[cell_index] = (float)sqrt(max_bound_energy[init_gr_index] * max_bound_energy[neighb_gr_indices_6])*
+                                    signbit(spec_angle_diff_6[cell_index] - (float)1.0)*
+                                    spec_angle_diff_6[cell_index]*((float)1.0 - (float)log((float)1.0E-10 + spec_angle_diff_6[cell_index]));
+
+    neighb_heat_max_mob_6[cell_index] = (float)sqrt(heat_max_mob[init_gr_index] * heat_max_mob[neighb_gr_indices_6]);
+
+    bound_energies_6[cell_index] = spec_bound_energies_6[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(float)sqrt(((float)1.0E-10 + init_temprs[cell_index])*((float)1.0E-10 + init_temprs[neighb_index_6])));
+
+    bound_velocities_6[cell_index] = 
+                       ((float)1.0 - signbit(init_temprs[cell_index]*init_temprs[neighb_index_6] - (float)1.0E-10))*
+                       ((float)1.0 - signbit((float)1.0 - spec_angle_diff_6[cell_index]))*
+                       ((float)1.0 - signbit(fabs((float)1.0*neighb_gr_indices_6 - init_gr_index) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_6] - (float)11) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_6] - (float)3) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_6] - (float)5) - (float)0.5))*
+                 signbit(spec_angle_diff_6[cell_index] - (float)1.0)*(float)exp(-bound_energies_6[cell_index])*
+          (neighb_heat_max_mob_6[cell_index]*(init_temprs[cell_index] - init_temprs[neighb_index_6])*(float)70.04*(float)5680.0 + 
+           (float)sqrt(disl_max_mob[init_gr_index]*disl_max_mob[neighb_gr_indices_6])*(disl_energy[init_gr_index] - disl_energy[neighb_gr_indices_6]));// + 
+     //    (float)sqrt(mech_max_mob[init_gr_index]*mech_max_mob[neighb_gr_indices_6])*(fabs(mech_energy[cell_index]) - fabs(mech_energy[neighb_index_6])));
+
+    
+    float cosinus_A_6 = fabs(gr_vect_coord[18]*lat_vec_A_x[neighb_gr_indices_6] + 
+                                              gr_vect_coord[19]*lat_vec_A_y[neighb_gr_indices_6] + 
+                                              gr_vect_coord[20]*lat_vec_A_z[neighb_gr_indices_6]); 
+    
+    float cosinus_B_6 = fabs(gr_vect_coord[18]*lat_vec_B_x[neighb_gr_indices_6] + 
+                                              gr_vect_coord[19]*lat_vec_B_y[neighb_gr_indices_6] + 
+                                              gr_vect_coord[20]*lat_vec_B_z[neighb_gr_indices_6]); 
+    
+    float cosinus_C_6 = fabs(gr_vect_coord[18]*lat_vec_C_x[neighb_gr_indices_6] + 
+                                              gr_vect_coord[19]*lat_vec_C_y[neighb_gr_indices_6] + 
+                                              gr_vect_coord[20]*lat_vec_C_z[neighb_gr_indices_6]); 
+    
+    float max_cosinus_6 = (signbit(cosinus_B_6 - cosinus_A_6 - (float)1.0E-6)* 
+                                            signbit(cosinus_C_6 - cosinus_A_6 - (float)1.0E-6)*cosinus_A_6 + 
+                                            signbit(cosinus_C_6 - cosinus_B_6 - (float)1.0E-6)* 
+                                            signbit(cosinus_A_6 - cosinus_B_6 - (float)1.0E-6)*cosinus_B_6 + 
+                                            signbit(cosinus_A_6 - cosinus_C_6 - (float)1.0E-6)* 
+                                            signbit(cosinus_B_6 - cosinus_C_6 - (float)1.0E-6)*cosinus_C_6)/ 
+                                       (signbit(cosinus_B_6 - cosinus_A_6 - (float)1.0E-6)* 
+                                        signbit(cosinus_C_6 - cosinus_A_6 - (float)1.0E-6) +
+                                        signbit(cosinus_C_6 - cosinus_B_6 - (float)1.0E-6)* 
+                                        signbit(cosinus_A_6 - cosinus_B_6 - (float)1.0E-6) +
+                                        signbit(cosinus_A_6 - cosinus_C_6 - (float)1.0E-6)* 
+                                        signbit(cosinus_B_6 - cosinus_C_6 - (float)1.0E-6));
+    
+    float gr_vec_length_6 = 
+     (float)pow(((float)1.0 + signbit(fabs(max_cosinus_6 - cosinus_A_6) - (float)1.0E-6)*(lat_vec_A_length[neighb_gr_indices_6] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_6 - cosinus_B_6) - (float)1.0E-6)*(lat_vec_B_length[neighb_gr_indices_6] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_6 - cosinus_C_6) - (float)1.0E-6)*(lat_vec_C_length[neighb_gr_indices_6] - (float)1.0)), 
+                 (float)1.0/(signbit(fabs(max_cosinus_6 - cosinus_A_6) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_6 - cosinus_B_6) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_6 - cosinus_C_6) - (float)1.0E-6)));
+    
+    float anis_factor_6 = gr_vec_length_6*(float)exp(lat_anis_coeff[neighb_gr_indices_6]*(max_cosinus_6 - (float)1.0));
+    
+    prob_6[cell_index] = -signbit(bound_velocities_6[cell_index])*anis_factor_6*bound_velocities_6[cell_index]*(float)1.0E-8/(float)1.0E-6;
+
+    //--------- neighbour cell # 7 -----------------------------
+    int neighb_index_7 = neighbours1S_7[cell_index];
+    int neighb_gr_indices_7 = init_grain_indices[neighb_index_7] - 1;
+    spec_angle_diff_7[cell_index] = 0.016666666666666666*fabs(grain_angles[init_gr_index] - grain_angles[neighb_gr_indices_7])/90.0;
+
+    spec_bound_energies_7[cell_index] = (float)sqrt(max_bound_energy[init_gr_index] * max_bound_energy[neighb_gr_indices_7])*
+                                    signbit(spec_angle_diff_7[cell_index] - (float)1.0)*
+                                    spec_angle_diff_7[cell_index]*((float)1.0 - (float)log((float)1.0E-10 + spec_angle_diff_7[cell_index]));
+
+    neighb_heat_max_mob_7[cell_index] = (float)sqrt(heat_max_mob[init_gr_index] * heat_max_mob[neighb_gr_indices_7]);
+
+    bound_energies_7[cell_index] = spec_bound_energies_7[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(float)sqrt(((float)1.0E-10 + init_temprs[cell_index])*((float)1.0E-10 + init_temprs[neighb_index_7])));
+
+    bound_velocities_7[cell_index] = 
+                       ((float)1.0 - signbit(init_temprs[cell_index]*init_temprs[neighb_index_7] - (float)1.0E-10))*
+                       ((float)1.0 - signbit((float)1.0 - spec_angle_diff_7[cell_index]))*
+                       ((float)1.0 - signbit(fabs((float)1.0*neighb_gr_indices_7 - init_gr_index) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_7] - (float)11) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_7] - (float)3) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_7] - (float)5) - (float)0.5))*
+                 signbit(spec_angle_diff_7[cell_index] - (float)1.0)*(float)exp(-bound_energies_7[cell_index])*
+          (neighb_heat_max_mob_7[cell_index]*(init_temprs[cell_index] - init_temprs[neighb_index_7])*(float)70.04*(float)5680.0 + 
+           (float)sqrt(disl_max_mob[init_gr_index]*disl_max_mob[neighb_gr_indices_7])*(disl_energy[init_gr_index] - disl_energy[neighb_gr_indices_7]));// + 
+     //    (float)sqrt(mech_max_mob[init_gr_index]*mech_max_mob[neighb_gr_indices_7])*(fabs(mech_energy[cell_index]) - fabs(mech_energy[neighb_index_7])));
+
+    
+    float cosinus_A_7 = fabs(gr_vect_coord[21]*lat_vec_A_x[neighb_gr_indices_7] + 
+                                              gr_vect_coord[22]*lat_vec_A_y[neighb_gr_indices_7] + 
+                                              gr_vect_coord[23]*lat_vec_A_z[neighb_gr_indices_7]); 
+    
+    float cosinus_B_7 = fabs(gr_vect_coord[21]*lat_vec_B_x[neighb_gr_indices_7] + 
+                                              gr_vect_coord[22]*lat_vec_B_y[neighb_gr_indices_7] + 
+                                              gr_vect_coord[23]*lat_vec_B_z[neighb_gr_indices_7]); 
+    
+    float cosinus_C_7 = fabs(gr_vect_coord[21]*lat_vec_C_x[neighb_gr_indices_7] + 
+                                              gr_vect_coord[22]*lat_vec_C_y[neighb_gr_indices_7] + 
+                                              gr_vect_coord[23]*lat_vec_C_z[neighb_gr_indices_7]); 
+    
+    float max_cosinus_7 = (signbit(cosinus_B_7 - cosinus_A_7 - (float)1.0E-6)* 
+                                            signbit(cosinus_C_7 - cosinus_A_7 - (float)1.0E-6)*cosinus_A_7 + 
+                                            signbit(cosinus_C_7 - cosinus_B_7 - (float)1.0E-6)* 
+                                            signbit(cosinus_A_7 - cosinus_B_7 - (float)1.0E-6)*cosinus_B_7 + 
+                                            signbit(cosinus_A_7 - cosinus_C_7 - (float)1.0E-6)* 
+                                            signbit(cosinus_B_7 - cosinus_C_7 - (float)1.0E-6)*cosinus_C_7)/ 
+                                       (signbit(cosinus_B_7 - cosinus_A_7 - (float)1.0E-6)* 
+                                        signbit(cosinus_C_7 - cosinus_A_7 - (float)1.0E-6) +
+                                        signbit(cosinus_C_7 - cosinus_B_7 - (float)1.0E-6)* 
+                                        signbit(cosinus_A_7 - cosinus_B_7 - (float)1.0E-6) +
+                                        signbit(cosinus_A_7 - cosinus_C_7 - (float)1.0E-6)* 
+                                        signbit(cosinus_B_7 - cosinus_C_7 - (float)1.0E-6));
+    
+    float gr_vec_length_7 = 
+     (float)pow(((float)1.0 + signbit(fabs(max_cosinus_7 - cosinus_A_7) - (float)1.0E-6)*(lat_vec_A_length[neighb_gr_indices_7] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_7 - cosinus_B_7) - (float)1.0E-6)*(lat_vec_B_length[neighb_gr_indices_7] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_7 - cosinus_C_7) - (float)1.0E-6)*(lat_vec_C_length[neighb_gr_indices_7] - (float)1.0)), 
+                 (float)1.0/(signbit(fabs(max_cosinus_7 - cosinus_A_7) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_7 - cosinus_B_7) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_7 - cosinus_C_7) - (float)1.0E-6)));
+    
+    float anis_factor_7 = gr_vec_length_7*(float)exp(lat_anis_coeff[neighb_gr_indices_7]*(max_cosinus_7 - (float)1.0));
+    
+    prob_7[cell_index] = -signbit(bound_velocities_7[cell_index])*anis_factor_7*bound_velocities_7[cell_index]*(float)1.0E-8/(float)1.0E-6;
+
+    //--------- neighbour cell # 8 -----------------------------
+    int neighb_index_8 = neighbours1S_8[cell_index];
+    int neighb_gr_indices_8 = init_grain_indices[neighb_index_8] - 1;
+    spec_angle_diff_8[cell_index] = 0.016666666666666666*fabs(grain_angles[init_gr_index] - grain_angles[neighb_gr_indices_8])/90.0;
+
+    spec_bound_energies_8[cell_index] = (float)sqrt(max_bound_energy[init_gr_index] * max_bound_energy[neighb_gr_indices_8])*
+                                    signbit(spec_angle_diff_8[cell_index] - (float)1.0)*
+                                    spec_angle_diff_8[cell_index]*((float)1.0 - (float)log((float)1.0E-10 + spec_angle_diff_8[cell_index]));
+
+    neighb_heat_max_mob_8[cell_index] = (float)sqrt(heat_max_mob[init_gr_index] * heat_max_mob[neighb_gr_indices_8]);
+
+    bound_energies_8[cell_index] = spec_bound_energies_8[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(float)sqrt(((float)1.0E-10 + init_temprs[cell_index])*((float)1.0E-10 + init_temprs[neighb_index_8])));
+
+    bound_velocities_8[cell_index] = 
+                       ((float)1.0 - signbit(init_temprs[cell_index]*init_temprs[neighb_index_8] - (float)1.0E-10))*
+                       ((float)1.0 - signbit((float)1.0 - spec_angle_diff_8[cell_index]))*
+                       ((float)1.0 - signbit(fabs((float)1.0*neighb_gr_indices_8 - init_gr_index) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_8] - (float)11) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_8] - (float)3) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_8] - (float)5) - (float)0.5))*
+                 signbit(spec_angle_diff_8[cell_index] - (float)1.0)*(float)exp(-bound_energies_8[cell_index])*
+          (neighb_heat_max_mob_8[cell_index]*(init_temprs[cell_index] - init_temprs[neighb_index_8])*(float)70.04*(float)5680.0 + 
+           (float)sqrt(disl_max_mob[init_gr_index]*disl_max_mob[neighb_gr_indices_8])*(disl_energy[init_gr_index] - disl_energy[neighb_gr_indices_8]));// + 
+     //    (float)sqrt(mech_max_mob[init_gr_index]*mech_max_mob[neighb_gr_indices_8])*(fabs(mech_energy[cell_index]) - fabs(mech_energy[neighb_index_8])));
+
+    
+    float cosinus_A_8 = fabs(gr_vect_coord[24]*lat_vec_A_x[neighb_gr_indices_8] + 
+                                              gr_vect_coord[25]*lat_vec_A_y[neighb_gr_indices_8] + 
+                                              gr_vect_coord[26]*lat_vec_A_z[neighb_gr_indices_8]); 
+    
+    float cosinus_B_8 = fabs(gr_vect_coord[24]*lat_vec_B_x[neighb_gr_indices_8] + 
+                                              gr_vect_coord[25]*lat_vec_B_y[neighb_gr_indices_8] + 
+                                              gr_vect_coord[26]*lat_vec_B_z[neighb_gr_indices_8]); 
+    
+    float cosinus_C_8 = fabs(gr_vect_coord[24]*lat_vec_C_x[neighb_gr_indices_8] + 
+                                              gr_vect_coord[25]*lat_vec_C_y[neighb_gr_indices_8] + 
+                                              gr_vect_coord[26]*lat_vec_C_z[neighb_gr_indices_8]); 
+    
+    float max_cosinus_8 = (signbit(cosinus_B_8 - cosinus_A_8 - (float)1.0E-6)* 
+                                            signbit(cosinus_C_8 - cosinus_A_8 - (float)1.0E-6)*cosinus_A_8 + 
+                                            signbit(cosinus_C_8 - cosinus_B_8 - (float)1.0E-6)* 
+                                            signbit(cosinus_A_8 - cosinus_B_8 - (float)1.0E-6)*cosinus_B_8 + 
+                                            signbit(cosinus_A_8 - cosinus_C_8 - (float)1.0E-6)* 
+                                            signbit(cosinus_B_8 - cosinus_C_8 - (float)1.0E-6)*cosinus_C_8)/ 
+                                       (signbit(cosinus_B_8 - cosinus_A_8 - (float)1.0E-6)* 
+                                        signbit(cosinus_C_8 - cosinus_A_8 - (float)1.0E-6) +
+                                        signbit(cosinus_C_8 - cosinus_B_8 - (float)1.0E-6)* 
+                                        signbit(cosinus_A_8 - cosinus_B_8 - (float)1.0E-6) +
+                                        signbit(cosinus_A_8 - cosinus_C_8 - (float)1.0E-6)* 
+                                        signbit(cosinus_B_8 - cosinus_C_8 - (float)1.0E-6));
+    
+    float gr_vec_length_8 = 
+     (float)pow(((float)1.0 + signbit(fabs(max_cosinus_8 - cosinus_A_8) - (float)1.0E-6)*(lat_vec_A_length[neighb_gr_indices_8] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_8 - cosinus_B_8) - (float)1.0E-6)*(lat_vec_B_length[neighb_gr_indices_8] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_8 - cosinus_C_8) - (float)1.0E-6)*(lat_vec_C_length[neighb_gr_indices_8] - (float)1.0)), 
+                 (float)1.0/(signbit(fabs(max_cosinus_8 - cosinus_A_8) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_8 - cosinus_B_8) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_8 - cosinus_C_8) - (float)1.0E-6)));
+    
+    float anis_factor_8 = gr_vec_length_8*(float)exp(lat_anis_coeff[neighb_gr_indices_8]*(max_cosinus_8 - (float)1.0));
+    
+    prob_8[cell_index] = -signbit(bound_velocities_8[cell_index])*anis_factor_8*bound_velocities_8[cell_index]*(float)1.0E-8/(float)1.0E-6;
+
+    //--------- neighbour cell # 9 -----------------------------
+    int neighb_index_9 = neighbours1S_9[cell_index];
+    int neighb_gr_indices_9 = init_grain_indices[neighb_index_9] - 1;
+    spec_angle_diff_9[cell_index] = 0.016666666666666666*fabs(grain_angles[init_gr_index] - grain_angles[neighb_gr_indices_9])/90.0;
+
+    spec_bound_energies_9[cell_index] = (float)sqrt(max_bound_energy[init_gr_index] * max_bound_energy[neighb_gr_indices_9])*
+                                    signbit(spec_angle_diff_9[cell_index] - (float)1.0)*
+                                    spec_angle_diff_9[cell_index]*((float)1.0 - (float)log((float)1.0E-10 + spec_angle_diff_9[cell_index]));
+
+    neighb_heat_max_mob_9[cell_index] = (float)sqrt(heat_max_mob[init_gr_index] * heat_max_mob[neighb_gr_indices_9]);
+
+    bound_energies_9[cell_index] = spec_bound_energies_9[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(float)sqrt(((float)1.0E-10 + init_temprs[cell_index])*((float)1.0E-10 + init_temprs[neighb_index_9])));
+
+    bound_velocities_9[cell_index] = 
+                       ((float)1.0 - signbit(init_temprs[cell_index]*init_temprs[neighb_index_9] - (float)1.0E-10))*
+                       ((float)1.0 - signbit((float)1.0 - spec_angle_diff_9[cell_index]))*
+                       ((float)1.0 - signbit(fabs((float)1.0*neighb_gr_indices_9 - init_gr_index) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_9] - (float)11) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_9] - (float)3) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_9] - (float)5) - (float)0.5))*
+                 signbit(spec_angle_diff_9[cell_index] - (float)1.0)*(float)exp(-bound_energies_9[cell_index])*
+          (neighb_heat_max_mob_9[cell_index]*(init_temprs[cell_index] - init_temprs[neighb_index_9])*(float)70.04*(float)5680.0 + 
+           (float)sqrt(disl_max_mob[init_gr_index]*disl_max_mob[neighb_gr_indices_9])*(disl_energy[init_gr_index] - disl_energy[neighb_gr_indices_9]));// + 
+     //    (float)sqrt(mech_max_mob[init_gr_index]*mech_max_mob[neighb_gr_indices_9])*(fabs(mech_energy[cell_index]) - fabs(mech_energy[neighb_index_9])));
+
+    
+    float cosinus_A_9 = fabs(gr_vect_coord[27]*lat_vec_A_x[neighb_gr_indices_9] + 
+                                              gr_vect_coord[28]*lat_vec_A_y[neighb_gr_indices_9] + 
+                                              gr_vect_coord[29]*lat_vec_A_z[neighb_gr_indices_9]); 
+    
+    float cosinus_B_9 = fabs(gr_vect_coord[27]*lat_vec_B_x[neighb_gr_indices_9] + 
+                                              gr_vect_coord[28]*lat_vec_B_y[neighb_gr_indices_9] + 
+                                              gr_vect_coord[29]*lat_vec_B_z[neighb_gr_indices_9]); 
+    
+    float cosinus_C_9 = fabs(gr_vect_coord[27]*lat_vec_C_x[neighb_gr_indices_9] + 
+                                              gr_vect_coord[28]*lat_vec_C_y[neighb_gr_indices_9] + 
+                                              gr_vect_coord[29]*lat_vec_C_z[neighb_gr_indices_9]); 
+    
+    float max_cosinus_9 = (signbit(cosinus_B_9 - cosinus_A_9 - (float)1.0E-6)* 
+                                            signbit(cosinus_C_9 - cosinus_A_9 - (float)1.0E-6)*cosinus_A_9 + 
+                                            signbit(cosinus_C_9 - cosinus_B_9 - (float)1.0E-6)* 
+                                            signbit(cosinus_A_9 - cosinus_B_9 - (float)1.0E-6)*cosinus_B_9 + 
+                                            signbit(cosinus_A_9 - cosinus_C_9 - (float)1.0E-6)* 
+                                            signbit(cosinus_B_9 - cosinus_C_9 - (float)1.0E-6)*cosinus_C_9)/ 
+                                       (signbit(cosinus_B_9 - cosinus_A_9 - (float)1.0E-6)* 
+                                        signbit(cosinus_C_9 - cosinus_A_9 - (float)1.0E-6) +
+                                        signbit(cosinus_C_9 - cosinus_B_9 - (float)1.0E-6)* 
+                                        signbit(cosinus_A_9 - cosinus_B_9 - (float)1.0E-6) +
+                                        signbit(cosinus_A_9 - cosinus_C_9 - (float)1.0E-6)* 
+                                        signbit(cosinus_B_9 - cosinus_C_9 - (float)1.0E-6));
+    
+    float gr_vec_length_9 = 
+     (float)pow(((float)1.0 + signbit(fabs(max_cosinus_9 - cosinus_A_9) - (float)1.0E-6)*(lat_vec_A_length[neighb_gr_indices_9] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_9 - cosinus_B_9) - (float)1.0E-6)*(lat_vec_B_length[neighb_gr_indices_9] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_9 - cosinus_C_9) - (float)1.0E-6)*(lat_vec_C_length[neighb_gr_indices_9] - (float)1.0)), 
+                 (float)1.0/(signbit(fabs(max_cosinus_9 - cosinus_A_9) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_9 - cosinus_B_9) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_9 - cosinus_C_9) - (float)1.0E-6)));
+    
+    float anis_factor_9 = gr_vec_length_9*(float)exp(lat_anis_coeff[neighb_gr_indices_9]*(max_cosinus_9 - (float)1.0));
+    
+    prob_9[cell_index] = -signbit(bound_velocities_9[cell_index])*anis_factor_9*bound_velocities_9[cell_index]*(float)1.0E-8/(float)1.0E-6;
+
+    //--------- neighbour cell # 10 -----------------------------
+    int neighb_index_10 = neighbours1S_10[cell_index];
+    int neighb_gr_indices_10 = init_grain_indices[neighb_index_10] - 1;
+    spec_angle_diff_10[cell_index] = 0.016666666666666666*fabs(grain_angles[init_gr_index] - grain_angles[neighb_gr_indices_10])/90.0;
+
+    spec_bound_energies_10[cell_index] = (float)sqrt(max_bound_energy[init_gr_index] * max_bound_energy[neighb_gr_indices_10])*
+                                    signbit(spec_angle_diff_10[cell_index] - (float)1.0)*
+                                    spec_angle_diff_10[cell_index]*((float)1.0 - (float)log((float)1.0E-10 + spec_angle_diff_10[cell_index]));
+
+    neighb_heat_max_mob_10[cell_index] = (float)sqrt(heat_max_mob[init_gr_index] * heat_max_mob[neighb_gr_indices_10]);
+
+    bound_energies_10[cell_index] = spec_bound_energies_10[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(float)sqrt(((float)1.0E-10 + init_temprs[cell_index])*((float)1.0E-10 + init_temprs[neighb_index_10])));
+
+    bound_velocities_10[cell_index] = 
+                       ((float)1.0 - signbit(init_temprs[cell_index]*init_temprs[neighb_index_10] - (float)1.0E-10))*
+                       ((float)1.0 - signbit((float)1.0 - spec_angle_diff_10[cell_index]))*
+                       ((float)1.0 - signbit(fabs((float)1.0*neighb_gr_indices_10 - init_gr_index) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_10] - (float)11) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_10] - (float)3) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_10] - (float)5) - (float)0.5))*
+                 signbit(spec_angle_diff_10[cell_index] - (float)1.0)*(float)exp(-bound_energies_10[cell_index])*
+          (neighb_heat_max_mob_10[cell_index]*(init_temprs[cell_index] - init_temprs[neighb_index_10])*(float)70.04*(float)5680.0 + 
+           (float)sqrt(disl_max_mob[init_gr_index]*disl_max_mob[neighb_gr_indices_10])*(disl_energy[init_gr_index] - disl_energy[neighb_gr_indices_10]));// + 
+     //    (float)sqrt(mech_max_mob[init_gr_index]*mech_max_mob[neighb_gr_indices_10])*(fabs(mech_energy[cell_index]) - fabs(mech_energy[neighb_index_10])));
+
+    
+    float cosinus_A_10 = fabs(gr_vect_coord[30]*lat_vec_A_x[neighb_gr_indices_10] + 
+                                              gr_vect_coord[31]*lat_vec_A_y[neighb_gr_indices_10] + 
+                                              gr_vect_coord[32]*lat_vec_A_z[neighb_gr_indices_10]); 
+    
+    float cosinus_B_10 = fabs(gr_vect_coord[30]*lat_vec_B_x[neighb_gr_indices_10] + 
+                                              gr_vect_coord[31]*lat_vec_B_y[neighb_gr_indices_10] + 
+                                              gr_vect_coord[32]*lat_vec_B_z[neighb_gr_indices_10]); 
+    
+    float cosinus_C_10 = fabs(gr_vect_coord[30]*lat_vec_C_x[neighb_gr_indices_10] + 
+                                              gr_vect_coord[31]*lat_vec_C_y[neighb_gr_indices_10] + 
+                                              gr_vect_coord[32]*lat_vec_C_z[neighb_gr_indices_10]); 
+    
+    float max_cosinus_10 = (signbit(cosinus_B_10 - cosinus_A_10 - (float)1.0E-6)* 
+                                            signbit(cosinus_C_10 - cosinus_A_10 - (float)1.0E-6)*cosinus_A_10 + 
+                                            signbit(cosinus_C_10 - cosinus_B_10 - (float)1.0E-6)* 
+                                            signbit(cosinus_A_10 - cosinus_B_10 - (float)1.0E-6)*cosinus_B_10 + 
+                                            signbit(cosinus_A_10 - cosinus_C_10 - (float)1.0E-6)* 
+                                            signbit(cosinus_B_10 - cosinus_C_10 - (float)1.0E-6)*cosinus_C_10)/ 
+                                       (signbit(cosinus_B_10 - cosinus_A_10 - (float)1.0E-6)* 
+                                        signbit(cosinus_C_10 - cosinus_A_10 - (float)1.0E-6) +
+                                        signbit(cosinus_C_10 - cosinus_B_10 - (float)1.0E-6)* 
+                                        signbit(cosinus_A_10 - cosinus_B_10 - (float)1.0E-6) +
+                                        signbit(cosinus_A_10 - cosinus_C_10 - (float)1.0E-6)* 
+                                        signbit(cosinus_B_10 - cosinus_C_10 - (float)1.0E-6));
+    
+    float gr_vec_length_10 = 
+     (float)pow(((float)1.0 + signbit(fabs(max_cosinus_10 - cosinus_A_10) - (float)1.0E-6)*(lat_vec_A_length[neighb_gr_indices_10] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_10 - cosinus_B_10) - (float)1.0E-6)*(lat_vec_B_length[neighb_gr_indices_10] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_10 - cosinus_C_10) - (float)1.0E-6)*(lat_vec_C_length[neighb_gr_indices_10] - (float)1.0)), 
+                 (float)1.0/(signbit(fabs(max_cosinus_10 - cosinus_A_10) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_10 - cosinus_B_10) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_10 - cosinus_C_10) - (float)1.0E-6)));
+    
+    float anis_factor_10 = gr_vec_length_10*(float)exp(lat_anis_coeff[neighb_gr_indices_10]*(max_cosinus_10 - (float)1.0));
+    
+    prob_10[cell_index] = -signbit(bound_velocities_10[cell_index])*anis_factor_10*bound_velocities_10[cell_index]*(float)1.0E-8/(float)1.0E-6;
+
+    //--------- neighbour cell # 11 -----------------------------
+    int neighb_index_11 = neighbours1S_11[cell_index];
+    int neighb_gr_indices_11 = init_grain_indices[neighb_index_11] - 1;
+    spec_angle_diff_11[cell_index] = 0.016666666666666666*fabs(grain_angles[init_gr_index] - grain_angles[neighb_gr_indices_11])/90.0;
+
+    spec_bound_energies_11[cell_index] = (float)sqrt(max_bound_energy[init_gr_index] * max_bound_energy[neighb_gr_indices_11])*
+                                    signbit(spec_angle_diff_11[cell_index] - (float)1.0)*
+                                    spec_angle_diff_11[cell_index]*((float)1.0 - (float)log((float)1.0E-10 + spec_angle_diff_11[cell_index]));
+
+    neighb_heat_max_mob_11[cell_index] = (float)sqrt(heat_max_mob[init_gr_index] * heat_max_mob[neighb_gr_indices_11]);
+
+    bound_energies_11[cell_index] = spec_bound_energies_11[cell_index]*(float)3.469E-13/((float)1.3806505E-23*(float)sqrt(((float)1.0E-10 + init_temprs[cell_index])*((float)1.0E-10 + init_temprs[neighb_index_11])));
+
+    bound_velocities_11[cell_index] = 
+                       ((float)1.0 - signbit(init_temprs[cell_index]*init_temprs[neighb_index_11] - (float)1.0E-10))*
+                       ((float)1.0 - signbit((float)1.0 - spec_angle_diff_11[cell_index]))*
+                       ((float)1.0 - signbit(fabs((float)1.0*neighb_gr_indices_11 - init_gr_index) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)11) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_11] - (float)11) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)3) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_11] - (float)3) - (float)0.5))*
+                       ((float)1.0 - signbit(fabs(en_types[cell_index] - (float)5) - (float)0.5))*((float)1.0 - signbit(fabs(en_types[neighb_index_11] - (float)5) - (float)0.5))*
+                 signbit(spec_angle_diff_11[cell_index] - (float)1.0)*(float)exp(-bound_energies_11[cell_index])*
+          (neighb_heat_max_mob_11[cell_index]*(init_temprs[cell_index] - init_temprs[neighb_index_11])*(float)70.04*(float)5680.0 + 
+           (float)sqrt(disl_max_mob[init_gr_index]*disl_max_mob[neighb_gr_indices_11])*(disl_energy[init_gr_index] - disl_energy[neighb_gr_indices_11]));// + 
+     //    (float)sqrt(mech_max_mob[init_gr_index]*mech_max_mob[neighb_gr_indices_11])*(fabs(mech_energy[cell_index]) - fabs(mech_energy[neighb_index_11])));
+
+    
+    float cosinus_A_11 = fabs(gr_vect_coord[33]*lat_vec_A_x[neighb_gr_indices_11] + 
+                                              gr_vect_coord[34]*lat_vec_A_y[neighb_gr_indices_11] + 
+                                              gr_vect_coord[35]*lat_vec_A_z[neighb_gr_indices_11]); 
+    
+    float cosinus_B_11 = fabs(gr_vect_coord[33]*lat_vec_B_x[neighb_gr_indices_11] + 
+                                              gr_vect_coord[34]*lat_vec_B_y[neighb_gr_indices_11] + 
+                                              gr_vect_coord[35]*lat_vec_B_z[neighb_gr_indices_11]); 
+    
+    float cosinus_C_11 = fabs(gr_vect_coord[33]*lat_vec_C_x[neighb_gr_indices_11] + 
+                                              gr_vect_coord[34]*lat_vec_C_y[neighb_gr_indices_11] + 
+                                              gr_vect_coord[35]*lat_vec_C_z[neighb_gr_indices_11]); 
+    
+    float max_cosinus_11 = (signbit(cosinus_B_11 - cosinus_A_11 - (float)1.0E-6)* 
+                                            signbit(cosinus_C_11 - cosinus_A_11 - (float)1.0E-6)*cosinus_A_11 + 
+                                            signbit(cosinus_C_11 - cosinus_B_11 - (float)1.0E-6)* 
+                                            signbit(cosinus_A_11 - cosinus_B_11 - (float)1.0E-6)*cosinus_B_11 + 
+                                            signbit(cosinus_A_11 - cosinus_C_11 - (float)1.0E-6)* 
+                                            signbit(cosinus_B_11 - cosinus_C_11 - (float)1.0E-6)*cosinus_C_11)/ 
+                                       (signbit(cosinus_B_11 - cosinus_A_11 - (float)1.0E-6)* 
+                                        signbit(cosinus_C_11 - cosinus_A_11 - (float)1.0E-6) +
+                                        signbit(cosinus_C_11 - cosinus_B_11 - (float)1.0E-6)* 
+                                        signbit(cosinus_A_11 - cosinus_B_11 - (float)1.0E-6) +
+                                        signbit(cosinus_A_11 - cosinus_C_11 - (float)1.0E-6)* 
+                                        signbit(cosinus_B_11 - cosinus_C_11 - (float)1.0E-6));
+    
+    float gr_vec_length_11 = 
+     (float)pow(((float)1.0 + signbit(fabs(max_cosinus_11 - cosinus_A_11) - (float)1.0E-6)*(lat_vec_A_length[neighb_gr_indices_11] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_11 - cosinus_B_11) - (float)1.0E-6)*(lat_vec_B_length[neighb_gr_indices_11] - (float)1.0))* 
+                ((float)1.0 + signbit(fabs(max_cosinus_11 - cosinus_C_11) - (float)1.0E-6)*(lat_vec_C_length[neighb_gr_indices_11] - (float)1.0)), 
+                 (float)1.0/(signbit(fabs(max_cosinus_11 - cosinus_A_11) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_11 - cosinus_B_11) - (float)1.0E-6) +                       signbit(fabs(max_cosinus_11 - cosinus_C_11) - (float)1.0E-6)));
+    
+    float anis_factor_11 = gr_vec_length_11*(float)exp(lat_anis_coeff[neighb_gr_indices_11]*(max_cosinus_11 - (float)1.0));
+    
+    prob_11[cell_index] = -signbit(bound_velocities_11[cell_index])*anis_factor_11*bound_velocities_11[cell_index]*(float)1.0E-8/(float)1.0E-6;
+
+    __syncthreads();
+}

@@ -1,0 +1,39 @@
+__kernel void kernel_8_1( 
+         __global       float *init_mech_energy, __global const float *mech_energy,       __global const float *init_diss_energy, 
+         __global       float *diss_en_change,   __global       float *final_diss_energy, __global       float *crack_value, 
+         __global const int   *neighbours1S_0,
+         __global const int   *neighbours1S_1,
+         __global const int   *neighbours1S_2,
+         __global const int   *neighbours1S_3,
+         __global const int   *neighbours1S_4,
+         __global const int   *neighbours1S_5,
+         __global const int   *neighbours1S_6,
+         __global const int   *neighbours1S_7,
+         __global const int   *neighbours1S_8,
+         __global const int   *neighbours1S_9,
+         __global const int   *neighbours1S_10,
+         __global const int   *neighbours1S_11,
+         __global const char  *loc_types,        __global const char  *en_types, 
+         __global       char  *new_loc_types,    __global       char  *new_en_types,      __global       float *rand)
+{
+    // Index of current central cell
+    int cell_index  = get_global_id(0);
+    
+    init_mech_energy[cell_index] = mech_energy[cell_index];
+    
+    final_diss_energy[cell_index] = init_diss_energy[cell_index] + diss_en_change[cell_index];
+    
+    // Crack generation 
+    float crack_threshold = (float)10.5 + (float)10.0*rand[cell_index];// + (float)1.0E30*signbit(mech_energy[cell_index] - (float)1.0E9); // 
+    
+    int crack_presence        = (int)signbit(crack_threshold - crack_value[cell_index]);
+    
+    new_loc_types[cell_index] = (char)signbit(crack_presence - (float)0.5)*loc_types[cell_index] + 
+                                (char)signbit((float)0.5 - crack_presence)*(char)7;
+    
+    
+    new_en_types[cell_index]  = (char)signbit((float)1.0*crack_presence - (float)0.5)*en_types[cell_index] + 
+                                (char)signbit((float)0.5 - (float)1.0*crack_presence)*(char)11;
+    
+    __syncthreads();
+}

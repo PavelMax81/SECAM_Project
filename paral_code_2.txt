@@ -1,0 +1,8 @@
+__kernel void kernel_2(__global float *init_temprs,      __global float *temperatures,
+                       __global float *init_heat_strain, __global float *heat_strain){
+    int cell_index                 = get_global_id(0);
+    init_temprs[cell_index]        = temperatures[cell_index];
+    init_heat_strain[cell_index]   = heat_strain[cell_index];
+    
+    __syncthreads();
+}

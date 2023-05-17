@@ -1,0 +1,23 @@
+__kernel void kernel_6(__global       float *init_mech_energies,  __global const float *mech_energies,
+                       __global const float *bound_mech_influxes, __global const float *heat_strains,
+                       __global const float *mod_elast          , __global const int   *grain_indices,
+                       __global const char  *time_function_types, __global const float *load_time_periods,
+                       __global const float *relax_time_periods,  __global const long  *step_counter,
+                       __global       long  *next_step_counter)
+{
+    int  cell_index = get_global_id(0);
+    int  gr_index   = grain_indices[cell_index] - 1;
+    
+    char load_per_index = signbit(((step_counter[0] - (int)1) % (int)round(load_time_periods[cell_index] + relax_time_periods[cell_index])) - load_time_periods[cell_index]);
+    
+    float factor   = signbit((float)2.0*fabs(time_function_types[cell_index] - (float)0) - (int)1) + 
+                     signbit((float)2.0*fabs(time_function_types[cell_index] - (float)1) - (int)1)*load_per_index + 
+                     signbit((float)2.0*fabs(time_function_types[cell_index] - (float)2) - (int)1)*((float)1.5*load_per_index - (float)0.5) + 
+                     signbit((float)2.0*abs(time_function_types[cell_index] - 3) - 1)*(2*load_per_index - 1);
+    
+    init_mech_energies[cell_index] = mech_energies[cell_index] + factor*bound_mech_influxes[cell_index] + mod_elast[gr_index]*heat_strains[cell_index];
+    
+    next_step_counter[0] = step_counter[0] + (int)1;
+    
+    __syncthreads();
+}

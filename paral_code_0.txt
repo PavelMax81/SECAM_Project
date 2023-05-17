@@ -1,0 +1,34 @@
+__kernel void kernel_0(__global       long  *step_counter,            __global const char  *time_function_types,     
+                       __global const float *load_time_portions,      __global const float *relax_time_portions,     
+                       __global const float *bound_min_temprs,        __global const float *bound_max_temprs,        
+                       __global const float *bound_min_mech_influxes, __global const float *bound_max_mech_influxes, 
+                       __global       float *init_temprs,             __global       float *bound_mech_influxes,     
+                       __global       long  *next_step_counter)
+{
+  int cell_index = get_global_id(0);
+  
+  int load_step_number_in_period  = (int)rint((float)100*load_time_portions[cell_index]);
+  int relax_step_number_in_period = (int)rint((float)100*relax_time_portions[cell_index]);
+  
+  long step_number_in_period      = load_step_number_in_period + relax_step_number_in_period;
+  
+  long step_count                 = next_step_counter[0] - (long)1; 
+  long step_index_in_period       = step_count % step_number_in_period;
+  
+  float bound_tempr = (float)signbit((float)-0.5 + time_function_types[cell_index])*bound_max_temprs[cell_index] + 
+                      (float)signbit((float)-0.5 + fabs(time_function_types[cell_index] - (float)1))* 
+                   ((float)signbit( step_index_in_period - load_step_number_in_period + (float)0.5)*bound_max_temprs[cell_index] + 
+                    (float)signbit(-step_index_in_period + load_step_number_in_period - (float)0.5)*bound_min_temprs[cell_index]);
+  
+  float init_tempr = (float)signbit(bound_max_temprs[cell_index] - (float)1.0E-10)*init_temprs[cell_index] + 
+                     (float)signbit((float)1.0E-10 - bound_max_temprs[cell_index])*bound_tempr;
+  
+  init_temprs[cell_index] = init_tempr;
+  bound_mech_influxes[cell_index] = (float)signbit((float)-0.5 + time_function_types[cell_index])*bound_max_mech_influxes[cell_index] + 
+                                    (float)signbit((float)-0.5 + fabs(time_function_types[cell_index] - (float)1))* 
+                   ((float)signbit( step_index_in_period - load_step_number_in_period + (float)0.5)*bound_max_mech_influxes[cell_index] + 
+                    (float)signbit(-step_index_in_period + load_step_number_in_period - (float)0.5)*bound_min_mech_influxes[cell_index]);
+  
+  
+  __syncthreads();
+}

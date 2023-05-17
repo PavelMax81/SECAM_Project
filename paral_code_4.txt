@@ -1,0 +1,11 @@
+__kernel void kernel_4(__global int  *init_grain_indices,   __global const int  *grain_indices,
+                       __global char *init_grain_rec_types, __global const char *grain_rec_types)
+{   
+    int  cell_index     = get_global_id(0);
+    int  grain_index    = grain_indices[cell_index];
+    
+    init_grain_indices[cell_index]      = grain_index;
+    init_grain_rec_types[grain_index-1] = grain_rec_types[grain_index-1];
+    
+    __syncthreads();
+}

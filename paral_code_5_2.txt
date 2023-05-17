@@ -1,0 +1,25 @@
+__kernel void kernel_5_2(__global const float *neighb_vectors, 
+                __global const float *stress_0,        __global const float *stress_1,        __global const float *stress_2, 
+                         __global const float *stress_3,        __global const float *stress_4,        __global const float *stress_5, 
+                         __global const float *stress_6,        __global const float *stress_7,        __global const float *stress_8, 
+                         __global const float *stress_9,        __global const float *stress_10,       __global const float *stress_11, 
+                         __global       float *stress_X,        __global       float *stress_Y,        __global       float *stress_Z)
+{
+    // Index of current cell 
+    int cell_index = get_global_id(0);
+    
+    // Calculation of stress vector for current cell 
+    stress_X[cell_index] = neighb_vectors[ 0]*stress_0[cell_index] + neighb_vectors[ 3]*stress_1[cell_index] + neighb_vectors[ 6]*stress_2[cell_index]  + neighb_vectors[ 9]*stress_3[cell_index] + 
+                           neighb_vectors[12]*stress_4[cell_index] + neighb_vectors[15]*stress_5[cell_index] + neighb_vectors[18]*stress_6[cell_index]  + neighb_vectors[21]*stress_7[cell_index] + 
+                           neighb_vectors[24]*stress_8[cell_index] + neighb_vectors[27]*stress_9[cell_index] + neighb_vectors[30]*stress_10[cell_index] + neighb_vectors[33]*stress_11[cell_index]; 
+    
+    stress_Y[cell_index] = neighb_vectors[ 1]*stress_0[cell_index] + neighb_vectors[ 4]*stress_1[cell_index] + neighb_vectors[ 7]*stress_2[cell_index]  + neighb_vectors[10]*stress_3[cell_index] + 
+                           neighb_vectors[13]*stress_4[cell_index] + neighb_vectors[16]*stress_5[cell_index] + neighb_vectors[19]*stress_6[cell_index]  + neighb_vectors[22]*stress_7[cell_index] + 
+                           neighb_vectors[25]*stress_8[cell_index] + neighb_vectors[28]*stress_9[cell_index] + neighb_vectors[31]*stress_10[cell_index] + neighb_vectors[34]*stress_11[cell_index]; 
+    
+    stress_Z[cell_index] = neighb_vectors[ 2]*stress_0[cell_index] + neighb_vectors[ 5]*stress_1[cell_index] + neighb_vectors[ 8]*stress_2[cell_index]  + neighb_vectors[11]*stress_3[cell_index] + 
+                           neighb_vectors[14]*stress_4[cell_index] + neighb_vectors[17]*stress_5[cell_index] + neighb_vectors[20]*stress_6[cell_index]  + neighb_vectors[23]*stress_7[cell_index] + 
+                           neighb_vectors[26]*stress_8[cell_index] + neighb_vectors[29]*stress_9[cell_index] + neighb_vectors[32]*stress_10[cell_index] + neighb_vectors[35]*stress_11[cell_index]; 
+    
+    __syncthreads();
+}

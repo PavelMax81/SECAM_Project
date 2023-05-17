@@ -1,0 +1,177 @@
+__kernel void kernel_5
+(            __global const float *max_bound_energy,    __global const float *grain_angles,   __global const float *max_grain_angles,
+             __global const int   *neighbours1S_0,
+             __global const int   *neighbours1S_1,
+             __global const int   *neighbours1S_2,
+             __global const int   *neighbours1S_3,
+             __global const int   *neighbours1S_4,
+             __global const int   *neighbours1S_5,
+             __global const int   *neighbours1S_6,
+             __global const int   *neighbours1S_7,
+             __global const int   *neighbours1S_8,
+             __global const int   *neighbours1S_9,
+             __global const int   *neighbours1S_10,
+             __global const int   *neighbours1S_11,
+             __global     float   *spec_angle_diff_0,
+             __global     float   *spec_angle_diff_1,
+             __global     float   *spec_angle_diff_2,
+             __global     float   *spec_angle_diff_3,
+             __global     float   *spec_angle_diff_4,
+             __global     float   *spec_angle_diff_5,
+             __global     float   *spec_angle_diff_6,
+             __global     float   *spec_angle_diff_7,
+             __global     float   *spec_angle_diff_8,
+             __global     float   *spec_angle_diff_9,
+             __global     float   *spec_angle_diff_10,
+             __global     float   *spec_angle_diff_11,
+             __global     float   *spec_bound_energy_0,
+             __global     float   *spec_bound_energy_1,
+             __global     float   *spec_bound_energy_2,
+             __global     float   *spec_bound_energy_3,
+             __global     float   *spec_bound_energy_4,
+             __global     float   *spec_bound_energy_5,
+             __global     float   *spec_bound_energy_6,
+             __global     float   *spec_bound_energy_7,
+             __global     float   *spec_bound_energy_8,
+             __global     float   *spec_bound_energy_9,
+             __global     float   *spec_bound_energy_10,
+             __global     float   *spec_bound_energy_11,
+             __global const char  *en_types,           __global const int   *grain_indices)
+{   
+    int cell_index  = get_global_id(0);
+    int grain_index = grain_indices[cell_index] - (int)1;
+
+    spec_angle_diff_0[cell_index] = fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighbours1S_0[cell_index]] - (int)1])/ 
+                    (float)sqrt(max_grain_angles[grain_index]*max_grain_angles[grain_indices[neighbours1S_0[cell_index]] - (int)1]);
+
+    spec_bound_energy_0[cell_index] = 
+       signbit(fabs(en_types[cell_index] - (float)1)*fabs(en_types[cell_index] - (float)0) - (float)0.5)*
+       signbit(fabs(en_types[neighbours1S_0[cell_index]] - (float)1)*fabs(en_types[neighbours1S_0[cell_index]] - (float)0) - (float)0.5)*
+              (float)sqrt(max_bound_energy[grain_index] * max_bound_energy[grain_indices[neighbours1S_0[cell_index]] - (int)1])*
+              (float)1.0/((float)1.0 + signbit((float)1.0 - spec_angle_diff_0[cell_index])*(spec_angle_diff_0[cell_index] - (float)1.0))*
+                     spec_angle_diff_0[cell_index]*((float)1.0 - signbit(spec_angle_diff_0[cell_index] - (float)1.0)*
+              (float)log(spec_angle_diff_0[cell_index] + (float)1.0E-10 - (float)1.0E-10*signbit((float)1.0E-10 - spec_angle_diff_0[cell_index])));
+
+    spec_angle_diff_1[cell_index] = fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighbours1S_1[cell_index]] - (int)1])/ 
+                    (float)sqrt(max_grain_angles[grain_index]*max_grain_angles[grain_indices[neighbours1S_1[cell_index]] - (int)1]);
+
+    spec_bound_energy_1[cell_index] = 
+       signbit(fabs(en_types[cell_index] - (float)1)*fabs(en_types[cell_index] - (float)0) - (float)0.5)*
+       signbit(fabs(en_types[neighbours1S_1[cell_index]] - (float)1)*fabs(en_types[neighbours1S_1[cell_index]] - (float)0) - (float)0.5)*
+              (float)sqrt(max_bound_energy[grain_index] * max_bound_energy[grain_indices[neighbours1S_1[cell_index]] - (int)1])*
+              (float)1.0/((float)1.0 + signbit((float)1.0 - spec_angle_diff_1[cell_index])*(spec_angle_diff_1[cell_index] - (float)1.0))*
+                     spec_angle_diff_1[cell_index]*((float)1.0 - signbit(spec_angle_diff_1[cell_index] - (float)1.0)*
+              (float)log(spec_angle_diff_1[cell_index] + (float)1.0E-10 - (float)1.0E-10*signbit((float)1.0E-10 - spec_angle_diff_1[cell_index])));
+
+    spec_angle_diff_2[cell_index] = fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighbours1S_2[cell_index]] - (int)1])/ 
+                    (float)sqrt(max_grain_angles[grain_index]*max_grain_angles[grain_indices[neighbours1S_2[cell_index]] - (int)1]);
+
+    spec_bound_energy_2[cell_index] = 
+       signbit(fabs(en_types[cell_index] - (float)1)*fabs(en_types[cell_index] - (float)0) - (float)0.5)*
+       signbit(fabs(en_types[neighbours1S_2[cell_index]] - (float)1)*fabs(en_types[neighbours1S_2[cell_index]] - (float)0) - (float)0.5)*
+              (float)sqrt(max_bound_energy[grain_index] * max_bound_energy[grain_indices[neighbours1S_2[cell_index]] - (int)1])*
+              (float)1.0/((float)1.0 + signbit((float)1.0 - spec_angle_diff_2[cell_index])*(spec_angle_diff_2[cell_index] - (float)1.0))*
+                     spec_angle_diff_2[cell_index]*((float)1.0 - signbit(spec_angle_diff_2[cell_index] - (float)1.0)*
+              (float)log(spec_angle_diff_2[cell_index] + (float)1.0E-10 - (float)1.0E-10*signbit((float)1.0E-10 - spec_angle_diff_2[cell_index])));
+
+    spec_angle_diff_3[cell_index] = fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighbours1S_3[cell_index]] - (int)1])/ 
+                    (float)sqrt(max_grain_angles[grain_index]*max_grain_angles[grain_indices[neighbours1S_3[cell_index]] - (int)1]);
+
+    spec_bound_energy_3[cell_index] = 
+       signbit(fabs(en_types[cell_index] - (float)1)*fabs(en_types[cell_index] - (float)0) - (float)0.5)*
+       signbit(fabs(en_types[neighbours1S_3[cell_index]] - (float)1)*fabs(en_types[neighbours1S_3[cell_index]] - (float)0) - (float)0.5)*
+              (float)sqrt(max_bound_energy[grain_index] * max_bound_energy[grain_indices[neighbours1S_3[cell_index]] - (int)1])*
+              (float)1.0/((float)1.0 + signbit((float)1.0 - spec_angle_diff_3[cell_index])*(spec_angle_diff_3[cell_index] - (float)1.0))*
+                     spec_angle_diff_3[cell_index]*((float)1.0 - signbit(spec_angle_diff_3[cell_index] - (float)1.0)*
+              (float)log(spec_angle_diff_3[cell_index] + (float)1.0E-10 - (float)1.0E-10*signbit((float)1.0E-10 - spec_angle_diff_3[cell_index])));
+
+    spec_angle_diff_4[cell_index] = fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighbours1S_4[cell_index]] - (int)1])/ 
+                    (float)sqrt(max_grain_angles[grain_index]*max_grain_angles[grain_indices[neighbours1S_4[cell_index]] - (int)1]);
+
+    spec_bound_energy_4[cell_index] = 
+       signbit(fabs(en_types[cell_index] - (float)1)*fabs(en_types[cell_index] - (float)0) - (float)0.5)*
+       signbit(fabs(en_types[neighbours1S_4[cell_index]] - (float)1)*fabs(en_types[neighbours1S_4[cell_index]] - (float)0) - (float)0.5)*
+              (float)sqrt(max_bound_energy[grain_index] * max_bound_energy[grain_indices[neighbours1S_4[cell_index]] - (int)1])*
+              (float)1.0/((float)1.0 + signbit((float)1.0 - spec_angle_diff_4[cell_index])*(spec_angle_diff_4[cell_index] - (float)1.0))*
+                     spec_angle_diff_4[cell_index]*((float)1.0 - signbit(spec_angle_diff_4[cell_index] - (float)1.0)*
+              (float)log(spec_angle_diff_4[cell_index] + (float)1.0E-10 - (float)1.0E-10*signbit((float)1.0E-10 - spec_angle_diff_4[cell_index])));
+
+    spec_angle_diff_5[cell_index] = fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighbours1S_5[cell_index]] - (int)1])/ 
+                    (float)sqrt(max_grain_angles[grain_index]*max_grain_angles[grain_indices[neighbours1S_5[cell_index]] - (int)1]);
+
+    spec_bound_energy_5[cell_index] = 
+       signbit(fabs(en_types[cell_index] - (float)1)*fabs(en_types[cell_index] - (float)0) - (float)0.5)*
+       signbit(fabs(en_types[neighbours1S_5[cell_index]] - (float)1)*fabs(en_types[neighbours1S_5[cell_index]] - (float)0) - (float)0.5)*
+              (float)sqrt(max_bound_energy[grain_index] * max_bound_energy[grain_indices[neighbours1S_5[cell_index]] - (int)1])*
+              (float)1.0/((float)1.0 + signbit((float)1.0 - spec_angle_diff_5[cell_index])*(spec_angle_diff_5[cell_index] - (float)1.0))*
+                     spec_angle_diff_5[cell_index]*((float)1.0 - signbit(spec_angle_diff_5[cell_index] - (float)1.0)*
+              (float)log(spec_angle_diff_5[cell_index] + (float)1.0E-10 - (float)1.0E-10*signbit((float)1.0E-10 - spec_angle_diff_5[cell_index])));
+
+    spec_angle_diff_6[cell_index] = fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighbours1S_6[cell_index]] - (int)1])/ 
+                    (float)sqrt(max_grain_angles[grain_index]*max_grain_angles[grain_indices[neighbours1S_6[cell_index]] - (int)1]);
+
+    spec_bound_energy_6[cell_index] = 
+       signbit(fabs(en_types[cell_index] - (float)1)*fabs(en_types[cell_index] - (float)0) - (float)0.5)*
+       signbit(fabs(en_types[neighbours1S_6[cell_index]] - (float)1)*fabs(en_types[neighbours1S_6[cell_index]] - (float)0) - (float)0.5)*
+              (float)sqrt(max_bound_energy[grain_index] * max_bound_energy[grain_indices[neighbours1S_6[cell_index]] - (int)1])*
+              (float)1.0/((float)1.0 + signbit((float)1.0 - spec_angle_diff_6[cell_index])*(spec_angle_diff_6[cell_index] - (float)1.0))*
+                     spec_angle_diff_6[cell_index]*((float)1.0 - signbit(spec_angle_diff_6[cell_index] - (float)1.0)*
+              (float)log(spec_angle_diff_6[cell_index] + (float)1.0E-10 - (float)1.0E-10*signbit((float)1.0E-10 - spec_angle_diff_6[cell_index])));
+
+    spec_angle_diff_7[cell_index] = fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighbours1S_7[cell_index]] - (int)1])/ 
+                    (float)sqrt(max_grain_angles[grain_index]*max_grain_angles[grain_indices[neighbours1S_7[cell_index]] - (int)1]);
+
+    spec_bound_energy_7[cell_index] = 
+       signbit(fabs(en_types[cell_index] - (float)1)*fabs(en_types[cell_index] - (float)0) - (float)0.5)*
+       signbit(fabs(en_types[neighbours1S_7[cell_index]] - (float)1)*fabs(en_types[neighbours1S_7[cell_index]] - (float)0) - (float)0.5)*
+              (float)sqrt(max_bound_energy[grain_index] * max_bound_energy[grain_indices[neighbours1S_7[cell_index]] - (int)1])*
+              (float)1.0/((float)1.0 + signbit((float)1.0 - spec_angle_diff_7[cell_index])*(spec_angle_diff_7[cell_index] - (float)1.0))*
+                     spec_angle_diff_7[cell_index]*((float)1.0 - signbit(spec_angle_diff_7[cell_index] - (float)1.0)*
+              (float)log(spec_angle_diff_7[cell_index] + (float)1.0E-10 - (float)1.0E-10*signbit((float)1.0E-10 - spec_angle_diff_7[cell_index])));
+
+    spec_angle_diff_8[cell_index] = fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighbours1S_8[cell_index]] - (int)1])/ 
+                    (float)sqrt(max_grain_angles[grain_index]*max_grain_angles[grain_indices[neighbours1S_8[cell_index]] - (int)1]);
+
+    spec_bound_energy_8[cell_index] = 
+       signbit(fabs(en_types[cell_index] - (float)1)*fabs(en_types[cell_index] - (float)0) - (float)0.5)*
+       signbit(fabs(en_types[neighbours1S_8[cell_index]] - (float)1)*fabs(en_types[neighbours1S_8[cell_index]] - (float)0) - (float)0.5)*
+              (float)sqrt(max_bound_energy[grain_index] * max_bound_energy[grain_indices[neighbours1S_8[cell_index]] - (int)1])*
+              (float)1.0/((float)1.0 + signbit((float)1.0 - spec_angle_diff_8[cell_index])*(spec_angle_diff_8[cell_index] - (float)1.0))*
+                     spec_angle_diff_8[cell_index]*((float)1.0 - signbit(spec_angle_diff_8[cell_index] - (float)1.0)*
+              (float)log(spec_angle_diff_8[cell_index] + (float)1.0E-10 - (float)1.0E-10*signbit((float)1.0E-10 - spec_angle_diff_8[cell_index])));
+
+    spec_angle_diff_9[cell_index] = fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighbours1S_9[cell_index]] - (int)1])/ 
+                    (float)sqrt(max_grain_angles[grain_index]*max_grain_angles[grain_indices[neighbours1S_9[cell_index]] - (int)1]);
+
+    spec_bound_energy_9[cell_index] = 
+       signbit(fabs(en_types[cell_index] - (float)1)*fabs(en_types[cell_index] - (float)0) - (float)0.5)*
+       signbit(fabs(en_types[neighbours1S_9[cell_index]] - (float)1)*fabs(en_types[neighbours1S_9[cell_index]] - (float)0) - (float)0.5)*
+              (float)sqrt(max_bound_energy[grain_index] * max_bound_energy[grain_indices[neighbours1S_9[cell_index]] - (int)1])*
+              (float)1.0/((float)1.0 + signbit((float)1.0 - spec_angle_diff_9[cell_index])*(spec_angle_diff_9[cell_index] - (float)1.0))*
+                     spec_angle_diff_9[cell_index]*((float)1.0 - signbit(spec_angle_diff_9[cell_index] - (float)1.0)*
+              (float)log(spec_angle_diff_9[cell_index] + (float)1.0E-10 - (float)1.0E-10*signbit((float)1.0E-10 - spec_angle_diff_9[cell_index])));
+
+    spec_angle_diff_10[cell_index] = fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighbours1S_10[cell_index]] - (int)1])/ 
+                    (float)sqrt(max_grain_angles[grain_index]*max_grain_angles[grain_indices[neighbours1S_10[cell_index]] - (int)1]);
+
+    spec_bound_energy_10[cell_index] = 
+       signbit(fabs(en_types[cell_index] - (float)1)*fabs(en_types[cell_index] - (float)0) - (float)0.5)*
+       signbit(fabs(en_types[neighbours1S_10[cell_index]] - (float)1)*fabs(en_types[neighbours1S_10[cell_index]] - (float)0) - (float)0.5)*
+              (float)sqrt(max_bound_energy[grain_index] * max_bound_energy[grain_indices[neighbours1S_10[cell_index]] - (int)1])*
+              (float)1.0/((float)1.0 + signbit((float)1.0 - spec_angle_diff_10[cell_index])*(spec_angle_diff_10[cell_index] - (float)1.0))*
+                     spec_angle_diff_10[cell_index]*((float)1.0 - signbit(spec_angle_diff_10[cell_index] - (float)1.0)*
+              (float)log(spec_angle_diff_10[cell_index] + (float)1.0E-10 - (float)1.0E-10*signbit((float)1.0E-10 - spec_angle_diff_10[cell_index])));
+
+    spec_angle_diff_11[cell_index] = fabs(grain_angles[grain_index] - grain_angles[grain_indices[neighbours1S_11[cell_index]] - (int)1])/ 
+                    (float)sqrt(max_grain_angles[grain_index]*max_grain_angles[grain_indices[neighbours1S_11[cell_index]] - (int)1]);
+
+    spec_bound_energy_11[cell_index] = 
+       signbit(fabs(en_types[cell_index] - (float)1)*fabs(en_types[cell_index] - (float)0) - (float)0.5)*
+       signbit(fabs(en_types[neighbours1S_11[cell_index]] - (float)1)*fabs(en_types[neighbours1S_11[cell_index]] - (float)0) - (float)0.5)*
+              (float)sqrt(max_bound_energy[grain_index] * max_bound_energy[grain_indices[neighbours1S_11[cell_index]] - (int)1])*
+              (float)1.0/((float)1.0 + signbit((float)1.0 - spec_angle_diff_11[cell_index])*(spec_angle_diff_11[cell_index] - (float)1.0))*
+                     spec_angle_diff_11[cell_index]*((float)1.0 - signbit(spec_angle_diff_11[cell_index] - (float)1.0)*
+              (float)log(spec_angle_diff_11[cell_index] + (float)1.0E-10 - (float)1.0E-10*signbit((float)1.0E-10 - spec_angle_diff_11[cell_index])));
+
+    __syncthreads();
+}

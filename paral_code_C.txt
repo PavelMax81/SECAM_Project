@@ -1,0 +1,56 @@
+__kernel void kernel_C(__global const int   *init_grain_indices, __global const char  *en_types,
+                       __global const char  *grain_rec_types,    __global const float *temperatures,
+                       __global const float *low_tempr_recryst,  __global const float *high_tempr_recryst,
+                       __global const float *max_prob_recryst,   __global const float *random,
+                       __global const int   *neighbours1S_0,     __global const int   *neighbours1S_1,
+                       __global const int   *neighbours1S_2,     __global const int   *neighbours1S_3,
+                       __global const int   *neighbours1S_4,     __global const int   *neighbours1S_5,
+                       __global const int   *neighbours1S_6,     __global const int   *neighbours1S_7,
+                       __global const int   *neighbours1S_8,     __global const int   *neighbours1S_9,
+                       __global const int   *neighbours1S_10,    __global const int   *neighbours1S_11,
+                       __global       float *prob_new_grain,     __global       char  *new_grain_embryos)
+{
+    int cell_index         = get_global_id(0);
+    int old_grain_index    = init_grain_indices[cell_index] - (int)1;
+    char old_grain_rec_type = grain_rec_types[old_grain_index];
+    
+    float low_tempr  = (float)1200.0; // low_tempr_recryst[old_grain_index];
+    float high_tempr = (float)1800.0; // high_tempr_recryst[old_grain_index];
+    
+    float aver_tempr_recryst = (float)0.5*(low_tempr + high_tempr);
+
+    // Probability of generation of new grain in current cell
+    prob_new_grain[cell_index] = (float)100.0*max_prob_recryst[old_grain_index]*(float)signbit(fabs(en_types[cell_index] - (float)1) - (float)0.5)*
+                  (float)signbit((float)0.5 - fabs(old_grain_rec_type - (float)0))*(float)signbit(new_grain_embryos[cell_index] - (float)0.5)*
+                  (float)signbit(low_tempr - temperatures[cell_index])*(float)signbit(temperatures[cell_index] - high_tempr)*
+    (float)signbit(fabs(grain_rec_types[init_grain_indices[neighbours1S_0 [cell_index]] - 1] - (float)1)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_1 [cell_index]] - 1] - (float)1)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_2 [cell_index]] - 1] - (float)1)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_3 [cell_index]] - 1] - (float)1)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_4 [cell_index]] - 1] - (float)1)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_5 [cell_index]] - 1] - (float)1)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_6 [cell_index]] - 1] - (float)1)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_7 [cell_index]] - 1] - (float)1)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_8 [cell_index]] - 1] - (float)1)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_9 [cell_index]] - 1] - (float)1)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_10[cell_index]] - 1] - (float)1)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_11[cell_index]] - 1] - (float)1)*((float)-1.0) + (float)0.5 - (float)100.0)*
+    (float)signbit(fabs(grain_rec_types[init_grain_indices[neighbours1S_0 [cell_index]] - 1] - (float)0)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_1 [cell_index]] - 1] - (float)0)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_2 [cell_index]] - 1] - (float)0)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_3 [cell_index]] - 1] - (float)0)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_4 [cell_index]] - 1] - (float)0)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_5 [cell_index]] - 1] - (float)0)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_6 [cell_index]] - 1] - (float)0)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_7 [cell_index]] - 1] - (float)0)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_8 [cell_index]] - 1] - (float)0)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_9 [cell_index]] - 1] - (float)0)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_10[cell_index]] - 1] - (float)0)* 
+                   fabs(grain_rec_types[init_grain_indices[neighbours1S_11[cell_index]] - 1] - (float)0) - (float)0.5 - (float)100.0);
+    
+    // Presence of new grain embryo in current cell: 0 - embryo is absent, 1 - embryo is here
+    char new_grain_embryo = (char)signbit((float)0.5 - new_grain_embryos[cell_index]) + (char)signbit((float)-0.5 + new_grain_embryos[cell_index])*(char)signbit(random[cell_index] - prob_new_grain[cell_index]);
+    new_grain_embryos[cell_index]  = new_grain_embryo;
+    
+    __syncthreads();
+}
